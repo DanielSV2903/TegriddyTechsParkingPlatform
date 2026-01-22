@@ -2,9 +2,13 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.ent
 
 import java.util.Objects;
 
-public class Customer extends Person {
+public class Customer extends User {
     private String customerId ;
     private Boolean preferentialRequired;
+
+    public Customer() {
+        super();
+    }
 
     public Customer(String customerId, String name, Boolean preferentialRequired) {
         super(customerId,name);
