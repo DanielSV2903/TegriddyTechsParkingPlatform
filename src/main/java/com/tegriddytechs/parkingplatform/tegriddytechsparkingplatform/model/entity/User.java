@@ -2,47 +2,26 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.ent
 
 import java.util.Objects;
 
-public abstract class User {
-private String id;
-private String name;
-private String userName;
-private String password;
+public class User extends Person {
+    private String userName;
+    private String password;
 
     public User() {
     }
 
-    public User(String id, String userName, String password) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
+    public User(int id, String name) {
+        super(id, name);
     }
 
-    public User(String id, String name, String userName, String password) {
-        this.id = id;
-        this.name = name;
-        this.userName = userName;
+    public User(int id, String name, String password, String userName) {
+        super(id, name);
         this.password = password;
+        this.userName = userName;
     }
 
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUserName() {
@@ -64,21 +43,22 @@ private String password;
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password);
+        return Objects.equals(userName, user.userName) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, password);
+        return Objects.hash(super.hashCode(), userName, password);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", userName='" + userName + '\'' +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
+
 }

@@ -2,20 +2,20 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.ent
 
 import java.util.Objects;
 
-public class Customer extends User {
-    private String customerId ;
+public class Customer extends Person  {
+    private String customerId;
     private Boolean preferentialRequired;
 
     public Customer() {
         super();
+
     }
 
-    public Customer(String customerId, String name, Boolean preferentialRequired) {
-        super(customerId,name);
-        this.customerId = customerId;
+    public Customer(int id ,String name,String customerId, Boolean preferentialRequired) {
+        super(id, name);
         this.preferentialRequired = preferentialRequired;
+        this.customerId = String.valueOf(customerId);
     }
-
     public String getCustomerId() {
         return customerId;
     }
@@ -32,11 +32,6 @@ public class Customer extends User {
         this.preferentialRequired = preferentialRequired;
     }
 
-    public Customer(String id, String name, String customerId, Boolean preferentialRequired) {
-        super(id, name);
-        this.customerId = customerId;
-        this.preferentialRequired = preferentialRequired;
-    }
 
     @Override
     public boolean equals(Object o) {

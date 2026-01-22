@@ -18,6 +18,7 @@ public class PersistenceManager {
     private static final String CUSTOMER_FILE = "customers.json";
     private static final String VEHICLE_FILE = "vehicles.json";
     private static final String TICKET_FILE = "tickets.json";
+
     private final Gson gson;
 
     public PersistenceManager() {

@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class TegriddyTechsParkingPlatformApp extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TegriddyTechsParkingPlatformApp.class.getResource("hello-view.fxml"));

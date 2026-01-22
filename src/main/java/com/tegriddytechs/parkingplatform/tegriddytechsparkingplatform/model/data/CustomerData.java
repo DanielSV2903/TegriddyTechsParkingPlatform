@@ -22,10 +22,11 @@ public class CustomerData {
     public ArrayList <Customer> getAllCustomers() {
         return customers;
     }
-    public Customer findCustomerById(String id) {
+
+    public Customer findCustomerById(int id) {
         Customer customer=null;
         for (Customer actualCustomer : customers) {
-            if (actualCustomer.getId().equals(id)) {
+            if (actualCustomer.getId()==id) {
                 customer= actualCustomer;
             }
         }
