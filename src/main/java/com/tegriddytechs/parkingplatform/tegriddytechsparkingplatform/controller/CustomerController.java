@@ -3,6 +3,8 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controlle
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.CustomerData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.PersistenceManager;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Customer;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
+
 import java.util.ArrayList;
 
 public class CustomerController {
@@ -15,19 +17,19 @@ public class CustomerController {
     public ArrayList<Customer> getAllCustomers() {
         return customerData.getAllCustomers();
     }
-    public Customer findCustomerById(String id) {
+    public Customer findCustomerById(int id) {
         return customerData.findCustomerById(id);
     }
 
-    public OperationResult  registerCustomer(Customer customer) {
-        if (customerData.findCustomerById(customer.getCustomerId()) != null) {
+    public OperationResult registerCustomer(Customer customer) {
+        if (customerData.findCustomerById(customer.getId()) != null) {
             return OperationResult.failure("Customer already exists");
         }
         customerData.registerCustomer(customer);
         return OperationResult.success("Customer registered successfully");
     }
     public OperationResult  deleteCustomer(Customer customer) {
-        if (customerData.findCustomerById(customer.getCustomerId()) == null) {
+        if (customerData.findCustomerById(customer.getId()) == null) {
             return OperationResult.failure("Customer not found");
         }
         customerData.deleteCustomer(customer);

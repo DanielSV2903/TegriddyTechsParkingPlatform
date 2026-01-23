@@ -1,5 +1,7 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.PersistenceManager;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -9,6 +11,7 @@ public class ParkingLot {
     private String name;
     private boolean active;
     private ArrayList<ParkingSpace> spaces;
+    private Administrator administrator;
 
     public ParkingLot() {
     }
@@ -17,6 +20,12 @@ public class ParkingLot {
         this.parkingLotId = parkingLotId;
         this.name = name;
         this.active = true;
+    }
+
+    public ParkingLot(String parkingLotId, String name, Administrator administrator) {
+        this.parkingLotId = parkingLotId;
+        this.name = name;
+        this.administrator = administrator;
     }
 
     public String getParkingLotId() {
@@ -49,6 +58,14 @@ public class ParkingLot {
 
     public void setSpaces(ArrayList<ParkingSpace> spaces) {
         this.spaces = spaces;
+    }
+
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
     }
 
     @Override

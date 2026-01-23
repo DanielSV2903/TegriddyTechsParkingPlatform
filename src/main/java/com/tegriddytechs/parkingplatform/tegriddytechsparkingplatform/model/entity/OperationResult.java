@@ -1,9 +1,12 @@
-package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller;
+package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity;
 
 public class OperationResult {
 
     private boolean success;
     private String message;
+
+    public OperationResult() {
+    }
 
     public OperationResult(boolean success, String message) {
         this.success = success;

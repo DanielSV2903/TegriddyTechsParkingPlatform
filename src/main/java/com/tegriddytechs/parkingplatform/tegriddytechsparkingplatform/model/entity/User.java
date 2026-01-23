@@ -2,9 +2,10 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.ent
 
 import java.util.Objects;
 
-public class User extends Person {
+public abstract class User extends Person {
     private String userName;
     private String password;
+    private UserRole userRole;
 
     public User() {
     }
@@ -13,16 +14,26 @@ public class User extends Person {
         super(id, name);
     }
 
-    public User(int id, String name, String password, String userName) {
+    public User(int id, String name, UserRole userRole) {
+        super(id, name);
+        this.userRole = userRole;
+    }
+
+    public User(int id, String name, String userName, String password, UserRole userRole) {
         super(id, name);
         this.password = password;
         this.userName = userName;
+        this.userRole = userRole;
     }
 
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
+
+    public abstract boolean verifyLogin(String userName,String password);
+
+    //GETTER Y SETTERS
 
     public String getUserName() {
         return userName;
@@ -38,6 +49,14 @@ public class User extends Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     @Override

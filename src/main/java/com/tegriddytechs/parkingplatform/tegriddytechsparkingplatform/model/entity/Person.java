@@ -5,12 +5,21 @@ import java.util.Objects;
 public abstract class Person {
     private int id;
     private String name;
+    private boolean disability;
+    private int age;
 
     public Person() {
     }
     public Person(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Person(int id, String name, boolean disability, int age) {
+        this.id = id;
+        this.name = name;
+        this.disability = disability;
+        this.age = age;
     }
 
     public int getId() {
@@ -27,6 +36,22 @@ public abstract class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isDisability() {
+        return disability;
+    }
+
+    public void setDisability(boolean disability) {
+        this.disability = disability;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
@@ -46,6 +71,8 @@ public abstract class Person {
         return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", disability=" + disability +
+                ", age=" + age +
                 '}';
     }
 }

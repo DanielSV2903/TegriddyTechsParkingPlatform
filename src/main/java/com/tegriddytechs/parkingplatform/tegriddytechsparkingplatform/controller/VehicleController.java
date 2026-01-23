@@ -2,6 +2,7 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controlle
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.VehicleData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.PersistenceManager;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Vehicle;
 import java.util.ArrayList;
 
