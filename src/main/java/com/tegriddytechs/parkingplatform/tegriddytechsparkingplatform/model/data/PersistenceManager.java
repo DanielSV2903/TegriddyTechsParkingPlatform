@@ -17,6 +17,7 @@ public class PersistenceManager {
     private static final String PARKING_LOT_FILE = "parking_lots.json";
     private static final String CUSTOMER_FILE = "customers.json";
     private static final String VEHICLE_FILE = "vehicles.json";
+    private static final String VEHICLE_TYPE_FILE = "vehicle_types.json";
     private static final String TICKET_FILE = "tickets.json";
 
     private final Gson gson;
@@ -94,6 +95,26 @@ public class PersistenceManager {
             return data != null ? data : new VehicleData();
         } catch (IOException e) {
             return new VehicleData();
+        }
+    }
+
+    public void saveVehicleTypeData(VehicleTypeData data) throws IOException {
+        try (Writer writer = new FileWriter(VEHICLE_TYPE_FILE)) {
+            gson.toJson(data, writer);
+        }
+    }
+
+    public VehicleTypeData loadVehicleTypeData() {
+        File file = new File(VEHICLE_TYPE_FILE);
+        if (!file.exists()) {
+            return new VehicleTypeData();
+        }
+
+        try (Reader reader = new FileReader(file)) {
+            VehicleTypeData data = gson.fromJson(reader, VehicleTypeData.class);
+            return data != null ? data : new VehicleTypeData();
+        } catch (IOException e) {
+            return new VehicleTypeData();
         }
     }
 }

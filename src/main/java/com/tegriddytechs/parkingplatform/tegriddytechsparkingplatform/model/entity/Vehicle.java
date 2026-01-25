@@ -10,6 +10,12 @@ public class Vehicle {
     public Vehicle() {
     }
 
+    public Vehicle(String plate, VehicleType vehicleType, VehicleStatus vehicleStatus) {
+        this.plate = plate;
+        this.vehicleType = vehicleType;
+        this.vehicleStatus = vehicleStatus;
+    }
+
     public Vehicle(String plate, VehicleType vehicleType, VehicleStatus vehicleStatus, Customer owner, ParkingTicket ticket) {
         this.plate = plate;
         this.vehicleType = vehicleType;
@@ -18,11 +24,12 @@ public class Vehicle {
         this.ticket = ticket;
     }
 
-    public Vehicle(Customer owner, VehicleStatus vehicleStatus, VehicleType vehicleType, String plate) {
-        this.owner = owner;
-        this.vehicleStatus = vehicleStatus;
-        this.vehicleType = vehicleType;
-        this.plate = plate;
+    public String getLicensePlate() {
+        return plate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.plate = licensePlate;
     }
 
     public String getPlate() {
