@@ -117,4 +117,25 @@ public class PersistenceManager {
             return new VehicleTypeData();
         }
     }
+
+    public void saveParkingTicketData(ParkingTicketData data) throws IOException {
+        try (Writer writer = new FileWriter(TICKET_FILE)) {
+            gson.toJson(data, writer);
+        }
+    }
+
+    public ParkingTicketData loadParkingTicketData() {
+        File file = new File(TICKET_FILE);
+        if (!file.exists()) {
+            return new ParkingTicketData();
+        }
+
+        try (Reader reader = new FileReader(file)) {
+            ParkingTicketData data = gson.fromJson(reader, ParkingTicketData.class);
+            return data != null ? data : new ParkingTicketData();
+        } catch (IOException e) {
+            return new ParkingTicketData();
+        }
+    }
+
 }

@@ -6,6 +6,7 @@ public class Vehicle {
     private VehicleStatus vehicleStatus;
     private Customer owner;
     private ParkingTicket ticket;
+    private boolean disabledPermit;
 
     public Vehicle() {
     }

@@ -8,6 +8,7 @@ public class ParkingSpace {
     private boolean preferential;
     private boolean state;
     private transient ParkingLot parkingLot;
+    private ParkingSpaceType disabledSpaceType;
 
     public ParkingSpace() {
     }

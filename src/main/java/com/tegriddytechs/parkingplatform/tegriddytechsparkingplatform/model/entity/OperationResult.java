@@ -25,6 +25,10 @@ public class OperationResult {
         return new OperationResult(true, msg);
     }
 
+    public static OperationResult success(String msg, ParkingTicket ticket) {
+        return new OperationResult(true, msg);
+    }
+
     public static OperationResult failure(String msg) {
         return new OperationResult(false, msg);
     }
