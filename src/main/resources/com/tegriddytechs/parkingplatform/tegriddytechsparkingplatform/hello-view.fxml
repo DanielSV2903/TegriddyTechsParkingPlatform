@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.TegriddyTechsParkingPlatformController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.TegriddyTechsParkingPlatformController">
+   <center>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="852.0">
+         <children>
+            <Label layoutX="328.0" layoutY="27.0" prefHeight="65.0" prefWidth="196.0" text="Pruebas" textAlignment="CENTER">
+               <font>
+                  <Font size="44.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tFid" layoutX="328.0" layoutY="132.0" />
+            <TextField fx:id="tfName" layoutX="328.0" layoutY="181.0" />
+            <TextField fx:id="tfUserName" layoutX="328.0" layoutY="238.0" />
+            <TextField fx:id="tfPassword" layoutX="328.0" layoutY="294.0" prefWidth="149.0" />
+            <ComboBox fx:id="cbRole" layoutX="336.0" layoutY="381.0" prefWidth="150.0" />
+            <Button layoutX="696.0" layoutY="422.0" mnemonicParsing="false" onAction="#insertOnAction" prefHeight="25.0" prefWidth="92.0" text="Insertar" />
+         </children></AnchorPane>
+   </center>
+</BorderPane>
