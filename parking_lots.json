@@ -1,0 +1,9 @@
+{
+  "parkingLots": [
+    {
+      "parkingLotId": "1",
+      "name": "UCR",
+      "active": true
+    }
+  ]
+}

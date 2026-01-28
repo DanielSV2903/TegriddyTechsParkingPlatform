@@ -70,4 +70,15 @@ public class ParkingSpace {
     public int hashCode() {
         return Objects.hash(spaceNumber, spaceType, parkingLot);
     }
+
+    @Override
+    public String toString() {
+        return "ParkingSpace{" +
+                "spaceNumber=" + spaceNumber +
+                ", spaceType=" + spaceType +
+                ", preferential=" + preferential +
+                ", state=" + state +
+                ", parkingLot=" + parkingLot +
+                '}';
+    }
 }

@@ -1,5 +1,6 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform;
 
+
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Administrator;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -7,7 +8,6 @@ import javafx.scene.control.TextField;
 public class AdminCrudController {
 
     private final MainMenuController mainMenuController;
-
     @FXML
     private TextField tfId;
     @FXML
