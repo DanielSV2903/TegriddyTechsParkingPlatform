@@ -11,7 +11,8 @@ public class CustomerController {
     private CustomerData customerData;
 
     public CustomerController() {
-        this.customerData = new PersistenceManager().loadCustomerData();
+        PersistenceManager pm = new PersistenceManager();
+        this.customerData = pm.loadCustomerData();
     }
 
     public ArrayList<Customer> getAllCustomers() {

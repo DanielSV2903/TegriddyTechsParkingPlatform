@@ -20,12 +20,10 @@ public class Customer extends Person {
         this.vehicle = vehicle;
     }
 
+
     @Override
     public String toString() {
-        return "Customer{" +
-                "vehicle=" + vehicle +
-                '}';
+        return getId() + " - " + getName();
     }
-
 
 }

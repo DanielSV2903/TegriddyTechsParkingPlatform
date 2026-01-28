@@ -72,4 +72,12 @@ public class Vehicle {
     public void setTicket(ParkingTicket ticket) {
         this.ticket = ticket;
     }
+
+    public boolean isDisabledPermit() {
+        return disabledPermit;
+    }
+
+    public void setDisabledPermit(boolean disabledPermit) {
+        this.disabledPermit = disabledPermit;
+    }
 }

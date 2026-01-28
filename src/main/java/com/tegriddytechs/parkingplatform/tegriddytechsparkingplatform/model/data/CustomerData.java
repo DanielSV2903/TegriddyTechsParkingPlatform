@@ -9,7 +9,6 @@ public class CustomerData {
     private transient PersistenceManager persistenceManager;
 
     public CustomerData() {
-        this.customers = new ArrayList<>();
         this.persistenceManager = new PersistenceManager();
     }
     public void save() {
@@ -19,26 +18,37 @@ public class CustomerData {
             e.printStackTrace();
         }
     }
-    public ArrayList <Customer> getAllCustomers() {
+
+    public ArrayList<Customer> getAllCustomers() {
+        if (customers == null) {
+            customers = new ArrayList<>();
+        }
         return customers;
     }
 
     public Customer findCustomerById(int id) {
-        Customer customer=null;
-        for (Customer actualCustomer : customers) {
-            if (actualCustomer.getId()==id) {
-                customer= actualCustomer;
+        for (Customer c : getAllCustomers()) {
+            if (c.getId() == id) {
+                return c;
             }
         }
-        return customer;
+        return null;
     }
 
-    public void registerCustomer(Customer customer) {
-        this.customers.add(customer);
+    public boolean registerCustomer(Customer customer) {
+        if (findCustomerById(customer.getId()) != null) {
+            return false;
+        }
+        getAllCustomers().add(customer);
         save();
+        return true;
     }
-    public void deleteCustomer(Customer customer) {
-        this.customers.remove(customer);
-        save();
+
+    public boolean deleteCustomer(Customer customer) {
+        boolean removed = getAllCustomers().remove(customer);
+        if (removed) {
+            save();
+        }
+        return removed;
     }
 }

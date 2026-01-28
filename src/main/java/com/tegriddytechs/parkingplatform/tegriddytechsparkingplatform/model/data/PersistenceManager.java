@@ -6,6 +6,7 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.enti
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingSpace;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /*
@@ -19,15 +20,17 @@ public class PersistenceManager {
     private static final String VEHICLE_FILE = "vehicles.json";
     private static final String VEHICLE_TYPE_FILE = "vehicle_types.json";
     private static final String TICKET_FILE = "tickets.json";
+    private static final String RATE_FILE = "rates.json";
 
     private final Gson gson;
 
     public PersistenceManager() {
         this.gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .setPrettyPrinting()
-                .serializeSpecialFloatingPointValues()
                 .create();
     }
+
 
     public void saveParkingLotData(ParkingLotData data) throws IOException {
         try (Writer writer = new FileWriter(PARKING_LOT_FILE)) {

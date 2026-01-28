@@ -870,4 +870,9 @@ public class MainMenuController {
         alert.setHeaderText(header);
         alert.showAndWait();
     }
+
+    public ArrayList<Customer> getAllCustomers() {
+        return customerController.getAllCustomers();
+    }
+
 }

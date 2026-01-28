@@ -1,0 +1,10 @@
+{
+  "customers": [
+    {
+      "id": 119370534,
+      "name": "Andreé",
+      "disability": false,
+      "age": 20
+    }
+  ]
+}

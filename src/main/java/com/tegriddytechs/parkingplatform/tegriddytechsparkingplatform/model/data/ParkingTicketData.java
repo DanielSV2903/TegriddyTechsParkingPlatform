@@ -37,4 +37,9 @@ public class ParkingTicketData {
             }
         }
     }
+
+    public void deleteTicket(ParkingTicket ticket){
+        tickets.remove(ticket);
+    }
+
 }
