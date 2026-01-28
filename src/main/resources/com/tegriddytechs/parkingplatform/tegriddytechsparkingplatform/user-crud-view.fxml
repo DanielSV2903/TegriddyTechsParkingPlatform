@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.UserCrudController">
+            fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.UserCrudController">
     <top>
         <Label text="CRUD Usuarios" BorderPane.alignment="CENTER"
                style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 12 0;" />

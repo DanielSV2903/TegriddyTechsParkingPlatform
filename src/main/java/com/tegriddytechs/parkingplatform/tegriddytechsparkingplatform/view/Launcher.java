@@ -1,4 +1,4 @@
-package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform;
+package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
 import javafx.application.Application;
 

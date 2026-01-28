@@ -1,4 +1,4 @@
-package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform;
+package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.CustomerData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.RateData;

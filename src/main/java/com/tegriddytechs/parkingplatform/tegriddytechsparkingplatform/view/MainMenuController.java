@@ -1,4 +1,4 @@
-package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform;
+package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.*;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.ParkingSpaceData;
@@ -185,7 +185,11 @@ public class MainMenuController {
 
     private void openCrudWindow(String fxml, String title, Supplier<Object> controllerSupplier) {
         try {
-            FXMLLoader loader = new FXMLLoader(TegriddyTechsParkingPlatformApp.class.getResource(fxml));
+            FXMLLoader loader = new FXMLLoader(
+                    TegriddyTechsParkingPlatformApp.class.getResource(
+                            "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/" + fxml
+                    )
+            );
             loader.setControllerFactory(type -> controllerSupplier.get());
             Parent root = loader.load();
             Stage stage = new Stage();
