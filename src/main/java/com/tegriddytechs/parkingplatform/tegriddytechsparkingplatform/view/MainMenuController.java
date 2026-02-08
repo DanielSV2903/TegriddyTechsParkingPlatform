@@ -879,4 +879,35 @@ public class MainMenuController {
         return customerController.getAllCustomers();
     }
 
+    @FXML
+    private void openSystemManagementMenu(ActionEvent event) {
+        swapRoot(event, "system-management-menu.fxml");
+    }
+
+    @FXML
+    private void openMainMenu(ActionEvent event) {
+        swapRoot(event, "menu-view.fxml"); // este es tu menú principal actual
+    }
+
+    private void swapRoot(ActionEvent event, String fxml) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    TegriddyTechsParkingPlatformApp.class.getResource(
+                            "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/" + fxml
+                    )
+            );
+
+            // Reusa el mismo controller (así no pierdes la lógica existente)
+            loader.setControllerFactory(type -> this);
+
+            Parent root = loader.load();
+
+            if (event.getSource() instanceof javafx.scene.Node node && node.getScene() != null) {
+                node.getScene().setRoot(root); // “recarga” la pestaña / vista actual
+            }
+        } catch (IOException ex) {
+            CrudAlertHelper.showWarning("Navegacion", "No se pudo cargar la vista: " + fxml);
+            ex.printStackTrace();
+        }
+    }
 }

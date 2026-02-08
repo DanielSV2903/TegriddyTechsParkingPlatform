@@ -11,7 +11,7 @@
     <top>
         <VBox alignment="CENTER" spacing="6.0" style="-fx-background-color: linear-gradient(to right, #1f2d3a, #253847); -fx-padding: 18 20;">
             <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" text="TegriddyTechs Parking Platform" />
-            <Label prefHeight="19.0" prefWidth="199.0" style="-fx-font-size: 13px; -fx-text-fill: #c9d6e2;" text="Tablero de pruebas  CRUD" textAlignment="CENTER" />
+            <Label prefHeight="19.0" prefWidth="199.0" style="-fx-font-size: 13px; -fx-text-fill: #c9d6e2;" text="Tablero de pruebas CRUD" textAlignment="CENTER" />
         </VBox>
     </top>
     <center>
@@ -19,15 +19,16 @@
             <padding>
                 <Insets bottom="28.0" left="28.0" right="28.0" top="20.0" />
             </padding>
-            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Usuarios" userData="Usuarios" />
-            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Administradores" userData="Administradores" />
-            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Cajeros" userData="Cajeros" />
+<!--            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Usuarios" userData="Usuarios" />-->
+<!--            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Administradores" userData="Administradores" />-->
+            <Button onAction="#openSystemManagementMenu" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Gestión del Sistema" userData="Gestión del Sistema" />
+<!--            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Cajeros" userData="Cajeros" />-->
             <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Clientes" userData="Clientes" />
             <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Parqueaderos" userData="Parqueaderos" />
-            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Espacios" userData="Espacios" />
+<!--            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Espacios" userData="Espacios" />-->
             <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Vehiculos" userData="Vehiculos" />
             <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Tickets" userData="Tickets" />
-            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Tarifas" userData="Tarifas" />
+<!--            <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Tarifas" userData="Tarifas" />-->
         </TilePane>
     </center>
 </BorderPane>
