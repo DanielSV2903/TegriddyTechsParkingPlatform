@@ -19,7 +19,7 @@
             <padding>
                 <Insets bottom="28.0" left="28.0" right="28.0" top="20.0" />
             </padding>
-            <Button onAction="#openSystemManagementMenu" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Gestión del Sistema" userData="Gestión del Sistema" />
+
             <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Clientes" userData="Clientes" />
             <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Parqueaderos" userData="Parqueaderos" />
             <Button onAction="#openCrud" style="-fx-background-color: #ffffff; -fx-border-color: #c3ceda; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 18 24;" text="Vehiculos" userData="Vehiculos" />
