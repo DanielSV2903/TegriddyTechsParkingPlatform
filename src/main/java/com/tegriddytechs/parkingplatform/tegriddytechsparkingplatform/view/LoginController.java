@@ -18,8 +18,12 @@ import java.util.List;
 
 public class LoginController {
 
+    public LoginController() {
+    }
+
     private UserXmlRepository userXmlRepository;
     private List<User> users;
+    private User actualUser;
 
     @FXML
     private TextField txtUsername;
@@ -41,6 +45,7 @@ public class LoginController {
         if (userInfo[0].equals(true)) {
             User user = (User) userInfo[1];
             if (passwordMatches(user, pass)){
+                actualUser = user;
                 JOptionPane.showMessageDialog(null, "Bienvenido " + user.getName(), "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
                 loadMenu(event, getUserRole(username));
             } else {
@@ -73,7 +78,7 @@ public class LoginController {
             } else {
                 loader = new FXMLLoader(
                         TegriddyTechsParkingPlatformApp.class.getResource(
-                                "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/menu-view-clerk.fxml"
+                                "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/clerk-view.fxml"
                         )
                 );
             }
@@ -93,6 +98,7 @@ public class LoginController {
             if (u.getUserName().equals(user)) {
                 obj[0] = true;
                 obj[1] = u;
+                break;
             } else {
                 obj[0] = false;
             }
@@ -102,5 +108,9 @@ public class LoginController {
 
     private boolean passwordMatches(User user, String pass) {
         return user.getPassword().equals(pass);
+    }
+
+    public User getActualUser() {
+        return actualUser;
     }
 }

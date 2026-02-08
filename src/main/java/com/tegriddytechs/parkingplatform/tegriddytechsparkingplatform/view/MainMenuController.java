@@ -6,11 +6,13 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.enti
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,11 +33,10 @@ public class MainMenuController {
     private ClerkController clerkController;
 
     @FXML
+    private Label userLabel;
+
+    @FXML
     private void initialize() {
-        Administrator adminStub = new Administrator(0, "Admin", "admin", "admin");
-        Clerk clerkStub = new Clerk(0, "Clerk", "clerk", "clerk");
-        adminController = new AdminController(adminStub);
-        clerkController = new ClerkController(clerkStub);
     }
 
     @FXML
@@ -908,6 +909,40 @@ public class MainMenuController {
         } catch (IOException ex) {
             CrudAlertHelper.showWarning("Navegacion", "No se pudo cargar la vista: " + fxml);
             ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void logOut(ActionEvent actionEvent) {
+        int respuesta = JOptionPane.showConfirmDialog(
+                null,
+                "¿Desea cerrar sesión?",
+                "Cerrar Sesión",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        TegriddyTechsParkingPlatformApp.class.getResource(
+                                "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/login-view.fxml"
+                        )
+                );
+
+                Parent root = loader.load();
+
+                Node node = (Node) actionEvent.getSource();
+                node.getScene().setRoot(root);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Error al cerrar sesión",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
         }
     }
 }
