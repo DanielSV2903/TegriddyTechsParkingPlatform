@@ -1,59 +1,61 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.UserData;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.UserXmlRepository;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class UserController {
-    private UserData userData;
+
+    private final UserData userData;
+    private final UserXmlRepository xmlRepository;
 
     public UserController() {
-        userData = new UserData();
+        this.userData = new UserData();
+        this.xmlRepository = new UserXmlRepository();
+
+        List<User> usersFromXml = xmlRepository.loadAll();
+        this.userData.replaceAll(usersFromXml);
     }
 
-    public OperationResult addUser(User user){
-        if (userData.findById(user.getId()) != null){
-            return OperationResult.failure("User already exists");
-        }
+    public OperationResult addUser(User user) {
         userData.addUser(user);
-        return OperationResult.success("User added successfully");
+        persist();
+        return OperationResult.success("Usuario creado correctamente");
     }
-    public OperationResult deleteUser(User user){
-        if (userData.findById(user.getId()) == null){
-            return OperationResult.failure("User not found");
-        }
-        userData.deleteUser(user);
-        return OperationResult.success("User deleted successfully");
-    }
-    public OperationResult updateUser(User user){
-        if (userData.findById(user.getId()) == null){
-            return OperationResult.failure("User not found");
-        }
-        userData.update(user);
-        return OperationResult.success("User updated successfully");
-    }
-    public User findById(int userId){
-       return userData.findById(userId);
-    }
-    public ArrayList<User> findByRole(UserRole role){
-        return userData.findByRole(role);
-    }
-    public User findByUsername(String username){
 
+    public OperationResult updateUser(User user) {
+        userData.update(user);
+        persist();
+        return OperationResult.success("Usuario actualizado correctamente");
+    }
+
+    public OperationResult deleteUser(User user) {
+        userData.deleteUser(user);
+        persist();
+        return OperationResult.success("Usuario eliminado correctamente");
+    }
+
+    public User findById(int id) {
+        return userData.findById(id);
+    }
+
+    public User findByUsername(String username) {
         return userData.findByUsername(username);
     }
 
-    public ArrayList<User> getAllUsers(){
+    public List<User> findByRole(UserRole role) {
+        return userData.findByRole(role);
+    }
+
+    public List<User> getAllUsers() {
         return userData.getAllUsers();
     }
 
-    public UserData getUserData() {
-        return userData;
-    }
-    public void setUserData(UserData userData) {
-        this.userData = userData;
+    private void persist() {
+        xmlRepository.saveAll(userData.getAllUsers());
     }
 }

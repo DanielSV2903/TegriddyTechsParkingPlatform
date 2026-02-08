@@ -61,4 +61,9 @@ public class UserData {
         return users;
     }
 
+    public void replaceAll(List<User> newUsers) {
+        this.users.clear();
+        this.users.addAll(newUsers);
+    }
+
 }
