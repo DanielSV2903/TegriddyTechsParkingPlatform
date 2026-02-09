@@ -29,11 +29,6 @@ public class MainMenuController {
     private final ParkingSpaceData parkingSpaceData = new ParkingSpaceData();
     private final ArrayList<Rate> rates = new ArrayList<>();
     private final ArrayList<ParkingTicket> tickets = new ArrayList<>();
-    private AdminController adminController;
-    private ClerkController clerkController;
-
-    @FXML
-    private Label userLabel;
 
     @FXML
     private void initialize() {
