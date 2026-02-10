@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.LoginController"
+            style="-fx-background-color: #f0f4f8;">
+
+    <center>
+        <HBox alignment="CENTER" spacing="0" style="-fx-background-color: white;">
+            <!-- Panel Izquierdo - Branding -->
+            <VBox alignment="CENTER" spacing="24" 
+                  style="-fx-background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -fx-pref-width: 480;">
+                <padding>
+                    <Insets top="60" bottom="60" left="50" right="50"/>
+                </padding>
+                
+                <!-- Icono de Parking -->
+                <StackPane>
+                    <Circle radius="70" style="-fx-fill: rgba(255,255,255,0.2);"/>
+                    <Circle radius="60" style="-fx-fill: rgba(255,255,255,0.3);"/>
+                    <SVGPath content="M 0,-25 L 0,25 M -12,0 L 12,0 M -8,-15 L 8,-15 M -8,15 L 8,15" 
+                             style="-fx-fill: transparent; -fx-stroke: white; -fx-stroke-width: 3.5;" scaleX="2" scaleY="2"/>
+                </StackPane>
+                
+                <VBox alignment="CENTER" spacing="12">
+                    <Label text="TegriddyTechs"
+                           style="-fx-text-fill: white; -fx-font-size: 38px; -fx-font-weight: bold; -fx-letter-spacing: 1px;"/>
+                    <Label text="Parking Platform"
+                           style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 22px; -fx-font-weight: 500;"/>
+                </VBox>
+                
+                <VBox alignment="CENTER" spacing="16" style="-fx-padding: 20 0 0 0;">
+                    <Label text="Sistema Integrado de Gestión"
+                           style="-fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 15px;"/>
+                    <Label text="de Estacionamientos"
+                           style="-fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 15px;"/>
+                </VBox>
+                
+                <!-- Características -->
+                <VBox spacing="14" alignment="CENTER_LEFT" style="-fx-padding: 30 0 0 0;">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Circle radius="4" style="-fx-fill: #a8e6cf;"/>
+                        <Label text="Control en tiempo real" 
+                               style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 14px;"/>
+                    </HBox>
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Circle radius="4" style="-fx-fill: #ffd3b6;"/>
+                        <Label text="Gestión de múltiples parqueaderos" 
+                               style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 14px;"/>
+                    </HBox>
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Circle radius="4" style="-fx-fill: #ffaaa5;"/>
+                        <Label text="Reportes y estadísticas avanzadas" 
+                               style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 14px;"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Panel Derecho - Formulario de Login -->
+            <VBox alignment="CENTER" spacing="0" style="-fx-pref-width: 550; -fx-background-color: white;">
+                <padding>
+                    <Insets top="80" bottom="80" left="70" right="70"/>
+                </padding>
+                
+                <VBox alignment="CENTER_LEFT" spacing="32" style="-fx-max-width: 400;">
+                    
+                    <!-- Encabezado -->
+                    <VBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="Bienvenido"
+                               style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2d3748;"/>
+                        <Label text="Ingrese sus credenciales para acceder al sistema"
+                               style="-fx-font-size: 14px; -fx-text-fill: #718096; -fx-wrap-text: true;"/>
+                    </VBox>
+                    
+                    <!-- Formulario -->
+                    <VBox spacing="24">
+                        
+                        <!-- Campo Usuario -->
+                        <VBox spacing="8">
+                            <Label text="Usuario"
+                                   style="-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #4a5568;"/>
+                            <TextField fx:id="txtUsername"
+                                       promptText="Ingrese su nombre de usuario"
+                                       style="-fx-background-color: #f7fafc; 
+                                              -fx-background-radius: 8; 
+                                              -fx-border-color: #e2e8f0; 
+                                              -fx-border-radius: 8; 
+                                              -fx-border-width: 1.5;
+                                              -fx-padding: 14 16;
+                                              -fx-font-size: 14px;
+                                              -fx-text-fill: #2d3748;"
+                                       prefHeight="48"/>
+                        </VBox>
+                        
+                        <!-- Campo Contraseña -->
+                        <VBox spacing="8">
+                            <HBox alignment="CENTER_LEFT" spacing="0">
+                                <Label text="Contraseña" HBox.hgrow="ALWAYS"
+                                       style="-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #4a5568;"/>
+                                <Label text="¿Olvidó su contraseña?"
+                                       style="-fx-font-size: 12px; -fx-text-fill: #667eea; -fx-cursor: hand; -fx-underline: true;"/>
+                            </HBox>
+                            <PasswordField fx:id="txtPassword"
+                                          promptText="Ingrese su contraseña"
+                                          style="-fx-background-color: #f7fafc; 
+                                                 -fx-background-radius: 8; 
+                                                 -fx-border-color: #e2e8f0; 
+                                                 -fx-border-radius: 8; 
+                                                 -fx-border-width: 1.5;
+                                                 -fx-padding: 14 16;
+                                                 -fx-font-size: 14px;
+                                                 -fx-text-fill: #2d3748;"
+                                          prefHeight="48"/>
+                        </VBox>
+                        
+                        <!-- Mensaje de Error -->
+                        <Label fx:id="lblMessage"
+                               text=""
+                               style="-fx-text-fill: #e53e3e; 
+                                      -fx-font-size: 13px; 
+                                      -fx-padding: 8 12;
+                                      -fx-background-color: #fff5f5;
+                                      -fx-background-radius: 6;
+                                      -fx-border-color: #feb2b2;
+                                      -fx-border-radius: 6;
+                                      -fx-border-width: 1;"
+                               visible="false"
+                               managed="false"/>
+                        
+                        <!-- Botón Ingresar -->
+                        <Button text="Iniciar Sesión"
+                                onAction="#login"
+                                maxWidth="Infinity"
+                                style="-fx-background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                       -fx-text-fill: white; 
+                                       -fx-font-size: 15px;
+                                       -fx-font-weight: 600;
+                                       -fx-background-radius: 8; 
+                                       -fx-padding: 14 24;
+                                       -fx-cursor: hand;
+                                       -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.4), 12, 0, 0, 4);"
+                                prefHeight="48"/>
+                    </VBox>
+                    
+                    <!-- Footer -->
+                    <VBox spacing="12" alignment="CENTER" style="-fx-padding: 20 0 0 0;">
+                        <Label text="© 2024 TegriddyTechs. Todos los derechos reservados."
+                               style="-fx-font-size: 12px; -fx-text-fill: #a0aec0;"/>
+                        <HBox spacing="16" alignment="CENTER">
+                            <Label text="Soporte"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #667eea; -fx-cursor: hand; -fx-underline: true;"/>
+                            <Label text="•"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #cbd5e0;"/>
+                            <Label text="Términos de Uso"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #667eea; -fx-cursor: hand; -fx-underline: true;"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </VBox>
+        </HBox>
+    </center>
+
+</BorderPane>
