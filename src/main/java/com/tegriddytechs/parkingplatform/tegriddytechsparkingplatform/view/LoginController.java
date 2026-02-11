@@ -72,7 +72,7 @@ public class LoginController {
             if (role == UserRole.ADMIN){
                 loader = new FXMLLoader(
                         TegriddyTechsParkingPlatformApp.class.getResource(
-                                "/old/menu-view.fxml"
+                                "/tegriddytechsparkingplatform/main-menu.fxml"
                         )
                 );
             } else {

@@ -85,7 +85,7 @@ public class MainMenuController {
         openCrudWindow("parkingspace-crud-view-improved.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
     }
 
-    @Deprecated
+    @FXML
     private void openCrud(ActionEvent event) {
         if (!(event.getSource() instanceof Button button)) {
             return;
