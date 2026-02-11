@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuController">
+<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuController">
 
     <!-- TOP BAR -->
     <top>
@@ -42,7 +42,7 @@
                 </HBox>
 
                 <!-- Botón cerrar sesión -->
-                <Button style="-fx-background-color: #fee; -fx-text-fill: #e53e3e; -fx-font-size: 13px;                                -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 10 20;                                -fx-border-color: #feb2b2; -fx-border-radius: 8; -fx-border-width: 1;" text="Cerrar Sesión" />
+                <Button onAction="#logOutOnAction" style="-fx-background-color: #fee; -fx-text-fill: #e53e3e; -fx-font-size: 13px;                                -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 10 20;                                -fx-border-color: #feb2b2; -fx-border-radius: 8; -fx-border-width: 1;" text="Cerrar Sesión" />
             </HBox>
             <Separator style="-fx-background-color: #e2e8f0;" />
         </VBox>

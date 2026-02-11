@@ -1,5 +1,7 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Administrator;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Clerk;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
 
@@ -64,6 +66,51 @@ public class UserData {
     public void replaceAll(List<User> newUsers) {
         this.users.clear();
         this.users.addAll(newUsers);
+    }
+
+    public int getNextClerkIDByCount() {
+        int count = 0;
+        if (users != null) {
+            for (User u :users) {
+                if (u instanceof Clerk) {
+                    count++;
+                }
+            }
+        }
+        return count + 1;
+    }
+    public int getNextAdminIDByCount() {
+        int count = 0;
+        if (users != null) {
+            for (User u :users) {
+                if (u instanceof Administrator) {
+                    count++;
+                }
+            }
+        }
+        return count + 1;
+    }
+    public List<Clerk> getClerks() {
+        List<Clerk> clerks=new ArrayList<>();
+        if (users != null) {
+            for (User u : users) {
+                if (u instanceof Clerk) {
+                    clerks.add((Clerk) u);
+                }
+            }
+        }
+        return clerks;
+    }
+    public List<Administrator> getAdmins() {
+        List<Administrator> administrators=new ArrayList<>();
+        if (users!= null) {
+            for (User u : users) {
+                if (u instanceof Administrator) {
+                    administrators.add((Administrator) u);
+                }
+            }
+        }
+        return administrators;
     }
 
 }

@@ -8,10 +8,17 @@
     <role>ADMIN</role>
   </user>
   <user>
-    <id>1</id>
-    <name>Daniel</name>
-    <username>clerk1</username>
-    <password>clerk1</password>
+    <id>2</id>
+    <name>Andree Murillo</name>
+    <username>AndreeM</username>
+    <password>andree</password>
     <role>CLERK</role>
+  </user>
+  <user>
+    <id>2</id>
+    <name>DanielSV</name>
+    <username>DSV</username>
+    <password>dsv</password>
+    <role>ADMIN</role>
   </user>
 </users>

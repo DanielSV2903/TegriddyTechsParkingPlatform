@@ -2,10 +2,10 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controlle
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.UserData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.UserXmlRepository;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
+import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserController {
@@ -55,7 +55,23 @@ public class UserController {
         return userData.getAllUsers();
     }
 
+
+
     private void persist() {
         xmlRepository.saveAll(userData.getAllUsers());
+    }
+
+    public int getNextClerkIDByCount() {
+        return userData.getNextClerkIDByCount();
+    }
+    public List<Clerk> getClerks() {
+        return userData.getClerks();
+    }
+    public List<Administrator> getAdmins() {
+        return userData.getAdmins();
+    }
+
+    public int geNextAdminIDByCount() {
+        return userData.getNextAdminIDByCount();
     }
 }

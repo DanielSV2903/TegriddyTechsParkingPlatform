@@ -32,11 +32,4 @@ public class Clerk extends User{
     public void setParkingLot(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
     }
-
-    @Override
-    public String toString() {
-        return "Clerk{" +
-                ", parkingLot=" + parkingLot +
-                '}';
-    }
 }

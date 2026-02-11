@@ -38,49 +38,49 @@ public class MainMenuController {
     private void initialize() {
     }
 
-    @FXML
+    @Deprecated
     public void toClients(ActionEvent actionEvent) {
         openCrudWindow("customer-crud-view-improved.fxml", "CRUD Clientes", () -> new CustomerCrudController(this));
     }
 
-    @FXML
+    @Deprecated
     public void toRates(ActionEvent actionEvent) {
         openCrudWindow("rate-crud-view-improved.fxml", "CRUD Tarifas", () -> new RateCrudController(this));
     }
 
-    @FXML
+    @Deprecated
     public void toClerks(ActionEvent actionEvent) {
         openCrudWindow("clerk-crud-view-improved.fxml", "CRUD Cajeros", () -> new ClerkCrudController(this));
 
     }
 
-    @FXML
+    @Deprecated
     public void toAdmin(ActionEvent actionEvent) {
         openCrudWindow("admin-crud-view-improved.fxml", "CRUD Administradores", () -> new AdminCrudController(this));
     }
 
-    @FXML
+    @Deprecated
     public void toParkings(ActionEvent actionEvent) {
         openCrudWindow("parkinglot-crud-view-improved.fxml", "CRUD Parqueaderos", () -> new ParkingLotCrudController(this));
 
     }
 
-    @FXML
+    @Deprecated
     public void toUsers(ActionEvent actionEvent) {
         openCrudWindow("user-crud-view-improved.fxml", "CRUD Usuarios", () -> new UserCrudControllerImproved(this));
     }
 
-    @FXML
+    @Deprecated
     public void toTickets(ActionEvent actionEvent) {
         openCrudWindow("ticket-crud-view-improved.fxml", "CRUD Tickets", () -> new TicketCrudController(this));
     }
 
-    @FXML
+    @Deprecated
     public void toVehicles(ActionEvent actionEvent) {
         openCrudWindow("vehicle-crud-view-improved.fxml", "CRUD Vehiculos", () -> new VehicleCrudController(this));
     }
 
-    @FXML
+    @Deprecated
     public void toSpaces(ActionEvent actionEvent) {
         openCrudWindow("parkingspace-crud-view-improved.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
     }
@@ -988,7 +988,7 @@ public class MainMenuController {
         }
     }
 
-    @Deprecated
+    @FXML
     public void logOut(ActionEvent actionEvent) {
         int respuesta = JOptionPane.showConfirmDialog(
                 null,
@@ -1001,7 +1001,7 @@ public class MainMenuController {
             try {
                 FXMLLoader loader = new FXMLLoader(
                         TegriddyTechsParkingPlatformApp.class.getResource(
-                                "/old/login-view.fxml"
+                                "/tegriddytechsparkingplatform/login-view-improved.fxml"
                         )
                 );
 
@@ -1022,5 +1022,12 @@ public class MainMenuController {
         }
     }
 
+    public UserController getUserController() {
+        return userController;
+    }
 
+    @Deprecated
+    public void logOutOnAction(ActionEvent actionEvent) {
+        logOut(actionEvent);
+    }
 }

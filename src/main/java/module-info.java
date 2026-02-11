@@ -8,4 +8,6 @@ module com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform {
     opens com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity to com.google.gson;
     opens com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data to com.google.gson;
     exports com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
+    exports com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity;
+
 }
