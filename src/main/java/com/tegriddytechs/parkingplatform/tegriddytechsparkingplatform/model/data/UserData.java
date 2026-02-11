@@ -24,10 +24,12 @@ public class UserData {
     public void update(User user){
         for (User u:getAllUsers()){
             if (u.getId() == user.getId()){
+                users.remove(u);
                 u.setName(user.getName());
                 u.setUserName(user.getUserName());
                 u.setPassword(user.getPassword());
                 u.setUserRole(user.getUserRole());
+                users.add(u);
             }
         }
     }
