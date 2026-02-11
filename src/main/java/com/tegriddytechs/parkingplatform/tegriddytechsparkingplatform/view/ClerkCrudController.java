@@ -15,7 +15,19 @@ public class ClerkCrudController {
     @FXML
     private TextField tfUsername;
     @FXML
-    private TextField tfPassword;
+    private PasswordField tfPassword;
+    @FXML
+    private TableColumn colName;
+    @FXML
+    private Label lblTotalRecords;
+    @FXML
+    private TextField tfSearch;
+    @FXML
+    private TableColumn colId;
+    @FXML
+    private TableView tableClerks;
+    @FXML
+    private TableColumn colUsername;
 
     public ClerkCrudController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
@@ -69,5 +81,17 @@ public class ClerkCrudController {
             return;
         }
         CrudAlertHelper.showResult("Cajeros", mainMenuController.deleteClerk(clerk));
+    }
+
+    @FXML
+    public void goBack(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void onRefresh(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void onClear(ActionEvent actionEvent) {
     }
 }
