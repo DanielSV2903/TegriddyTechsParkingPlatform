@@ -2,7 +2,7 @@
   "parkingLots": [
     {
       "parkingLotId": "1",
-      "name": "UCR",
+      "name": "Parqueo UCR",
       "active": true
     }
   ]

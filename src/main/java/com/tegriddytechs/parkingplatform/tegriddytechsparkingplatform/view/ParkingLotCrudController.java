@@ -1,10 +1,12 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Clerk;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -18,8 +20,6 @@ public class ParkingLotCrudController {
     private TextField tfId;
     @FXML
     private TextField tfName;
-    @FXML
-    private CheckBox cbActive;
     @FXML
     private TextField tfAddress;
     @FXML
@@ -91,11 +91,11 @@ public class ParkingLotCrudController {
             return;
         }
         ParkingLot lot = new ParkingLot(id, name);
-        lot.setActive(cbActive.isSelected());
+//        lot.setActive(cbActive.isSelected());
         CrudAlertHelper.showResult("Parqueaderos", mainMenuController.createParkingLot(lot));
     }
 
-    @FXML
+    @Deprecated
     private void onRead(ActionEvent actionEvent) {
         String id = CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id");
         if (id == null) {
@@ -113,7 +113,7 @@ public class ParkingLotCrudController {
             return;
         }
         ParkingLot lot = new ParkingLot(id, name);
-        lot.setActive(cbActive.isSelected());
+//        lot.setActive(cbActive.isSelected());
         CrudAlertHelper.showResult("Parqueaderos", mainMenuController.updateParkingLot(lot));
     }
 
@@ -150,6 +150,18 @@ public class ParkingLotCrudController {
         if (tfName != null) tfName.clear();
         if (tfAddress != null) tfAddress.clear();
         if (tfCapacity != null) tfCapacity.clear();
-        if (cbActive != null) cbActive.setSelected(false);
+//        if (cbActive != null) cbActive.setSelected(false);
+    }
+
+    private void fillFields() {
+        ParkingLot parkingLot= tableParkingLots.getSelectionModel().getSelectedItem();
+        tfId.setText(String.valueOf(parkingLot.getParkingLotId()));
+        tfName.setText(parkingLot.getName());
+        tfCapacity.setText(String.valueOf(parkingLot.getSpaces().size()));
+    }
+
+    @FXML
+    public void selectParkingLotOnMouseClicked(Event event) {
+        fillFields();
     }
 }

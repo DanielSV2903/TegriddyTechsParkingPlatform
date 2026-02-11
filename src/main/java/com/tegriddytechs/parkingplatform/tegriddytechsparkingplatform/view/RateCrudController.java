@@ -226,6 +226,7 @@ public class RateCrudController {
     }
 
     private void updateRecordCount() {
+        tfRateId.setText(String.valueOf(mainMenuController.getAllRates().size()+1));
         lblTotalRecords.setText(String.valueOf((tableRates.getItems() == null) ? 0 : tableRates.getItems().size()));
     }
 
