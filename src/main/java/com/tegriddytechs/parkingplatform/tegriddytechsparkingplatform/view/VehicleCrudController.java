@@ -1,17 +1,19 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.CustomerData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.RateData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class VehicleCrudController {
 
     private final MainMenuController mainMenuController;
-    private CustomerData customerData = new CustomerData();
 
     @FXML
     private TextField tfPlate;
@@ -20,9 +22,38 @@ public class VehicleCrudController {
     @FXML
     private CheckBox cbDisabled;
     @FXML
-    private ComboBox cbCustomer;
+    private ComboBox<Customer> cbCustomer;
     @FXML
-    private ComboBox cbVehicleType;
+    private ComboBox<SpaceType> cbVehicleType;
+
+    // Added fields from improved FXML
+    @FXML
+    private TextField tfBrand;
+    @FXML
+    private TextField tfModel;
+    @FXML
+    private TextField tfColor;
+    @FXML
+    private TextField tfCustomerId;
+    @FXML
+    private TextField tfSearch;
+    @FXML
+    private TableView<Vehicle> tableVehicles;
+    @FXML
+    private TableColumn<Vehicle, String> colPlate;
+    @FXML
+    private TableColumn<Vehicle, String> colBrand;
+    @FXML
+    private TableColumn<Vehicle, String> colModel;
+    @FXML
+    private TableColumn<Vehicle, String> colColor;
+    @FXML
+    private TableColumn<Vehicle, String> colType;
+    @FXML
+    private Label lblTotalRecords;
+
+    private ObservableList<Vehicle> masterList = FXCollections.observableArrayList();
+    private FilteredList<Vehicle> filteredList = new FilteredList<>(masterList, p -> true);
 
     public VehicleCrudController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
@@ -30,13 +61,48 @@ public class VehicleCrudController {
 
     @FXML
     private void initialize() {
-        cbStatus.getItems().setAll(VehicleStatus.values());
-        cbVehicleType.getItems().setAll(SpaceType.values());
-        cbCustomer.getItems().setAll(mainMenuController.getAllCustomers());
+        try {
+            cbStatus.getItems().setAll(VehicleStatus.values());
+            cbVehicleType.getItems().setAll(SpaceType.values());
+            cbCustomer.getItems().setAll(mainMenuController.getAllCustomers());
+
+            colPlate.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("plate"));
+            colBrand.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getDescription() : ""));
+            colModel.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>(""));
+            colColor.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>(""));
+            colType.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getSpaceType().name() : ""));
+
+            tableVehicles.setItems(filteredList);
+
+            if (tfSearch != null) {
+                tfSearch.textProperty().addListener((obs, oldV, newV) -> {
+                    String lower = newV == null ? "" : newV.toLowerCase();
+                    filteredList.setPredicate(v -> {
+                        if (lower.isBlank()) return true;
+                        return (v.getPlate() != null && v.getPlate().toLowerCase().contains(lower))
+                                || (v.getVehicleType() != null && v.getVehicleType().getDescription() != null && v.getVehicleType().getDescription().toLowerCase().contains(lower));
+                    });
+                    updateRecordCount();
+                });
+            }
+
+            loadData();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void loadData() {
+        masterList.setAll(mainMenuController.getAllVehicles());
+        updateRecordCount();
+    }
+
+    private void updateRecordCount() {
+        if (lblTotalRecords != null) lblTotalRecords.setText(String.valueOf(filteredList.size()));
     }
 
     @FXML
-    private void onCreate() {
+    private void onCreate(ActionEvent actionEvent) {
 
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehículo", "Placa");
         SpaceType spaceType = (SpaceType) CrudFormUtils.readSelection(cbVehicleType, "Vehículo", "Tipo de vehículo");
@@ -79,6 +145,7 @@ public class VehicleCrudController {
                 "Vehículo",
                 mainMenuController.createVehicle(vehicle)
         );
+        loadData();
     }
 
     private byte defaultTyres(SpaceType spaceType) {
@@ -98,7 +165,7 @@ public class VehicleCrudController {
 
 
     @FXML
-    private void onRead() {
+    private void onRead(ActionEvent actionEvent) {
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehiculos", "Placa");
         if (plate == null) {
             return;
@@ -108,7 +175,7 @@ public class VehicleCrudController {
     }
 
     @FXML
-    private void onUpdate() {
+    private void onUpdate(ActionEvent actionEvent) {
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehiculos", "Placa");
         VehicleStatus status = CrudFormUtils.readSelection(cbStatus, "Vehiculos", "Estado");
         if (plate == null || status == null) {
@@ -119,10 +186,11 @@ public class VehicleCrudController {
         vehicle.setVehicleStatus(status);
         vehicle.setVehicleType(defaultType());
         CrudAlertHelper.showResult("Vehiculos", mainMenuController.updateVehicle(vehicle));
+        loadData();
     }
 
     @FXML
-    private void onDelete() {
+    private void onDelete(ActionEvent actionEvent) {
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehiculos", "Placa");
         if (plate == null) {
             return;
@@ -133,6 +201,33 @@ public class VehicleCrudController {
             return;
         }
         CrudAlertHelper.showResult("Vehiculos", mainMenuController.deleteVehicle(vehicle));
+        loadData();
+    }
+
+    @FXML
+    public void goBack(ActionEvent actionEvent) {
+        if (actionEvent != null && actionEvent.getSource() instanceof Node node) {
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    @FXML
+    public void onRefresh(ActionEvent actionEvent) {
+        loadData();
+    }
+
+    @FXML
+    public void onClear(ActionEvent actionEvent) {
+        if (tfPlate != null) tfPlate.clear();
+        if (tfBrand != null) tfBrand.clear();
+        if (tfModel != null) tfModel.clear();
+        if (tfColor != null) tfColor.clear();
+        if (tfCustomerId != null) tfCustomerId.clear();
+        if (cbVehicleType != null) cbVehicleType.setValue(null);
+        if (cbStatus != null) cbStatus.setValue(null);
+        if (cbCustomer != null) cbCustomer.setValue(null);
+        if (cbDisabled != null) cbDisabled.setSelected(false);
     }
 
     private VehicleType defaultType() {

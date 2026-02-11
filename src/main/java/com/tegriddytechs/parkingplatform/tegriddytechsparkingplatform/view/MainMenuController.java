@@ -1,6 +1,9 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.*;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.CustomerController;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.ParkingLotController;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.UserController;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.VehicleController;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.ParkingSpaceData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import javafx.event.ActionEvent;
@@ -14,6 +17,7 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -35,6 +39,53 @@ public class MainMenuController {
     }
 
     @FXML
+    public void toClients(ActionEvent actionEvent) {
+        openCrudWindow("customer-crud-view-improved.fxml", "CRUD Clientes", () -> new CustomerCrudController(this));
+    }
+
+    @FXML
+    public void toRates(ActionEvent actionEvent) {
+        openCrudWindow("rate-crud-view-improved.fxml", "CRUD Tarifas", () -> new RateCrudController(this));
+    }
+
+    @FXML
+    public void toClerks(ActionEvent actionEvent) {
+        openCrudWindow("clerk-crud-view-improved.fxml", "CRUD Cajeros", () -> new ClerkCrudController(this));
+
+    }
+
+    @FXML
+    public void toAdmin(ActionEvent actionEvent) {
+        openCrudWindow("admin-crud-view-improved.fxml", "CRUD Administradores", () -> new AdminCrudController(this));
+    }
+
+    @FXML
+    public void toParkings(ActionEvent actionEvent) {
+        openCrudWindow("parkinglot-crud-view-improved.fxml", "CRUD Parqueaderos", () -> new ParkingLotCrudController(this));
+
+    }
+
+    @FXML
+    public void toUsers(ActionEvent actionEvent) {
+        openCrudWindow("user-crud-view-improved.fxml", "CRUD Usuarios", () -> new UserCrudControllerImproved(this));
+    }
+
+    @FXML
+    public void toTickets(ActionEvent actionEvent) {
+        openCrudWindow("ticket-crud-view-improved.fxml", "CRUD Tickets", () -> new TicketCrudController(this));
+    }
+
+    @FXML
+    public void toVehicles(ActionEvent actionEvent) {
+        openCrudWindow("vehicle-crud-view-improved.fxml", "CRUD Vehiculos", () -> new VehicleCrudController(this));
+    }
+
+    @FXML
+    public void toSpaces(ActionEvent actionEvent) {
+        openCrudWindow("parkingspace-crud-view-improved.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
+    }
+
+    @Deprecated
     private void openCrud(ActionEvent event) {
         if (!(event.getSource() instanceof Button button)) {
             return;
@@ -43,31 +94,31 @@ public class MainMenuController {
         String target = button.getUserData() != null ? button.getUserData().toString() : "Entidad";
         switch (target) {
             case "Usuarios":
-                openCrudWindow("user-crud-view.fxml", "CRUD Usuarios", () -> new UserCrudController(this));
+                openCrudWindow("user-crud-view-improved.fxml", "CRUD Usuarios", () -> new UserCrudControllerImproved(this));
                 break;
             case "Administradores":
-                openCrudWindow("admin-crud-view.fxml", "CRUD Administradores", () -> new AdminCrudController(this));
+                openCrudWindow("admin-crud-view-improved.fxml", "CRUD Administradores", () -> new AdminCrudController(this));
                 break;
             case "Cajeros":
-                openCrudWindow("clerk-crud-view.fxml", "CRUD Cajeros", () -> new ClerkCrudController(this));
+                openCrudWindow("clerk-crud-view-improved.fxml", "CRUD Cajeros", () -> new ClerkCrudController(this));
                 break;
             case "Clientes":
-                openCrudWindow("customer-crud-view.fxml", "CRUD Clientes", () -> new CustomerCrudController(this));
+                openCrudWindow("customer-crud-view-improved.fxml", "CRUD Clientes", () -> new CustomerCrudController(this));
                 break;
             case "Parqueaderos":
-                openCrudWindow("parkinglot-crud-view.fxml", "CRUD Parqueaderos", () -> new ParkingLotCrudController(this));
+                openCrudWindow("parkinglot-crud-view-improved.fxml", "CRUD Parqueaderos", () -> new ParkingLotCrudController(this));
                 break;
             case "Espacios":
-                openCrudWindow("parkingspace-crud-view.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
+                openCrudWindow("parkingspace-crud-view-improved.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
                 break;
             case "Vehiculos":
-                openCrudWindow("vehicle-crud-view.fxml", "CRUD Vehiculos", () -> new VehicleCrudController(this));
+                openCrudWindow("vehicle-crud-view-improved.fxml", "CRUD Vehiculos", () -> new VehicleCrudController(this));
                 break;
             case "Tickets":
-                openCrudWindow("ticket-crud-view.fxml", "CRUD Tickets", () -> new TicketCrudController(this));
+                openCrudWindow("ticket-crud-view-improved.fxml", "CRUD Tickets", () -> new TicketCrudController(this));
                 break;
             case "Tarifas":
-                openCrudWindow("rate-crud-view.fxml", "CRUD Tarifas", () -> new RateCrudController(this));
+                openCrudWindow("rate-crud-view-improved.fxml", "CRUD Tarifas", () -> new RateCrudController(this));
                 break;
             default:
                 CrudAlertHelper.showWarning("Navegacion", "Sin CRUD configurado para: " + target);
@@ -181,11 +232,14 @@ public class MainMenuController {
 
     private void openCrudWindow(String fxml, String title, Supplier<Object> controllerSupplier) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    TegriddyTechsParkingPlatformApp.class.getResource(
-                            "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/" + fxml
-                    )
+            java.net.URL url = TegriddyTechsParkingPlatformApp.class.getResource(
+                    "/tegriddytechsparkingplatform/" + fxml
             );
+            if (url == null) {
+                throw new IOException("FXML not found: /tegriddytechsparkingplatform/" + fxml);
+            }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(url); // importante para resolver fx:include relativos
             loader.setControllerFactory(type -> controllerSupplier.get());
             Parent root = loader.load();
             Stage stage = new Stage();
@@ -193,7 +247,7 @@ public class MainMenuController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException ex) {
-            CrudAlertHelper.showWarning("Navegacion", "No se pudo abrir la ventana: " + title);
+            CrudAlertHelper.showWarning("Navegacion", "No se pudo abrir la ventana: " + title + " - " + ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -875,39 +929,66 @@ public class MainMenuController {
         return customerController.getAllCustomers();
     }
 
-    @FXML
+    public ArrayList<Vehicle> getAllVehicles() {
+        return vehicleController.getAllVehicles();
+    }
+
+    public ArrayList<Rate> getAllRates() {
+        return rates;
+    }
+
+    public ArrayList<ParkingSpace> getAllParkingSpaces() {
+        return parkingSpaceData.getAllParkingSpaces();
+    }
+
+    public ArrayList<ParkingLot> getAllParkingLots() {
+        return parkingLotController.getAllParkingLots();
+    }
+
+    public ArrayList<ParkingTicket> getAllTickets() {
+        return tickets;
+    }
+
+    public java.util.List<User> getAllUsers() {
+        return userController.getAllUsers();
+    }
+
+    @Deprecated
     private void openSystemManagementMenu(ActionEvent event) {
         swapRoot(event, "system-management-menu.fxml");
     }
 
-    @FXML
+    @Deprecated
     private void openMainMenu(ActionEvent event) {
         swapRoot(event, "menu-view.fxml"); // este es tu menú principal actual
     }
 
     private void swapRoot(ActionEvent event, String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    TegriddyTechsParkingPlatformApp.class.getResource(
-                            "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/" + fxml
-                    )
+            java.net.URL url = TegriddyTechsParkingPlatformApp.class.getResource(
+                    "/tegriddytechsparkingplatform/" + fxml
             );
+            if (url == null) {
+                throw new IOException("FXML not found: /tegriddytechsparkingplatform/" + fxml);
+            }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(url); // importante para resolver fx:include relativos
 
             // Reusa el mismo controller (así no pierdes la lógica existente)
             loader.setControllerFactory(type -> this);
 
             Parent root = loader.load();
 
-            if (event.getSource() instanceof javafx.scene.Node node && node.getScene() != null) {
+            if (event.getSource() instanceof Node node && node.getScene() != null) {
                 node.getScene().setRoot(root); // “recarga” la pestaña / vista actual
             }
         } catch (IOException ex) {
-            CrudAlertHelper.showWarning("Navegacion", "No se pudo cargar la vista: " + fxml);
+            CrudAlertHelper.showWarning("Navegacion", "No se pudo cargar la vista: " + fxml + " - " + ex.getMessage());
             ex.printStackTrace();
         }
     }
 
-    @FXML
+    @Deprecated
     public void logOut(ActionEvent actionEvent) {
         int respuesta = JOptionPane.showConfirmDialog(
                 null,
@@ -920,7 +1001,7 @@ public class MainMenuController {
             try {
                 FXMLLoader loader = new FXMLLoader(
                         TegriddyTechsParkingPlatformApp.class.getResource(
-                                "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/login-view.fxml"
+                                "/old/login-view.fxml"
                         )
                 );
 
@@ -940,4 +1021,6 @@ public class MainMenuController {
             }
         }
     }
+
+
 }

@@ -3,15 +3,40 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingSpace;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.SpaceType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class ParkingSpaceCrudController {
 
     private final MainMenuController mainMenuController;
-
+    @FXML
+    private TableColumn<ParkingSpace, String> colParkingLotId;
+    @FXML
+    private Label lblTotalRecords;
+    @FXML
+    private ComboBox<SpaceType> cbSpaceType;
+    @FXML
+    private ComboBox<String> cbStatus;
+    @FXML
+    private TextField tfSearch;
+    @FXML
+    private TableColumn<ParkingSpace, Integer> colSpaceId;
+    @FXML
+    private TextField tfParkingLotId;
+    @FXML
+    private TextField tfSpaceId;
+    @FXML
+    private TableView<ParkingSpace> tableSpaces;
+    @FXML
+    private TableColumn<ParkingSpace, Integer> colSpaceType;
+    @FXML
+    private TableColumn<ParkingSpace, String> colStatus;
     @FXML
     private TextField tfLotId;
     @FXML
@@ -23,17 +48,52 @@ public class ParkingSpaceCrudController {
     @FXML
     private CheckBox cbAvailable;
 
+    private ObservableList<ParkingSpace> masterList = FXCollections.observableArrayList();
+    private FilteredList<ParkingSpace> filteredList = new FilteredList<>(masterList, p -> true);
+
     public ParkingSpaceCrudController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
     }
 
     @FXML
     private void initialize() {
-        cbType.getItems().setAll(SpaceType.values());
+        try {
+            cbType.getItems().setAll(SpaceType.values());
+            cbStatus.getItems().setAll("Disponible", "Ocupado");
+
+            colSpaceType.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("spaceNumber"));
+            colStatus.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().isState() ? "Disponible" : "Ocupado"));
+
+            tableSpaces.setItems(filteredList);
+
+            if (tfSearch != null) {
+                tfSearch.textProperty().addListener((obs, oldV, newV) -> {
+                    String lower = newV == null ? "" : newV.toLowerCase();
+                    filteredList.setPredicate(s -> {
+                        if (lower.isBlank()) return true;
+                        return String.valueOf(s.getSpaceNumber()).contains(lower) || (s.getParkingLot() != null && s.getParkingLot().getParkingLotId().toLowerCase().contains(lower));
+                    });
+                    updateRecordCount();
+                });
+            }
+
+            loadData();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void loadData() {
+        masterList.setAll(mainMenuController.getAllParkingSpaces());
+        updateRecordCount();
+    }
+
+    private void updateRecordCount() {
+        if (lblTotalRecords != null) lblTotalRecords.setText(String.valueOf(filteredList.size()));
     }
 
     @FXML
-    private void onCreate() {
+    private void onCreate(ActionEvent actionEvent) {
         ParkingLot lot = loadLot();
         Integer number = CrudFormUtils.readInt(tfNumber, "Espacios", "Numero");
         SpaceType type = CrudFormUtils.readSelection(cbType, "Espacios", "Tipo");
@@ -43,10 +103,11 @@ public class ParkingSpaceCrudController {
         ParkingSpace space = new ParkingSpace(number, type, cbPreferential.isSelected(), cbAvailable.isSelected());
         space.setParkingLot(lot);
         CrudAlertHelper.showResult("Espacios", mainMenuController.createParkingSpace(space));
+        loadData();
     }
 
     @FXML
-    private void onRead() {
+    private void onRead(ActionEvent actionEvent) {
         ParkingLot lot = loadLot();
         Integer number = CrudFormUtils.readInt(tfNumber, "Espacios", "Numero");
         if (lot == null || number == null) {
@@ -57,7 +118,7 @@ public class ParkingSpaceCrudController {
     }
 
     @FXML
-    private void onUpdate() {
+    private void onUpdate(ActionEvent actionEvent) {
         ParkingLot lot = loadLot();
         Integer number = CrudFormUtils.readInt(tfNumber, "Espacios", "Numero");
         SpaceType type = CrudFormUtils.readSelection(cbType, "Espacios", "Tipo");
@@ -67,10 +128,11 @@ public class ParkingSpaceCrudController {
         ParkingSpace space = new ParkingSpace(number, type, cbPreferential.isSelected(), cbAvailable.isSelected());
         space.setParkingLot(lot);
         CrudAlertHelper.showResult("Espacios", mainMenuController.updateParkingSpace(space));
+        loadData();
     }
 
     @FXML
-    private void onDelete() {
+    private void onDelete(ActionEvent actionEvent) {
         ParkingLot lot = loadLot();
         Integer number = CrudFormUtils.readInt(tfNumber, "Espacios", "Numero");
         if (lot == null || number == null) {
@@ -82,6 +144,7 @@ public class ParkingSpaceCrudController {
             return;
         }
         CrudAlertHelper.showResult("Espacios", mainMenuController.deleteParkingSpace(space));
+        loadData();
     }
 
     private ParkingLot loadLot() {
@@ -94,5 +157,30 @@ public class ParkingSpaceCrudController {
             CrudAlertHelper.showWarning("Espacios", "Parqueadero no encontrado");
         }
         return lot;
+    }
+
+    @FXML
+    public void goBack(ActionEvent actionEvent) {
+        if (actionEvent != null && actionEvent.getSource() instanceof Node node) {
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    @FXML
+    public void onRefresh(ActionEvent actionEvent) {
+        loadData();
+    }
+
+    @FXML
+    public void onClear(ActionEvent actionEvent) {
+        if (tfSpaceId != null) tfSpaceId.clear();
+        if (tfParkingLotId != null) tfParkingLotId.clear();
+        if (tfLotId != null) tfLotId.clear();
+        if (tfNumber != null) tfNumber.clear();
+        if (cbType != null) cbType.setValue(null);
+        if (cbStatus != null) cbStatus.setValue(null);
+        if (cbPreferential != null) cbPreferential.setSelected(false);
+        if (cbAvailable != null) cbAvailable.setSelected(false);
     }
 }

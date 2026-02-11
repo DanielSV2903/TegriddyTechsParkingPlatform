@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuController">
+
+    <!-- TOP BAR -->
+    <top>
+        <VBox style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+            <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 16 28;">
+
+                <!-- Logo y nombre -->
+                <HBox alignment="CENTER_LEFT" spacing="14">
+                    <Circle fill="#667eea" radius="22" />
+                    <VBox spacing="2">
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="TegriddyTechs Parking" />
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Panel de Administración" />
+                    </VBox>
+                </HBox>
+
+                <!-- Espaciador -->
+                <Region prefWidth="300" />
+
+                <!-- Información usuario -->
+                <HBox alignment="CENTER" spacing="12">
+                    <VBox alignment="CENTER_RIGHT" spacing="2">
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Administrador" />
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #718096;" text="admin@tegriddytechs.com" />
+                    </VBox>
+                    <Circle fill="#667eea" radius="20" />
+                </HBox>
+
+                <!-- Botón cerrar sesión -->
+                <Button style="-fx-background-color: #fee; -fx-text-fill: #e53e3e; -fx-font-size: 13px;                                -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 10 20;                                -fx-border-color: #feb2b2; -fx-border-radius: 8; -fx-border-width: 1;" text="Cerrar Sesión" />
+            </HBox>
+            <Separator style="-fx-background-color: #e2e8f0;" />
+        </VBox>
+    </top>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <center>
+        <ScrollPane fitToWidth="true" prefHeight="635.0" prefWidth="1200.0" style="-fx-background: transparent; -fx-background-color: transparent;">
+            <VBox spacing="24" style="-fx-padding: 24 28;">
+
+                <!-- SECCIÓN ESTADÍSTICAS -->
+                <VBox spacing="12">
+                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Estadísticas Generales" />
+
+                    <GridPane hgap="20" vgap="20">
+
+                        <!-- Tarjeta 1 -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="14">
+                                <Circle fill="#e6f2ff" radius="28" />
+                                <VBox spacing="4">
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Total Parqueaderos" />
+                                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="8" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Tarjeta 2 -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="14">
+                                <Circle fill="#e6ffed" radius="28" />
+                                <VBox spacing="4">
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Espacios Disponibles" />
+                                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="145" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Tarjeta 3 -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="14">
+                                <Circle fill="#fff5e6" radius="28" />
+                                <VBox spacing="4">
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Vehículos Activos" />
+                                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="73" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Tarjeta 4 -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="14">
+                                <Circle fill="#f0e6ff" radius="28" />
+                                <VBox spacing="4">
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Ingresos Hoy" />
+                                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="2450" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                  <columnConstraints>
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints />
+                  </rowConstraints>
+
+                    </GridPane>
+                </VBox>
+
+                <!-- SECCIÓN GESTIÓN DEL SISTEMA -->
+                <VBox spacing="14">
+                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Gestión del Sistema" />
+
+                    <GridPane hgap="16" vgap="16">
+
+                        <!-- Tarjeta Usuarios -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#ebf4ff" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Usuarios" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Gestión completa de usuarios del sistema" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toUsers" style="-fx-background-color: #f7fafc; -fx-text-fill: #3182ce; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+
+                        <!-- Tarjeta Administradores -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#fef5e7" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Administradores" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Control de administradores del sistema" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toAdmin" style="-fx-background-color: #f7fafc; -fx-text-fill: #d69e2e; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+
+                        <!-- Tarjeta Cajeros -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#e6f9f0" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Cajeros" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Gestión de personal de atención" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toClerks" style="-fx-background-color: #f7fafc; -fx-text-fill: #38a169; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+
+                        <!-- Tarjeta Tarifas -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#fef0f5" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Tarifas" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Configuración de precios y tarifas" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toRates" style="-fx-background-color: #f7fafc; -fx-text-fill: #d53f8c; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+                  <columnConstraints>
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints />
+                  </rowConstraints>
+
+                    </GridPane>
+                </VBox>
+
+                <!-- SECCIÓN GESTIÓN OPERATIVA -->
+                <VBox spacing="14">
+                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Gestión Operativa" />
+
+                    <GridPane hgap="16" vgap="16">
+
+                        <!-- Tarjeta Clientes -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#f0e6ff" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Clientes" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Registro y administración de clientes" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toClients" style="-fx-background-color: #f7fafc; -fx-text-fill: #805ad5; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+
+                        <!-- Tarjeta Parqueaderos -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#e6f2ff" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Parqueaderos" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Control de parqueaderos y ubicaciones" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toParkings" style="-fx-background-color: #f7fafc; -fx-text-fill: #3182ce; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+
+                        <!-- Tarjeta Espacios -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#e6ffed" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Espacios" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Gestión de espacios de estacionamiento" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toSpaces" style="-fx-background-color: #f7fafc; -fx-text-fill: #38a169; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+
+                        <!-- Tarjeta Vehículos -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#fff5e6" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Vehículos" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Registro y control de vehículos" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toVehicles" style="-fx-background-color: #f7fafc; -fx-text-fill: #dd6b20; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+
+                        <!-- Tarjeta Tickets -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#fef5e7" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Tickets" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Gestión de tickets de estacionamiento" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toTickets" style="-fx-background-color: #f7fafc; -fx-text-fill: #d69e2e; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+                  <columnConstraints>
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+
+                    </GridPane>
+                </VBox>
+
+                <!-- ESPACIADOR FINAL -->
+                <VBox style="-fx-padding: 20 0;" />
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

@@ -72,13 +72,13 @@ public class LoginController {
             if (role == UserRole.ADMIN){
                 loader = new FXMLLoader(
                         TegriddyTechsParkingPlatformApp.class.getResource(
-                                "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/menu-view.fxml"
+                                "/old/menu-view.fxml"
                         )
                 );
             } else {
                 loader = new FXMLLoader(
                         TegriddyTechsParkingPlatformApp.class.getResource(
-                                "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/clerk-view.fxml"
+                                "/old/clerk-view.fxml"
                         )
                 );
             }

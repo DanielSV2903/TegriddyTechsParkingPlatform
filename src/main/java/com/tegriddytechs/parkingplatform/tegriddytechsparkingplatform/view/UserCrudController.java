@@ -4,9 +4,11 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.enti
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Clerk;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class UserCrudController {
 
@@ -22,6 +24,20 @@ public class UserCrudController {
     private TextField tfPassword;
     @FXML
     private ComboBox<UserRole> cbRole;
+
+    // Added UI elements for improved view compatibility
+    @FXML
+    private TextField tfSearch;
+    @FXML
+    private TableView tableUsers;
+    @FXML
+    private TableColumn colId;
+    @FXML
+    private TableColumn colName;
+    @FXML
+    private TableColumn colUsername;
+    @FXML
+    private Label lblTotalRecords;
 
     public UserCrudController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
@@ -86,5 +102,28 @@ public class UserCrudController {
             return;
         }
         CrudAlertHelper.showResult("Usuarios", mainMenuController.deleteUser(user));
+    }
+
+    @FXML
+    public void goBack(ActionEvent actionEvent) {
+        if (actionEvent != null && actionEvent.getSource() instanceof Node node) {
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    @FXML
+    public void onRefresh(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void onClear(ActionEvent actionEvent) {
+        if (tfId != null) tfId.clear();
+        if (tfName != null) tfName.clear();
+        if (tfUsername != null) tfUsername.clear();
+        if (tfPassword != null) tfPassword.clear();
+        if (cbRole != null) cbRole.setValue(null);
+        if (tfSearch != null) tfSearch.clear();
+        if (tableUsers != null) tableUsers.getItems().clear();
     }
 }

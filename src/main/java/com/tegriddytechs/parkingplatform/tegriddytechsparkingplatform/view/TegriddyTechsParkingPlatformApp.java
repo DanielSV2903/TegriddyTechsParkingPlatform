@@ -13,7 +13,7 @@ public class TegriddyTechsParkingPlatformApp extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 TegriddyTechsParkingPlatformApp.class.getResource(
-                        "/com/tegriddytechs/parkingplatform/tegriddytechsparkingplatform/login-view.fxml"
+                        "/tegriddytechsparkingplatform/main-menu.fxml"
                 )
         );
         Scene scene = new Scene(fxmlLoader.load(), 900, 600);

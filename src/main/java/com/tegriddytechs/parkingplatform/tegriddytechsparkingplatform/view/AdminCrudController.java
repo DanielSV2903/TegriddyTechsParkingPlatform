@@ -2,8 +2,11 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Administrator;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class AdminCrudController {
 
@@ -85,6 +88,10 @@ public class AdminCrudController {
 
     @FXML
     public void goBack(ActionEvent actionEvent) {
+        if (actionEvent != null && actionEvent.getSource() instanceof Node node) {
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+        }
     }
 
     @FXML
@@ -93,5 +100,11 @@ public class AdminCrudController {
 
     @FXML
     public void onClear(ActionEvent actionEvent) {
+        if (tfId != null) tfId.clear();
+        if (tfName != null) tfName.clear();
+        if (tfUsername != null) tfUsername.clear();
+        if (tfPassword != null) tfPassword.clear();
+        if (tfSearch != null) tfSearch.clear();
+        if (tableAdmins != null) tableAdmins.getItems().clear();
     }
 }
