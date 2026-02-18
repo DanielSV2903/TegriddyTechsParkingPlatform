@@ -14,16 +14,6 @@ public class Clerk extends User{
         this.parkingLot = parkingLot;
     }
 
-    @Override
-    public boolean verifyLogin(String userName, String password) {
-        boolean admited = false;
-        if (this.getUserName().equalsIgnoreCase(userName)
-                && this.getPassword().equals(password)) {
-            admited = true;
-        }
-        return admited;
-    }
-
 
     public ParkingLot getParkingLot() {
         return parkingLot;

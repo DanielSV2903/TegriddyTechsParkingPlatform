@@ -2,7 +2,7 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.ent
 
 import java.util.Objects;
 
-public abstract class User extends Person {
+public class User extends Person {
     private String userName;
     private String password;
     private UserRole userRole;
@@ -31,7 +31,6 @@ public abstract class User extends Person {
         this.password = password;
     }
 
-    public abstract boolean verifyLogin(String userName,String password);
 
     //GETTER Y SETTERS
 

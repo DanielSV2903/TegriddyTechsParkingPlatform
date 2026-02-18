@@ -71,7 +71,7 @@ public class ParkingSpaceCrudController {
                     String lower = newV == null ? "" : newV.toLowerCase();
                     filteredList.setPredicate(s -> {
                         if (lower.isBlank()) return true;
-                        return String.valueOf(s.getSpaceNumber()).contains(lower) || (s.getParkingLot() != null && s.getParkingLot().getParkingLotId().toLowerCase().contains(lower));
+                        return String.valueOf(s.getSpaceNumber()).contains(lower) || (s.getParkingLot() != null && String.valueOf(s.getParkingLot().getParkingLotId()).contains(lower));
                     });
                     updateRecordCount();
                 });
@@ -148,8 +148,8 @@ public class ParkingSpaceCrudController {
     }
 
     private ParkingLot loadLot() {
-        String lotId = CrudFormUtils.readRequired(tfLotId, "Espacios", "Id parqueadero");
-        if (lotId == null) {
+        int lotId = Integer.parseInt(CrudFormUtils.readRequired(tfLotId, "Espacios", "Id parqueadero"));
+        if (lotId == 0) {
             return null;
         }
         ParkingLot lot = mainMenuController.readParkingLotById(lotId);

@@ -1,6 +1,6 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.UserXmlRepository;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.UserXmlRepository;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
 import javafx.event.ActionEvent;
@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.jdom2.JDOMException;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -36,8 +37,12 @@ public class LoginController {
 
     @FXML
     private void login(ActionEvent event) {
-        userXmlRepository = new UserXmlRepository();
-        users = userXmlRepository.loadAll();
+        try {
+            userXmlRepository = new UserXmlRepository();
+        } catch (JDOMException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        users = userXmlRepository.findAll();
         String username = txtUsername.getText();
         String pass = txtPassword.getText();
         Object[] userInfo = userExists(username);
@@ -84,6 +89,10 @@ public class LoginController {
             }
 
             Parent root = loader.load();
+            Object controller = loader.getController();
+            if (controller instanceof MainMenuController mainMenuController) {
+                mainMenuController.setUser(actualUser);
+            }
             Node node = (Node) event.getSource();
             node.getScene().setRoot(root);
 

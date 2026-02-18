@@ -1,11 +1,12 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.DatabasePaths;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.UserData;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.UserXmlRepository;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.UserXmlRepository;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
-import javafx.collections.ObservableList;
+import org.jdom2.JDOMException;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 public class UserController {
@@ -13,34 +14,30 @@ public class UserController {
     private final UserData userData;
     private final UserXmlRepository xmlRepository;
 
-    public UserController() {
+    public UserController() throws IOException, JDOMException {
         this.userData = new UserData();
         this.xmlRepository = new UserXmlRepository();
-
-        List<User> usersFromXml = xmlRepository.loadAll();
+        List<User> usersFromXml = xmlRepository.findAll();
         this.userData.replaceAll(usersFromXml);
     }
 
-    public OperationResult addUser(User user) {
+    public OperationResult addUser(User user) throws IOException {
         userData.addUser(user);
-        persist();
         return OperationResult.success("Usuario creado correctamente");
     }
 
-    public OperationResult updateUser(User user) {
+    public OperationResult updateUser(User user) throws IOException {
         userData.update(user);
-        persist();
         return OperationResult.success("Usuario actualizado correctamente");
     }
 
-    public OperationResult deleteUser(User user) {
+    public OperationResult deleteUser(User user) throws IOException {
         userData.deleteUser(user);
-        persist();
         return OperationResult.success("Usuario eliminado correctamente");
     }
 
     public User findById(int id) {
-        return userData.findById(id);
+        return userData.findById(id).orElse(null);
     }
 
     public User findByUsername(String username) {
@@ -56,10 +53,6 @@ public class UserController {
     }
 
 
-
-    private void persist() {
-        xmlRepository.saveAll(userData.getAllUsers());
-    }
 
     public int getNextClerkIDByCount() {
         return userData.getNextClerkIDByCount();

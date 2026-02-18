@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.ParkingSpaceConfigDialogController">
+
+    <top>
+        <VBox spacing="10" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="12" right="12" bottom="0" left="12"/>
+            </padding>
+
+            <Label text="Configuración de espacios del lote"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+            <GridPane hgap="12" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="220"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <Label text="Total de espacios:"
+                       GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Spinner fx:id="spTotalSpaces" editable="true"
+                         GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <!-- 🔧 AQUÍ ESTABA EL ERROR -->
+                <Label text="Preferenciales (0–100):"
+                       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Spinner fx:id="spPreferentialPercent" editable="true"
+                         GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Preferenciales calculados:"
+                       GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label fx:id="lblPreferentialCount" text="0"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Suma por tipo:"
+                       GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <HBox spacing="10"
+                      GridPane.rowIndex="3" GridPane.columnIndex="1">
+                    <Label fx:id="lblSumByType" text="0"/>
+                    <Label text="| Restantes:"/>
+                    <Label fx:id="lblRemaining" text="0"/>
+                </HBox>
+
+                <Label fx:id="lblValidation"
+                       text=""
+                       style="-fx-text-fill: #b00020;"
+                       GridPane.rowIndex="4"
+                       GridPane.columnIndex="0"
+                       GridPane.columnSpan="2"/>
+            </GridPane>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12"/>
+            </padding>
+
+            <Label text="Espacios por tipo de vehículo:"
+                   style="-fx-font-weight: bold;"/>
+
+            <TableView fx:id="tblTypes" editable="true" prefHeight="280">
+                <columns>
+                    <TableColumn fx:id="colTypeName" text="Tipo" prefWidth="320"/>
+                    <TableColumn fx:id="colCount" text="Cantidad" prefWidth="140"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10">
+                <Button fx:id="btnAutoDistribute"
+                        text="Auto-distribuir restantes"
+                        onAction="#onAutoDistribute"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Cancelar" onAction="#onCancel"/>
+                <Button fx:id="btnApply"
+                        text="Aplicar"
+                        defaultButton="true"
+                        onAction="#onApply"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -25,6 +25,10 @@ public class Vehicle {
         this.ticket = ticket;
     }
 
+    public Vehicle(String vehiclePlate) {
+        this.plate = vehiclePlate;
+    }
+
     public String getLicensePlate() {
         return plate;
     }

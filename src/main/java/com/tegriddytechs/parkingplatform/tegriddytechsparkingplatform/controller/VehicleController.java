@@ -4,13 +4,16 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.PersistenceManager;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Vehicle;
+import org.jdom2.JDOMException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class VehicleController {
     private VehicleData vehicleData;
 
-    public VehicleController() {
-        this.vehicleData = new PersistenceManager().loadVehicleData();
+    public VehicleController() throws IOException, JDOMException {
+        this.vehicleData = new VehicleData();
     }
 
     public ArrayList<Vehicle> getAllVehicles() {
@@ -21,7 +24,7 @@ public class VehicleController {
         return vehicleData.findVehicleByLicensePlate(plate);
     }
 
-    public OperationResult registerVehicle(Vehicle vehicle) {
+    public OperationResult registerVehicle(Vehicle vehicle) throws IOException {
         if (vehicleData.findVehicleByLicensePlate(vehicle.getPlate()) != null) {
             return OperationResult.failure("Vehicle already exists");
         }
@@ -29,7 +32,7 @@ public class VehicleController {
         return OperationResult.success("Vehicle registered successfully");
     }
 
-    public OperationResult deleteVehicle(Vehicle vehicle) {
+    public OperationResult deleteVehicle(Vehicle vehicle) throws IOException {
         if (vehicleData.findVehicleByLicensePlate(vehicle.getPlate()) == null) {
             return OperationResult.failure("Vehicle not found");
         }
@@ -37,7 +40,7 @@ public class VehicleController {
         return OperationResult.success("Vehicle removed successfully");
     }
 
-    public OperationResult editVehicle(Vehicle vehicle) {
+    public OperationResult editVehicle(Vehicle vehicle) throws IOException {
         if (vehicleData.findVehicleByLicensePlate(vehicle.getPlate()) == null) {
             return OperationResult.failure("Vehicle not found");
         }

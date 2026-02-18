@@ -9,6 +9,9 @@ public class VehicleType {
     private double fee;
     private SpaceType spaceType;
 
+    public VehicleType() {
+    }
+
     public VehicleType(int id, String description, byte amountOfTyres, double fee, SpaceType spaceType) {
         this.id = id;
         this.description = description;

@@ -7,6 +7,7 @@ public class ParkingSpace {
     private SpaceType spaceType;
     private boolean preferential;
     private boolean state;
+    private Vehicle parkedVehicle;
     private transient ParkingLot parkingLot;
 
     public ParkingSpace() {
@@ -64,6 +65,25 @@ public class ParkingSpace {
         if (o == null || getClass() != o.getClass()) return false;
         ParkingSpace that = (ParkingSpace) o;
         return spaceNumber == that.spaceNumber && Objects.equals(spaceType, that.spaceType) && Objects.equals(parkingLot, that.parkingLot);
+    }
+    public Vehicle getParkedVehicle() {
+        return parkedVehicle;
+    }
+    public void setParkedVehicle(Vehicle parkedVehicle) {
+        this.parkedVehicle = parkedVehicle;
+    }
+    public void parkVehicle(Vehicle vehicle){
+        this.parkedVehicle = vehicle;
+        this.state = true;
+    }
+    public void removeVehicle(){
+        this.parkedVehicle = null;
+    }
+    public boolean isFree(){
+        return this.parkedVehicle == null&& this.state;
+    }
+    public boolean isParked(){
+        return this.parkedVehicle != null;
     }
 
     @Override

@@ -9,6 +9,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import org.jdom2.JDOMException;
+
+import java.io.IOException;
 
 public class TegriddyTechsParkingPlatformController {
 
@@ -25,10 +28,14 @@ public class TegriddyTechsParkingPlatformController {
     private UserData userData;
     @FXML
     private void initialize() {
-        userData = new UserData();
+        try {
+            userData = new UserData();
+        } catch (IOException | JDOMException e) {
+            throw new RuntimeException(e);
+        }
         cbRole.getItems().setAll(UserRole.values());
     }
-    public void insertOnAction(ActionEvent actionEvent) {
+    public void insertOnAction(ActionEvent actionEvent) throws IOException {
         int id = Integer.parseInt(tFid.getText());
         String userName = tfUserName.getText();
         String password = tfPassword.getText();

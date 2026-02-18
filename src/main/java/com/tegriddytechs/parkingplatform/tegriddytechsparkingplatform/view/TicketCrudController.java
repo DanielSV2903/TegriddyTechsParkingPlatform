@@ -4,6 +4,8 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.enti
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingSpace;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingTicket;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Rate;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -11,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
@@ -66,12 +69,12 @@ public class TicketCrudController {
     @FXML
     private void initialize() {
         try {
-            colTicketId.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("ticketId"));
-            colVehiclePlate.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getParkingSpace() != null && cell.getValue().getParkingSpace().getParkingLot() != null ? cell.getValue().getParkingSpace().getParkingLot().getParkingLotId() : ""));
-            colSpaceId.setCellValueFactory(cell -> new javafx.beans.property.SimpleObjectProperty<>(cell.getValue().getParkingSpace() != null ? cell.getValue().getParkingSpace().getSpaceNumber() : null));
-            colEntryDate.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("entryTime"));
-            colExitDate.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("exitTime"));
-            colAmount.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("rate"));
+            colTicketId.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
+            colVehiclePlate.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getParkingSpace() != null && cell.getValue().getParkingSpace().getParkingLot() != null ? String.valueOf(cell.getValue().getParkingSpace().getParkingLot().getParkingLotId()) : ""));
+            colSpaceId.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getParkingSpace() != null ? cell.getValue().getParkingSpace().getSpaceNumber() : null));
+            colEntryDate.setCellValueFactory(new PropertyValueFactory<>("entryTime"));
+            colExitDate.setCellValueFactory(new PropertyValueFactory<>("exitTime"));
+            colAmount.setCellValueFactory(new PropertyValueFactory<>("rate"));
 
             tableTickets.setItems(filteredList);
 
@@ -172,8 +175,8 @@ public class TicketCrudController {
     }
 
     private ParkingLot loadLot() {
-        String lotId = CrudFormUtils.readRequired(tfLotId, "Tickets", "Id parqueadero");
-        if (lotId == null) {
+        int lotId = Integer.parseInt(CrudFormUtils.readRequired(tfLotId, "Tickets", "Id parqueadero"));
+        if (lotId == 0) {
             return null;
         }
         ParkingLot lot = mainMenuController.readParkingLotById(lotId);

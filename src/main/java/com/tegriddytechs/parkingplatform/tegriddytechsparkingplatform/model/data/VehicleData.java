@@ -1,57 +1,85 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.VehicleXmlRepository;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Vehicle;
+import org.jdom2.JDOMException;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class VehicleData {
-    private ArrayList <Vehicle> vehicles;
-    private transient PersistenceManager persistenceManager;
+public class VehicleData extends VehicleXmlRepository {
 
-    public VehicleData() {
-        this.vehicles = new ArrayList<>();
-        this.persistenceManager = new PersistenceManager();
+    private final ArrayList<Vehicle> vehicles = new ArrayList<>();
+
+    public VehicleData() throws IOException, JDOMException {
+        super();
+        reload();
     }
-    public void save() {
-        try {
-            persistenceManager.saveVehicleData(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+    public void reload() {
+        vehicles.clear();
+        vehicles.addAll(super.findAll()); // XML -> cache
     }
-    public ArrayList <Vehicle> getAllVehicles() {
+
+    public ArrayList<Vehicle> getAllVehicles() {
         return vehicles;
     }
-    public Vehicle findVehicleByLicensePlate(String licensePlate) {
-        Vehicle vehicle=null;
-        for (Vehicle actualVehicle : vehicles) {
-            if (actualVehicle.getPlate().equals(licensePlate)) {
-                vehicle= actualVehicle;
+
+    public Vehicle findVehicleByLicensePlate(String plate) {
+        if (plate == null) return null;
+        for (Vehicle v : vehicles) {
+            if (v != null && plate.equalsIgnoreCase(v.getPlate())) {
+                return v;
             }
         }
-        return vehicle;
-    }
-    public void removeVehicle(Vehicle vehicle) {
-        this.vehicles.remove(vehicle);
-        save();
-    }
-    public void registerVehicle(Vehicle vehicle) {
-        this.vehicles.add(vehicle);//Agregar vehiculo a la lista
-        save();
+        return null;
     }
 
-    //TODO: Edit vehicle
-    /*
-        Este metodo recibe un vehiculo con las nuevas caracteristicas y busca el vehiculo existente por su placa
-        Importante: La placa no puede ser editada, ya que es el identificador unico del vehiculo
-        Si el vehiculo existe, se elimina de la lista el vehiculo existente y se agrega el vehiculo con las nuevas caracteristicas
-     */
-    public void editVehicle(Vehicle vehicle) {
-        Vehicle existingVehicle = findVehicleByLicensePlate(vehicle.getPlate());
-        if (existingVehicle != null) {
-            vehicles.remove(existingVehicle);//Aqui se quita de la lista el vehiculo existente, con las caracteristicas viejas
-            vehicles.add(vehicle);//Aqui se agrega el vehiculo con las nuevas caracteristicas
-            save();
+    // Opcional: exponer también el findAll del repo como cache
+    @Override
+    public List<Vehicle> findAll() {
+        return vehicles; // cache
+    }
+
+    public void registerVehicle(Vehicle vehicle) throws IOException {
+        if (vehicle == null) throw new IllegalArgumentException("vehicle cannot be null");
+
+        // XML primero
+        super.upsert(vehicle);
+
+        // cache después
+        Vehicle existing = findVehicleByLicensePlate(vehicle.getPlate());
+        if (existing != null) {
+            vehicles.remove(existing);
         }
+        vehicles.add(vehicle);
+    }
+
+    public void removeVehicle(Vehicle vehicle) throws IOException {
+        if (vehicle == null) return;
+
+        // XML primero
+        boolean deleted = super.delete(vehicle);
+        if (!deleted) return;
+
+        // cache después
+        Vehicle existing = findVehicleByLicensePlate(vehicle.getPlate());
+        if (existing != null) {
+            vehicles.remove(existing);
+        }
+    }
+
+    public void editVehicle(Vehicle vehicle) throws IOException {
+        if (vehicle == null) throw new IllegalArgumentException("vehicle cannot be null");
+
+        // Para editar, un upsert es suficiente (misma placa = mismo “ID” lógico)
+        super.upsert(vehicle);
+
+        Vehicle existing = findVehicleByLicensePlate(vehicle.getPlate());
+        if (existing != null) {
+            vehicles.remove(existing);
+        }
+        vehicles.add(vehicle);
     }
 }

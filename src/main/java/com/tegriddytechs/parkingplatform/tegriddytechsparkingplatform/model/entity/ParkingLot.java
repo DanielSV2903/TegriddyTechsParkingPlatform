@@ -7,32 +7,32 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ParkingLot {
-    private String parkingLotId;
+    private int parkingLotId;
     private String name;
     private boolean active;
-    private ArrayList<ParkingSpace> spaces;
+    private ParkingSpace[] spaces;
     private Administrator administrator;
 
     public ParkingLot() {
     }
 
-    public ParkingLot(String parkingLotId, String name) {
+    public ParkingLot(int parkingLotId, String name) {
         this.parkingLotId = parkingLotId;
         this.name = name;
         this.active = true;
     }
 
-    public ParkingLot(String parkingLotId, String name, Administrator administrator) {
+    public ParkingLot(int parkingLotId, String name, Administrator administrator) {
         this.parkingLotId = parkingLotId;
         this.name = name;
         this.administrator = administrator;
     }
 
-    public String getParkingLotId() {
+    public int getParkingLotId() {
         return parkingLotId;
     }
 
-    public void setParkingLotId(String parkingLotId) {
+    public void setParkingLotId(int parkingLotId) {
         this.parkingLotId = parkingLotId;
     }
 
@@ -52,11 +52,11 @@ public class ParkingLot {
         this.active = active;
     }
 
-    public ArrayList<ParkingSpace> getSpaces() {
+    public ParkingSpace[]  getSpaces() {
         return spaces;
     }
 
-    public void setSpaces(ArrayList<ParkingSpace> spaces) {
+    public void setSpaces(ParkingSpace[] spaces) {
         this.spaces = spaces;
     }
 

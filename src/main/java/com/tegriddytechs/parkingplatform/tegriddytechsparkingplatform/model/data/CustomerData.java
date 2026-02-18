@@ -1,54 +1,86 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.CustomerXmlRepository;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Customer;
+import org.jdom2.JDOMException;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-public class CustomerData {
-    private ArrayList <Customer> customers;
-    private transient PersistenceManager persistenceManager;
+public class CustomerData extends CustomerXmlRepository {
 
-    public CustomerData() {
-        this.persistenceManager = new PersistenceManager();
+    private final ArrayList<Customer> customers = new ArrayList<>();
+
+    public CustomerData() throws IOException, JDOMException {
+        super();
+        reload();
     }
-    public void save() {
-        try {
-            persistenceManager.saveCustomerData(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+    public void reload() {
+        customers.clear();
+        customers.addAll(super.findAll()); // carga desde XML al cache
     }
 
     public ArrayList<Customer> getAllCustomers() {
-        if (customers == null) {
-            customers = new ArrayList<>();
-        }
         return customers;
     }
 
     public Customer findCustomerById(int id) {
-        for (Customer c : getAllCustomers()) {
-            if (c.getId() == id) {
-                return c;
-            }
-        }
-        return null;
+        return findById(id).orElse(null);
     }
 
-    public boolean registerCustomer(Customer customer) {
-        if (findCustomerById(customer.getId()) != null) {
-            return false;
+    private Optional<Customer> findInCacheById(int id) {
+        for (Customer c : customers) {
+            if (c.getId() == id) return Optional.of(c);
         }
-        getAllCustomers().add(customer);
-        save();
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return customers; // cache
+    }
+
+    @Override
+    public Optional<Customer> findById(int id) {
+        return findInCacheById(id); // cache
+    }
+
+    @Override
+    public void upsert(Customer customer) throws IOException {
+        if (customer == null) throw new IllegalArgumentException("customer cannot be null");
+
+        super.upsert(customer);
+
+        // actualizar cache
+        findInCacheById(customer.getId()).ifPresent(customers::remove);
+        customers.add(customer);
+    }
+
+    @Override
+    public boolean deleteById(int id) throws IOException {
+        boolean deleted = super.deleteById(id); // XML primero
+        if (!deleted) return false;
+
+        findInCacheById(id).ifPresent(customers::remove);
         return true;
     }
 
-    public boolean deleteCustomer(Customer customer) {
-        boolean removed = getAllCustomers().remove(customer);
-        if (removed) {
-            save();
-        }
-        return removed;
+    @Override
+    public boolean delete(Customer customer) throws IOException {
+        if (customer == null) return false;
+        return deleteById(customer.getId());
+    }
+
+    public boolean registerCustomer(Customer customer) throws IOException {
+        if (findCustomerById(customer.getId()) != null) return false;
+        upsert(customer);
+        return true;
+    }
+
+    public boolean deleteCustomer(Customer customer) throws IOException {
+        return delete(customer);
     }
 }

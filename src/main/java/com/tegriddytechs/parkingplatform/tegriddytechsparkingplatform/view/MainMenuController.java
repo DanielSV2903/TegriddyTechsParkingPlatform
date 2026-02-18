@@ -6,6 +6,7 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.VehicleController;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.ParkingSpaceData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
+import javafx.beans.binding.BooleanExpression;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.jdom2.JDOMException;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -26,16 +28,26 @@ import java.util.function.Supplier;
 
 public class MainMenuController {
 
-    private final UserController userController = new UserController();
-    private final CustomerController customerController = new CustomerController();
-    private final ParkingLotController parkingLotController = new ParkingLotController();
-    private final VehicleController vehicleController = new VehicleController();
+    private UserController userController;
+    private CustomerController customerController;
+    private  ParkingLotController parkingLotController;
+    private VehicleController vehicleController;
     private final ParkingSpaceData parkingSpaceData = new ParkingSpaceData();
     private final ArrayList<Rate> rates = new ArrayList<>();
     private final ArrayList<ParkingTicket> tickets = new ArrayList<>();
+    private User user;
 
     @FXML
     private void initialize() {
+        try {
+            userController = new UserController();
+            customerController=new CustomerController();
+            vehicleController = new VehicleController();
+            parkingLotController = new ParkingLotController();
+        } catch (IOException | JDOMException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Deprecated
@@ -127,7 +139,11 @@ public class MainMenuController {
     }
 
     public OperationResult createUser(User user) {
-        return userController.addUser(user);
+        try {
+            return userController.addUser(user);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public User readUserById(int id) {
@@ -135,15 +151,27 @@ public class MainMenuController {
     }
 
     public OperationResult updateUser(User user) {
-        return userController.updateUser(user);
+        try {
+            return userController.updateUser(user);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult deleteUser(User user) {
-        return userController.deleteUser(user);
+        try {
+            return userController.deleteUser(user);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult createAdministrator(Administrator admin) {
-        return userController.addUser(admin);
+        try {
+            return userController.addUser(admin);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Administrator readAdministratorById(int id) {
@@ -152,15 +180,27 @@ public class MainMenuController {
     }
 
     public OperationResult updateAdministrator(Administrator admin) {
-        return userController.updateUser(admin);
+        try {
+            return userController.updateUser(admin);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult deleteAdministrator(Administrator admin) {
-        return userController.deleteUser(admin);
+        try {
+            return userController.deleteUser(admin);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult createClerk(Clerk clerk) {
-        return userController.addUser(clerk);
+        try {
+            return userController.addUser(clerk);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Clerk readClerkById(int id) {
@@ -169,15 +209,27 @@ public class MainMenuController {
     }
 
     public OperationResult updateClerk(Clerk clerk) {
-        return userController.updateUser(clerk);
+        try {
+            return userController.updateUser(clerk);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult deleteClerk(Clerk clerk) {
-        return userController.deleteUser(clerk);
+        try {
+            return userController.deleteUser(clerk);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult createCustomer(Customer customer) {
-        return customerController.registerCustomer(customer);
+        try {
+            return customerController.registerCustomer(customer);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Customer readCustomerById(int id) {
@@ -189,33 +241,57 @@ public class MainMenuController {
         if (existing == null) {
             return OperationResult.failure("Customer not found");
         }
-        customerController.deleteCustomer(existing);
-        customerController.registerCustomer(customer);
+        try {
+            customerController.deleteCustomer(existing);
+            customerController.registerCustomer(customer);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return OperationResult.success("Customer updated successfully");
     }
 
     public OperationResult deleteCustomer(Customer customer) {
-        return customerController.deleteCustomer(customer);
+        try {
+            return customerController.deleteCustomer(customer);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult createParkingLot(ParkingLot parkingLot) {
-        return parkingLotController.registerParkingLot(parkingLot);
+        try {
+            return parkingLotController.registerParkingLot(parkingLot);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public ParkingLot readParkingLotById(String id) {
+    public ParkingLot readParkingLotById(int id) {
         return parkingLotController.findParkingLotById(id);
     }
 
     public OperationResult updateParkingLot(ParkingLot parkingLot) {
-        return parkingLotController.editParkingLot(parkingLot);
+        try {
+            return parkingLotController.editParkingLot(parkingLot);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult deleteParkingLot(ParkingLot parkingLot) {
-        return parkingLotController.deleteParkingLot(parkingLot);
+        try {
+            return parkingLotController.deleteParkingLot(parkingLot);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult createVehicle(Vehicle vehicle) {
-        return vehicleController.registerVehicle(vehicle);
+        try {
+            return vehicleController.registerVehicle(vehicle);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Vehicle readVehicleByPlate(String plate) {
@@ -223,11 +299,19 @@ public class MainMenuController {
     }
 
     public OperationResult updateVehicle(Vehicle vehicle) {
-        return vehicleController.editVehicle(vehicle);
+        try {
+            return vehicleController.editVehicle(vehicle);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OperationResult deleteVehicle(Vehicle vehicle) {
-        return vehicleController.deleteVehicle(vehicle);
+        try {
+            return vehicleController.deleteVehicle(vehicle);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void openCrudWindow(String fxml, String title, Supplier<Object> controllerSupplier) {
@@ -451,9 +535,9 @@ public class MainMenuController {
     }
 
     private void handleCreateParkingLot() {
-        String id = promptText("Parqueaderos", "Crear parqueadero", "Id");
+        int id = Integer.parseInt(promptText("Parqueaderos", "Crear parqueadero", "Id"));
         String name = promptText("Parqueaderos", "Crear parqueadero", "Nombre");
-        if (id == null || name == null) {
+        if (id == 0 || name == null) {
             return;
         }
         ParkingLot lot = new ParkingLot(id, name);
@@ -461,8 +545,8 @@ public class MainMenuController {
     }
 
     private void handleReadParkingLot() {
-        String id = promptText("Parqueaderos", "Consultar parqueadero", "Id");
-        if (id == null) {
+        int id = Integer.parseInt(promptText("Parqueaderos", "Consultar parqueadero", "Id"));
+        if (id == 0) {
             return;
         }
         ParkingLot lot = readParkingLotById(id);
@@ -470,10 +554,10 @@ public class MainMenuController {
     }
 
     private void handleUpdateParkingLot() {
-        String id = promptText("Parqueaderos", "Actualizar parqueadero", "Id");
+        int id = Integer.parseInt(promptText("Parqueaderos", "Actualizar parqueadero", "Id"));
         String name = promptText("Parqueaderos", "Actualizar parqueadero", "Nombre");
         Boolean active = promptBoolean("Parqueaderos", "Actualizar parqueadero", "Activo");
-        if (id == null || name == null || active == null) {
+        if (id == 0 || name == null || active == null) {
             return;
         }
         ParkingLot lot = new ParkingLot(id, name);
@@ -482,8 +566,8 @@ public class MainMenuController {
     }
 
     private void handleDeleteParkingLot() {
-        String id = promptText("Parqueaderos", "Eliminar parqueadero", "Id");
-        if (id == null) {
+        int id = Integer.parseInt(promptText("Parqueaderos", "Eliminar parqueadero", "Id"));
+        if (id == 0) {
             return;
         }
         ParkingLot lot = readParkingLotById(id);
@@ -495,12 +579,12 @@ public class MainMenuController {
     }
 
     private void handleCreateParkingSpace() {
-        String lotId = promptText("Espacios", "Crear espacio", "Id parqueadero");
+        int lotId = Integer.parseInt(promptText("Espacios", "Crear espacio", "Id parqueadero"));
         Integer number = promptInt("Espacios", "Crear espacio", "Numero");
         SpaceType type = promptChoice("Espacios", "Crear espacio", "Tipo", SpaceType.values());
         Boolean preferential = promptBoolean("Espacios", "Crear espacio", "Preferencial");
         Boolean state = promptBoolean("Espacios", "Crear espacio", "Disponible");
-        if (lotId == null || number == null || type == null || preferential == null || state == null) {
+        if (lotId == 0 || number == null || type == null || preferential == null || state == null) {
             return;
         }
         ParkingLot lot = parkingLotController.findParkingLotById(lotId);
@@ -514,9 +598,9 @@ public class MainMenuController {
     }
 
     private void handleReadParkingSpace() {
-        String lotId = promptText("Espacios", "Consultar espacio", "Id parqueadero");
+        int lotId = Integer.parseInt(promptText("Espacios", "Consultar espacio", "Id parqueadero"));
         Integer number = promptInt("Espacios", "Consultar espacio", "Numero");
-        if (lotId == null || number == null) {
+        if (lotId == 0 || number == null) {
             return;
         }
         ParkingLot lot = parkingLotController.findParkingLotById(lotId);
@@ -529,12 +613,12 @@ public class MainMenuController {
     }
 
     private void handleUpdateParkingSpace() {
-        String lotId = promptText("Espacios", "Actualizar espacio", "Id parqueadero");
+        int lotId = Integer.parseInt(promptText("Espacios", "Actualizar espacio", "Id parqueadero"));
         Integer number = promptInt("Espacios", "Actualizar espacio", "Numero");
         SpaceType type = promptChoice("Espacios", "Actualizar espacio", "Tipo", SpaceType.values());
         Boolean preferential = promptBoolean("Espacios", "Actualizar espacio", "Preferencial");
         Boolean state = promptBoolean("Espacios", "Actualizar espacio", "Disponible");
-        if (lotId == null || number == null || type == null || preferential == null || state == null) {
+        if (lotId == 0 || number == null || type == null || preferential == null || state == null) {
             return;
         }
         ParkingLot lot = parkingLotController.findParkingLotById(lotId);
@@ -548,9 +632,9 @@ public class MainMenuController {
     }
 
     private void handleDeleteParkingSpace() {
-        String lotId = promptText("Espacios", "Eliminar espacio", "Id parqueadero");
+        int lotId = Integer.parseInt(promptText("Espacios", "Eliminar espacio", "Id parqueadero"));
         Integer number = promptInt("Espacios", "Eliminar espacio", "Numero");
-        if (lotId == null || number == null) {
+        if (lotId == 0 || number == null) {
             return;
         }
         ParkingLot lot = parkingLotController.findParkingLotById(lotId);
@@ -624,10 +708,10 @@ public class MainMenuController {
 
     private void handleCreateTicket() {
         String ticketId = promptText("Tickets", "Crear ticket", "Id");
-        String lotId = promptText("Tickets", "Crear ticket", "Id parqueadero");
+        int lotId = Integer.parseInt(promptText("Tickets", "Crear ticket", "Id parqueadero"));
         Integer spaceNumber = promptInt("Tickets", "Crear ticket", "Numero espacio");
         Integer rateId = promptInt("Tickets", "Crear ticket", "Id tarifa");
-        if (ticketId == null || lotId == null || spaceNumber == null || rateId == null) {
+        if (ticketId == null || lotId == 0 || spaceNumber == null || rateId == null) {
             return;
         }
         ParkingLot lot = parkingLotController.findParkingLotById(lotId);
@@ -1022,6 +1106,14 @@ public class MainMenuController {
         }
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public UserController getUserController() {
         return userController;
     }
@@ -1029,5 +1121,16 @@ public class MainMenuController {
     @Deprecated
     public void logOutOnAction(ActionEvent actionEvent) {
         logOut(actionEvent);
+    }
+
+    public int calculatePreferentialSpaces(ParkingSpace[] spaces) {
+        int count = 0;
+        if (spaces == null) return count;
+        for (int i = 0; i < spaces.length; i++) {
+            ParkingSpace space = spaces[i];
+            if (space.isPreferential())
+                count++;
+        }
+        return count;
     }
 }

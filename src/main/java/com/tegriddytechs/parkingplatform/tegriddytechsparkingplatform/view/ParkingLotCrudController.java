@@ -1,14 +1,27 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.VehicleTypeController;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import javax.swing.*;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 
 public class ParkingLotCrudController {
 
@@ -19,12 +32,6 @@ public class ParkingLotCrudController {
     @FXML
     private TextField tfName;
     @FXML
-    private CheckBox cbActive;
-    @FXML
-    private TextField tfAddress;
-    @FXML
-    private TextField tfCapacity;
-    @FXML
     private TextField tfSearch;
     @FXML
     private TableView<ParkingLot> tableParkingLots;
@@ -33,14 +40,20 @@ public class ParkingLotCrudController {
     @FXML
     private TableColumn<ParkingLot, String> colName;
     @FXML
-    private TableColumn<ParkingLot, String> colAddress;
-    @FXML
     private TableColumn<ParkingLot, Integer> colCapacity;
     @FXML
     private Label lblTotalRecords;
+    private ParkingSpace [] spaces;
 
     private ObservableList<ParkingLot> masterList = FXCollections.observableArrayList();
     private FilteredList<ParkingLot> filteredList = new FilteredList<>(masterList, p -> true);
+    private Administrator administrator;
+    @FXML
+    private CheckBox cbActive;
+    @FXML
+    private Label lblAdmin;
+    @FXML
+    private TableColumn<ParkingLot,Integer> colPreferenciales;
 
     public ParkingLotCrudController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
@@ -49,10 +62,10 @@ public class ParkingLotCrudController {
     @FXML
     private void initialize() {
         try {
-            colId.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("parkingLotId"));
-            colName.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("name"));
-            colAddress.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("address"));
-            colCapacity.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("capacity"));
+            colId.setCellValueFactory(new PropertyValueFactory<>("parkingLotId"));
+            colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+//            colPreferenciales.setCellValueFactory(cell-> new SimpleIntegerProperty(mainMenuController.calculatePreferentialSpaces(cell.getValue().getSpaces())).asObject());
+            colCapacity.setCellValueFactory(cell-> new SimpleIntegerProperty(cell.getValue().getSpaces().length).asObject());
 
             tableParkingLots.setItems(filteredList);
 
@@ -61,7 +74,7 @@ public class ParkingLotCrudController {
                     String lower = newV == null ? "" : newV.toLowerCase();
                     filteredList.setPredicate(l -> {
                         if (lower.isBlank()) return true;
-                        return (l.getParkingLotId() != null && l.getParkingLotId().toLowerCase().contains(lower))
+                        return (l.getParkingLotId() != 0 && String.valueOf(l.getParkingLotId()).toLowerCase().contains(lower))
                                 || (l.getName() != null && l.getName().toLowerCase().contains(lower));
                     });
                     updateRecordCount();
@@ -85,20 +98,21 @@ public class ParkingLotCrudController {
 
     @FXML
     private void onCreate(ActionEvent actionEvent) {
-        String id = CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id");
+        int id = Integer.parseInt(CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id"));
         String name = CrudFormUtils.readRequired(tfName, "Parqueaderos", "Nombre");
-        if (id == null || name == null) {
+        if (id == 0 || name == null) {
             return;
         }
         ParkingLot lot = new ParkingLot(id, name);
-        lot.setActive(cbActive.isSelected());
+        lot.setActive(true);
+        lot.setAdministrator(administrator);
         CrudAlertHelper.showResult("Parqueaderos", mainMenuController.createParkingLot(lot));
     }
 
-    @FXML
+    @Deprecated
     private void onRead(ActionEvent actionEvent) {
-        String id = CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id");
-        if (id == null) {
+        int id = Integer.parseInt(CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id"));
+        if (id == 0) {
             return;
         }
         ParkingLot lot = mainMenuController.readParkingLotById(id);
@@ -107,9 +121,9 @@ public class ParkingLotCrudController {
 
     @FXML
     private void onUpdate(ActionEvent actionEvent) {
-        String id = CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id");
+        int id = Integer.parseInt(CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id"));
         String name = CrudFormUtils.readRequired(tfName, "Parqueaderos", "Nombre");
-        if (id == null || name == null) {
+        if (id == 0 || name == null) {
             return;
         }
         ParkingLot lot = new ParkingLot(id, name);
@@ -119,8 +133,8 @@ public class ParkingLotCrudController {
 
     @FXML
     private void onDelete(ActionEvent actionEvent) {
-        String id = CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id");
-        if (id == null) {
+        int id = Integer.parseInt(CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id"));
+        if (id == 0) {
             return;
         }
         ParkingLot lot = mainMenuController.readParkingLotById(id);
@@ -148,8 +162,153 @@ public class ParkingLotCrudController {
     public void onClear(ActionEvent actionEvent) {
         if (tfId != null) tfId.clear();
         if (tfName != null) tfName.clear();
-        if (tfAddress != null) tfAddress.clear();
-        if (tfCapacity != null) tfCapacity.clear();
         if (cbActive != null) cbActive.setSelected(false);
+    }
+
+    @FXML
+    public void selectAdminOnAction(ActionEvent actionEvent) {
+        try {
+            List<Administrator> administrators = mainMenuController.getUserController().getAdmins();
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/tegriddytechsparkingplatform/adminSelectionAlert.fxml")
+            );
+            Parent root = loader.load();
+
+            AdminSelectDialogController controller = loader.getController();
+            controller.setAdministrators(administrators);
+
+            Stage dialog = new Stage();
+            dialog.setTitle("Seleccionar administrador");
+            dialog.initModality(Modality.APPLICATION_MODAL);
+
+            // Si quieres que el diálogo quede "pegado" a la ventana actual:
+            if (actionEvent != null && actionEvent.getSource() instanceof Node node) {
+                dialog.initOwner(node.getScene().getWindow());
+            }
+
+            dialog.setScene(new Scene(root));
+            dialog.setResizable(false);
+            dialog.showAndWait();
+
+            Administrator selected = controller.getSelected();
+            if (selected != null) {
+                this.administrator = selected;
+                lblAdmin.setText("Administrador: " + selected.getName());
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+   @FXML
+    public void configParkingSpacesOnAction(ActionEvent actionEvent) {
+           // 1) Si hay selección, trabajamos sobre ese lote.
+           ParkingLot selectedLot = tableParkingLots != null ? tableParkingLots.getSelectionModel().getSelectedItem() : null;
+
+           // 2) Si no hay selección (incluye caso tabla vacía), intentamos crear un lote nuevo desde el formulario.
+           boolean creatingNewLot = false;
+           ParkingLot targetLot = selectedLot;
+
+           if (targetLot == null) {
+               String rawId = tfId != null ? tfId.getText() : null;
+               String rawName = tfName != null ? tfName.getText() : null;
+
+               if (rawId == null || rawId.trim().isEmpty() || rawName == null || rawName.trim().isEmpty()) {
+                   new Alert(
+                           Alert.AlertType.WARNING,
+                           "No hay parqueaderos para seleccionar.\n" +
+                                   "Para configurar espacios primero, completa al menos Id y Nombre del parqueadero.",
+                           ButtonType.OK
+                   ).showAndWait();
+                   return;
+               }
+
+               int id;
+               try {
+                   id = Integer.parseInt(rawId.trim());
+               } catch (NumberFormatException ex) {
+                   new Alert(Alert.AlertType.WARNING, "Id inválido: " + rawId, ButtonType.OK).showAndWait();
+                   return;
+               }
+
+               targetLot = new ParkingLot(id, rawName.trim());
+               // Si tienes más campos del lote (dirección/capacidad/etc.), setéalos aquí también.
+               targetLot.setActive(true);
+               targetLot.setAdministrator(administrator);
+
+               creatingNewLot = true;
+           }
+
+           try {
+               // 3) Cargar tipos de vehículo (desde tu “BD” / XML)
+               VehicleTypeController vehicleTypeController = new VehicleTypeController();
+               List<VehicleType> vehicleTypes = vehicleTypeController.getPredefinedVehicleTypes(); // ajusta el nombre si difiere
+
+               if (vehicleTypes == null || vehicleTypes.isEmpty()) {
+                   new Alert(
+                           Alert.AlertType.WARNING,
+                           "No hay tipos de vehículo registrados. Primero registra tipos de vehículo para poder configurar espacios.",
+                           ButtonType.OK
+                   ).showAndWait();
+                   return;
+               }
+
+               // 4) Cargar FXML del diálogo (path exacto)
+               URL fxmlUrl = getClass().getResource("/tegriddytechsparkingplatform/space-config-dialog.fxml");
+               if (fxmlUrl == null) {
+                   throw new IOException("FXML not found: /tegriddytechsparkingplatform/space-config-dialog.fxml");
+               }
+
+               FXMLLoader loader = new FXMLLoader(fxmlUrl);
+               Parent root = loader.load();
+
+               ParkingSpaceConfigDialogController controller = loader.getController();
+               controller.init(targetLot, vehicleTypes);
+
+               // 5) Mostrar como modal
+               Stage dialog = new Stage();
+               dialog.setTitle("Configurar espacios - " + targetLot.getName());
+               dialog.initModality(Modality.APPLICATION_MODAL);
+               if (actionEvent != null && actionEvent.getSource() instanceof Node node) {
+                   dialog.initOwner(node.getScene().getWindow());
+               }
+               dialog.setScene(new Scene(root));
+               dialog.setResizable(false);
+
+               dialog.showAndWait();
+
+               // 6) Si aplicó, guardar configuración en el lote y persistir
+               if (controller.isApplied()) {
+                   ParkingSpace[] spaces = controller.getResultSpaces();
+                   targetLot.setSpaces(spaces);
+
+                   if (creatingNewLot) {
+                       CrudAlertHelper.showResult("Parqueaderos", mainMenuController.createParkingLot(targetLot));
+                   } else {
+                       CrudAlertHelper.showResult("Parqueaderos", mainMenuController.updateParkingLot(targetLot));
+                   }
+
+                   loadData(); // refresca tabla
+               }
+           } catch (Exception ex) {
+               ex.printStackTrace();
+               new Alert(Alert.AlertType.ERROR, "No se pudo abrir la configuración de espacios: " + ex.getMessage(), ButtonType.OK).showAndWait();
+           }
+       }
+    private void fillFields() {
+        ParkingLot lot= tableParkingLots.getSelectionModel().getSelectedItem();
+        tfId.setText(String.valueOf(lot.getParkingLotId()));
+        tfName.setText(lot.getName());
+        administrator=lot.getAdministrator();
+        cbActive.setSelected(lot.isActive());
+        spaces=lot.getSpaces();
+        lblAdmin.setText("Administrador: " + administrator.getName());
+    }
+
+    @FXML
+    public void fillFieldsOnAction(Event event) {
+        fillFields();
     }
 }

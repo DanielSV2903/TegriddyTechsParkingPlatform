@@ -8,11 +8,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.jdom2.JDOMException;
+
+import java.io.IOException;
 
 public class UserCrudControllerImproved {
 
     private final MainMenuController mainMenuController;
-    private final UserController userController;
+    private UserController userController;
     private ObservableList<User> userList;
     private ObservableList<User> filteredList;
 
@@ -43,11 +46,15 @@ public class UserCrudControllerImproved {
 
     public UserCrudControllerImproved(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
-        this.userController = new UserController();
     }
 
     @FXML
     private void initialize() {
+        try {
+            this.userController = new UserController();
+        } catch (IOException | JDOMException e) {
+            throw new RuntimeException(e);
+        }
         // Configurar ComboBox de roles
         cbRole.getItems().setAll(UserRole.values());
         

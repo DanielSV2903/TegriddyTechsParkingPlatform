@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parkingLots>
+  <parkingLot parkingLotId="1">
+    <name>UCR</name>
+    <active>true</active>
+    <adminId>1</adminId>
+    <size>20</size>
+  </parkingLot>
+</parkingLots>

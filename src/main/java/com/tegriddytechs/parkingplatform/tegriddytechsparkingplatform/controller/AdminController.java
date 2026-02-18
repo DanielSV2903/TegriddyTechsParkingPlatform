@@ -6,6 +6,7 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.enti
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Rate;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
 
+import java.io.IOException;
 import java.lang.ref.PhantomReference;
 
 public class AdminController {
@@ -16,12 +17,12 @@ public class AdminController {
         this.currentUser = currentUser;
     }
 
-    public OperationResult createUser(User user, UserController userController) {
+    public OperationResult createUser(User user, UserController userController) throws IOException {
         userController.addUser(user);
         return OperationResult.success("User created");
     }
 
-    public OperationResult createParkingLot(ParkingLot lot) {
+    public OperationResult createParkingLot(ParkingLot lot) throws IOException {
         parkingLotData.registerParkingLot(lot);
         return OperationResult.success("Parking lot created");
     }
