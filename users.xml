@@ -12,4 +12,18 @@
     <password>dsv</password>
     <role>ADMIN</role>
   </user>
+  <user>
+    <id>1</id>
+    <name>Jerome T</name>
+    <username>clerk1</username>
+    <password>clerk1</password>
+    <role>CLERK</role>
+  </user>
+  <user>
+    <id>3</id>
+    <name>Charlie Charlie</name>
+    <username>charlieC</username>
+    <password>charlie</password>
+    <role>CLERK</role>
+  </user>
 </users>
