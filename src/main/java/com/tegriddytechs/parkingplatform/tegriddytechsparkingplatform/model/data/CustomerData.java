@@ -83,7 +83,7 @@ public class CustomerData extends CustomerXmlRepository {
 
     public boolean registerCustomer(Customer customer) throws IOException {
         if (findCustomerById(customer.getId()) != null) return false;
-        this.update(customer);
+        this.insert(customer);
         return true;
     }
 

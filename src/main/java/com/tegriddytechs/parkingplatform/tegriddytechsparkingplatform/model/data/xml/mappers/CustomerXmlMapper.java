@@ -41,7 +41,7 @@ public class CustomerXmlMapper implements XmlEntityMapper< Customer> {
         e.addContent(new Element(NAME_ATTRIBUTE).setText(entity.getName()));
         e.addContent(new Element(DISABILITY_ATTRIBUTE).setText(entity.isDisability() ? "true" : "false"));
 //        e.addContent(new Element(AGE_ATTRIBUTE).setText(String.valueOf(entity.getAge())));
-        e.addContent(new Element(VEHICLE_ID_ATTRIBUTE).setText(entity.getVehicle().getPlate()));
+        e.addContent(new Element(VEHICLE_ID_ATTRIBUTE).setText(entity.getVehicle()!=null?entity.getVehicle().getPlate():""));
         return e;
     }
 
