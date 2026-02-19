@@ -63,13 +63,13 @@ public class UserData extends UserXmlRepository {
 
     public void replaceAll(List<User> newUsers) throws IOException {
         // Si quieres que "replaceAll" también se refleje en XML,
-        // se necesita una estrategia de sync (borrado+upsert).
-        // Por ahora: recargar y luego upsert de cada uno.
+        // se necesita una estrategia de sync (borrado+update).
+        // Por ahora: recargar y luego update de cada uno.
         users.clear();
         if (newUsers != null) users.addAll(newUsers);
 
         for (User u : users) {
-            super.upsert(u); // XML primero por cada elemento
+            super.update(u); // XML primero por cada elemento
         }
     }
 
@@ -84,11 +84,21 @@ public class UserData extends UserXmlRepository {
     }
 
     @Override
-    public void upsert(User user) throws IOException {
+    public void insert(User user) throws IOException {
         if (user == null) throw new IllegalArgumentException("user cannot be null");
+        User existing = findByIdFast(user.getId());
+        if (existing == null) {
+            super.insert(user);
+            users.add(user);
+        } else {
+            throw new IllegalArgumentException("User with id " + user.getId() + " already exists");
+        }
+    }
 
-        super.upsert(user); // XML primero
-
+    @Override
+    public void update(User user) throws IOException {
+        if (user == null) throw new IllegalArgumentException("user cannot be null");
+        super.update(user);
         User existing = findByIdFast(user.getId());
         if (existing != null) users.remove(existing);
         users.add(user);
@@ -112,15 +122,15 @@ public class UserData extends UserXmlRepository {
 
 //Para controller
     public void addUser(User user) throws IOException {
-        upsert(user);
+        this.update(user);
     }
 
     public void deleteUser(User user) throws IOException {
         delete(user);
     }
 
-    public void update(User user) throws IOException {
-        upsert(user);
+    public void updateUser(User user) throws IOException {
+        this.update(user);
     }
 
 

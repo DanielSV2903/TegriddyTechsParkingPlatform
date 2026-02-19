@@ -37,4 +37,11 @@ public class CustomerController {
             return OperationResult.success("Customer removed successfully");
 
     }
+    public OperationResult updateCustomer(Customer customer) throws IOException {
+        if (customerData.findCustomerById(customer.getId()) == null) {
+            return OperationResult.failure("Customer not found");
+        }
+        customerData.update(customer);
+        return OperationResult.success("Customer updated successfully");
+    }
 }

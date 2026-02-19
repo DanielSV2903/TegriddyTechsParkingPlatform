@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -152,6 +153,8 @@ public class RateCrudController {
             loadData();
         } catch (NumberFormatException ex) {
             showAlert("Error", "Valores numéricos inválidos", Alert.AlertType.ERROR);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -181,6 +184,8 @@ public class RateCrudController {
             loadData();
         } catch (NumberFormatException ex) {
             showAlert("Error", "Valores numéricos inválidos", Alert.AlertType.ERROR);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -198,6 +203,8 @@ public class RateCrudController {
             loadData();
         } catch (NumberFormatException ex) {
             showAlert("Error", "Id inválido", Alert.AlertType.ERROR);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

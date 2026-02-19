@@ -29,8 +29,13 @@ public class ParkingLotXmlRepository implements DataRepository<ParkingLot>{
     }
 
     @Override
-    public void upsert(ParkingLot lot) throws IOException {
-        xml.upsert(lot);
+    public void update(ParkingLot lot) throws IOException {
+        xml.update(lot);
+    }
+
+    @Override
+    public void insert(ParkingLot lot) throws IOException {
+        xml.insert(lot);
     }
 
     @Override

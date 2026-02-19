@@ -1,5 +1,6 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.DataRepository;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Customer;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -19,9 +20,7 @@ import java.util.Optional;
 TODO
 Handles the persistence of data to and from XML files (generic).
  */
-public class PersistenceXMLManager<T> implements PersistenceOperations<T> {
-
-
+public class PersistenceXMLManager<T> implements PersistenceOperations<T>, DataRepository<T> {
     private final String filePath;
     private final Element root;
     private final Document document;
@@ -79,6 +78,12 @@ public class PersistenceXMLManager<T> implements PersistenceOperations<T> {
         }
         return Optional.empty();
     }
+
+    @Override
+    public List<T> findAll() {
+        return load();
+    }
+
     public Optional<T> findById(int id) {
         Optional<T> result = Optional.empty();
         for (Element child : root.getChildren(mapper.elementName())) {
@@ -90,7 +95,25 @@ public class PersistenceXMLManager<T> implements PersistenceOperations<T> {
         return result;
     }
 
-    public void upsert(T entity) throws IOException {
+    @Override
+    public void insert(T entity) throws IOException {
+        String id = mapper.getId(entity);
+        if (id == null) throw new IllegalArgumentException("Entity id cannot be null");
+
+        // buscar existente
+        List<Element> children = root.getChildren(mapper.elementName());
+        for (Element existing : children) {
+            String storedId = existing.getAttributeValue(mapper.idAttributeName());
+            if (id.equals(storedId)) {
+                throw new IllegalArgumentException("Entity with id " + id + " already exists");
+            }
+        }
+        // insertar nuevo
+        root.addContent(mapper.toElement(entity));
+        save();
+    }
+    @Override
+    public void update(T entity) throws IOException {
         String id = mapper.getId(entity);
         if (id == null) throw new IllegalArgumentException("Entity id cannot be null");
 
@@ -106,10 +129,7 @@ public class PersistenceXMLManager<T> implements PersistenceOperations<T> {
                 return;
             }
         }
-
-        // insertar nuevo
-        root.addContent(mapper.toElement(entity));
-        save();
+        throw new IllegalArgumentException("Entity with id " + id + " not found");
     }
 
     public boolean deleteById(String id) throws IOException {
@@ -128,6 +148,7 @@ public class PersistenceXMLManager<T> implements PersistenceOperations<T> {
         return false;
     }
 
+    @Override
     public boolean deleteById(int id) throws IOException {
         boolean flag = false;
         List<Element> children = root.getChildren(mapper.elementName());
@@ -142,7 +163,7 @@ public class PersistenceXMLManager<T> implements PersistenceOperations<T> {
         }
         return flag;
     }
-
+    @Override
     public boolean delete(T entity) throws IOException {
         String id = mapper.getId(entity);
         if (id == null) return false;

@@ -27,9 +27,15 @@ public class VehicleXmlRepository implements DataRepository<Vehicle>{
         return xmlManager.findById(id);
     }
 
+
     @Override
-    public void upsert(Vehicle vehicle) throws IOException {
-        xmlManager.upsert(vehicle);
+    public void insert(Vehicle vehicle) throws IOException {
+        xmlManager.insert(vehicle);
+    }
+
+    @Override
+    public void update(Vehicle vehicle) throws IOException {
+        xmlManager.update(vehicle);
     }
 
     @Override

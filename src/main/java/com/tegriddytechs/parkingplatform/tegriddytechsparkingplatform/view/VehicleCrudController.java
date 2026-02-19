@@ -114,8 +114,7 @@ public class VehicleCrudController {
             return;
         }
 
-        RateData rateData = new RateData();
-        Rate rate = rateData.findBySpaceType(spaceType);
+         Rate rate = mainMenuController.getRateController().findBySpaceType(spaceType);
 
         if (rate == null) {
             CrudAlertHelper.showWarning(

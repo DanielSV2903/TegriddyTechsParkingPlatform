@@ -1,9 +1,4 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity;
-
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.PersistenceManager;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class ParkingLot {

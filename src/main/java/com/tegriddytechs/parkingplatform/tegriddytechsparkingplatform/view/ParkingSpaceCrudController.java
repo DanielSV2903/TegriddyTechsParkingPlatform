@@ -12,6 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class ParkingSpaceCrudController {
 
     private final MainMenuController mainMenuController;
@@ -102,7 +104,11 @@ public class ParkingSpaceCrudController {
         }
         ParkingSpace space = new ParkingSpace(number, type, cbPreferential.isSelected(), cbAvailable.isSelected());
         space.setParkingLot(lot);
-        CrudAlertHelper.showResult("Espacios", mainMenuController.createParkingSpace(space));
+        try {
+            CrudAlertHelper.showResult("Espacios", mainMenuController.createParkingSpace(space));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         loadData();
     }
 
@@ -127,7 +133,11 @@ public class ParkingSpaceCrudController {
         }
         ParkingSpace space = new ParkingSpace(number, type, cbPreferential.isSelected(), cbAvailable.isSelected());
         space.setParkingLot(lot);
-        CrudAlertHelper.showResult("Espacios", mainMenuController.updateParkingSpace(space));
+        try {
+            CrudAlertHelper.showResult("Espacios", mainMenuController.updateParkingSpace(space));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         loadData();
     }
 
@@ -143,7 +153,11 @@ public class ParkingSpaceCrudController {
             CrudAlertHelper.showWarning("Espacios", "Espacio no encontrado");
             return;
         }
-        CrudAlertHelper.showResult("Espacios", mainMenuController.deleteParkingSpace(space));
+        try {
+            CrudAlertHelper.showResult("Espacios", mainMenuController.deleteParkingSpace(space));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         loadData();
     }
 

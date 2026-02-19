@@ -1,60 +1,48 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.PersistenceManager;
+
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.VehicleTypeData;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.SpaceType;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.VehicleType;
+import org.jdom2.JDOMException;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VehicleTypeController {
 
     private VehicleTypeData vehicleTypeData;
 
-    public VehicleTypeController() {
-        this.vehicleTypeData = new PersistenceManager().loadVehicleTypeData();
-        if (this.vehicleTypeData.getVehicleTypeCounts() == null) {
-            // Por si el JSON está vacío o viene null
-            this.vehicleTypeData = new VehicleTypeData();
-        }
-        initKeys();
+    public VehicleTypeController() throws IOException, JDOMException {
+        this.vehicleTypeData = new VehicleTypeData();
+    }
+    public OperationResult addVehicleType(VehicleType vehicleType) throws IOException {
+        if (findById(vehicleType.getId())!=null)
+            return OperationResult.failure("VehicleType with ID " + vehicleType.getId() + " already exists.");
+        vehicleTypeData.addVehicleType(vehicleType);
+        return OperationResult.success("VehicleType created successfully");
     }
 
-    // Tipos predefinidos (no se guardan en JSON, solo se usan para la lógica)
-    public ArrayList<VehicleType> getPredefinedVehicleTypes() {
-        ArrayList<VehicleType> list = new ArrayList<>();
-
-        list.add(new VehicleType(2, "Bicycle", (byte) 2, 0.0, SpaceType.BICYCLE));
-        list.add(new VehicleType(2, "Motorcycle", (byte) 2, 0.0, SpaceType.MOTORCYCLE));
-        list.add(new VehicleType(4, "Car", (byte) 4, 0.0, SpaceType.CAR));
-        list.add(new VehicleType(6, "Heavy Vehicle", (byte) 6, 0.0, SpaceType.HEAVY));
-
-        return list;
+    public OperationResult updateVehicleType(VehicleType vehicleType) throws IOException {
+        if (vehicleType==null)
+            return OperationResult.failure("VehicleType cannot be null");
+        vehicleTypeData.updateVehicleType(vehicleType);
+        return OperationResult.success("VehicleType updated successfully");
     }
 
-    public int getCount(VehicleType type) {
-        return vehicleTypeData.getCount(buildKey(type));
+    public OperationResult removeVehicleType(VehicleType vehicleType) throws IOException {
+        if (findById(vehicleType.getId())==null)
+            return OperationResult.failure("VehicleType not found");
+        vehicleTypeData.removeVehicleType(vehicleType);
+        return OperationResult.success("VehicleType removed successfully");
     }
 
-    public void increaseCount(VehicleType type) {
-        vehicleTypeData.increment(buildKey(type));
+    public List<VehicleType> getAllVehicleTypes() {
+        return vehicleTypeData.getAllVehicleTypes();
     }
-
-    public void decreaseCount(VehicleType type) {
-        vehicleTypeData.decrement(buildKey(type));
-    }
-
-    public String buildKey(VehicleType type) {
-        return type.getId() + "_" + type.getSpaceType().name();
-    }
-
-    private void initKeys() {
-        for (VehicleType type : getPredefinedVehicleTypes()) {
-            String key = buildKey(type);
-            if (vehicleTypeData.getVehicleTypeCounts().containsKey(key) == false) {
-                vehicleTypeData.getVehicleTypeCounts().put(key, 0);
-            }
-        }
-        vehicleTypeData.save();
+    public VehicleType findById(int id){
+        return vehicleTypeData.findById(id).orElse(null);
     }
 }

@@ -1,12 +1,9 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.CustomerController;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.ParkingLotController;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.UserController;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.VehicleController;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.*;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.ParkingSpaceData;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.RateData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
-import javafx.beans.binding.BooleanExpression;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,9 +16,9 @@ import org.jdom2.JDOMException;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -32,9 +29,9 @@ public class MainMenuController {
     private CustomerController customerController;
     private  ParkingLotController parkingLotController;
     private VehicleController vehicleController;
-    private final ParkingSpaceData parkingSpaceData = new ParkingSpaceData();
-    private final ArrayList<Rate> rates = new ArrayList<>();
-    private final ArrayList<ParkingTicket> tickets = new ArrayList<>();
+    private  ParkingSpaceController parkingSpaceController;
+    private RateController rateController;
+    private  ParkingTicketController parkingTicketController;
     private User user;
 
     @FXML
@@ -44,6 +41,9 @@ public class MainMenuController {
             customerController=new CustomerController();
             vehicleController = new VehicleController();
             parkingLotController = new ParkingLotController();
+            parkingSpaceController = new ParkingSpaceController();
+            rateController = new RateController();
+            parkingTicketController = new ParkingTicketController();
         } catch (IOException | JDOMException e) {
             throw new RuntimeException(e);
         }
@@ -594,7 +594,11 @@ public class MainMenuController {
         }
         ParkingSpace space = new ParkingSpace(number, type, preferential, state);
         space.setParkingLot(lot);
-        showResult("Espacios", createParkingSpace(space));
+        try {
+            showResult("Espacios", createParkingSpace(space));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void handleReadParkingSpace() {
@@ -628,7 +632,11 @@ public class MainMenuController {
         }
         ParkingSpace space = new ParkingSpace(number, type, preferential, state);
         space.setParkingLot(lot);
-        showResult("Espacios", updateParkingSpace(space));
+        try {
+            showResult("Espacios", updateParkingSpace(space));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void handleDeleteParkingSpace() {
@@ -647,7 +655,11 @@ public class MainMenuController {
             showAlert("Espacios", "Eliminar espacio", "Espacio no encontrado", Alert.AlertType.WARNING);
             return;
         }
-        showResult("Espacios", deleteParkingSpace(space));
+        try {
+            showResult("Espacios", deleteParkingSpace(space));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void handleCreateVehicle() {
@@ -706,7 +718,7 @@ public class MainMenuController {
         showResult("Vehiculos", deleteVehicle(vehicle));
     }
 
-    private void handleCreateTicket() {
+    private void handleCreateTicket() throws IOException {
         String ticketId = promptText("Tickets", "Crear ticket", "Id");
         int lotId = Integer.parseInt(promptText("Tickets", "Crear ticket", "Id parqueadero"));
         Integer spaceNumber = promptInt("Tickets", "Crear ticket", "Numero espacio");
@@ -724,7 +736,7 @@ public class MainMenuController {
             showAlert("Tickets", "Crear ticket", "Espacio no encontrado", Alert.AlertType.WARNING);
             return;
         }
-        Rate rate = findRateById(rateId);
+        Rate rate = rateController.findRateById(rateId);
         if (rate == null) {
             showAlert("Tickets", "Crear ticket", "Tarifa no encontrada", Alert.AlertType.WARNING);
             return;
@@ -738,22 +750,22 @@ public class MainMenuController {
         if (ticketId == null) {
             return;
         }
-        ParkingTicket ticket = findTicketById(ticketId);
+        ParkingTicket ticket = parkingTicketController.findById(ticketId);
         showEntity("Tickets", ticket);
     }
 
-    private void handleUpdateTicket() {
+    private void handleUpdateTicket() throws IOException {
         String ticketId = promptText("Tickets", "Actualizar ticket", "Id");
         Integer rateId = promptInt("Tickets", "Actualizar ticket", "Id tarifa");
         if (ticketId == null || rateId == null) {
             return;
         }
-        ParkingTicket existing = findTicketById(ticketId);
+        ParkingTicket existing = parkingTicketController.findById(ticketId);
         if (existing == null) {
             showAlert("Tickets", "Actualizar ticket", "Ticket no encontrado", Alert.AlertType.WARNING);
             return;
         }
-        Rate rate = findRateById(rateId);
+        Rate rate = rateController.findRateById(rateId);
         if (rate == null) {
             showAlert("Tickets", "Actualizar ticket", "Tarifa no encontrada", Alert.AlertType.WARNING);
             return;
@@ -763,12 +775,12 @@ public class MainMenuController {
         showResult("Tickets", updateTicket(existing));
     }
 
-    private void handleDeleteTicket() {
+    private void handleDeleteTicket() throws IOException {
         String ticketId = promptText("Tickets", "Eliminar ticket", "Id");
         if (ticketId == null) {
             return;
         }
-        ParkingTicket ticket = findTicketById(ticketId);
+        ParkingTicket ticket = parkingTicketController.findById(ticketId);
         if (ticket == null) {
             showAlert("Tickets", "Eliminar ticket", "Ticket no encontrado", Alert.AlertType.WARNING);
             return;
@@ -776,7 +788,7 @@ public class MainMenuController {
         showResult("Tickets", deleteTicket(ticket));
     }
 
-    private void handleCreateRate() {
+    private void handleCreateRate() throws IOException {
         Integer id = promptInt("Tarifas", "Crear tarifa", "Id");
         Double fee = promptDouble("Tarifas", "Crear tarifa", "Valor");
         TimeUnit unit = promptChoice("Tarifas", "Crear tarifa", "Unidad de tiempo", TimeUnit.values());
@@ -794,11 +806,11 @@ public class MainMenuController {
         if (id == null) {
             return;
         }
-        Rate rate = findRateById(id);
+        Rate rate = rateController.findRateById(id);
         showEntity("Tarifas", rate);
     }
 
-    private void handleUpdateRate() {
+    private void handleUpdateRate() throws IOException {
         Integer id = promptInt("Tarifas", "Actualizar tarifa", "Id");
         Double fee = promptDouble("Tarifas", "Actualizar tarifa", "Valor");
         TimeUnit unit = promptChoice("Tarifas", "Actualizar tarifa", "Unidad de tiempo", TimeUnit.values());
@@ -811,12 +823,12 @@ public class MainMenuController {
         showResult("Tarifas", updateRate(rate));
     }
 
-    private void handleDeleteRate() {
+    private void handleDeleteRate() throws IOException {
         Integer id = promptInt("Tarifas", "Eliminar tarifa", "Id");
         if (id == null) {
             return;
         }
-        Rate rate = findRateById(id);
+        Rate rate = rateController.findRateById(id);
         if (rate == null) {
             showAlert("Tarifas", "Eliminar tarifa", "Tarifa no encontrada", Alert.AlertType.WARNING);
             return;
@@ -824,115 +836,94 @@ public class MainMenuController {
         showResult("Tarifas", deleteRate(rate));
     }
 
-    public OperationResult createParkingSpace(ParkingSpace space) {
-        ParkingSpace existing = parkingSpaceData.findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
+    public OperationResult createParkingSpace(ParkingSpace space) throws IOException {
+        ParkingSpace existing = parkingSpaceController.findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
         if (existing != null) {
             return OperationResult.failure("Parking space already exists");
         }
-        parkingSpaceData.registerParkingSpace(space);
+        parkingSpaceController.registerParkingSpace(space);
         return OperationResult.success("Parking space created");
     }
 
     public ParkingSpace readParkingSpaceByNumber(int number, ParkingLot lot) {
-        return parkingSpaceData.findParkingSpaceByNumber(number, lot);
+        return parkingSpaceController.findParkingSpaceByNumber(number, lot);
     }
 
-    public OperationResult updateParkingSpace(ParkingSpace space) {
-        ParkingSpace existing = parkingSpaceData.findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
+    public OperationResult updateParkingSpace(ParkingSpace space) throws IOException {
+        ParkingSpace existing = parkingSpaceController.findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
         if (existing == null) {
             return OperationResult.failure("Parking space not found");
         }
-        parkingSpaceData.editParkingSpace(space);
+        parkingSpaceController.editParkingSpace(space);
         return OperationResult.success("Parking space updated");
     }
 
-    public OperationResult deleteParkingSpace(ParkingSpace space) {
-        ParkingSpace existing = parkingSpaceData.findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
+    public OperationResult deleteParkingSpace(ParkingSpace space) throws IOException {
+        ParkingSpace existing = parkingSpaceController.findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
         if (existing == null) {
             return OperationResult.failure("Parking space not found");
         }
-        parkingSpaceData.deleteParkingSpace(existing);
+        parkingSpaceController.deleteParkingSpace(existing);
         return OperationResult.success("Parking space deleted");
     }
 
-    public OperationResult createRate(Rate rate) {
-        if (findRateById(rate.getRateId()) != null) {
+    public OperationResult createRate(Rate rate) throws IOException {
+        if (rateController.findRateById(rate.getRateId()) != null) {
             return OperationResult.failure("Rate already exists");
         }
-        rates.add(rate);
-        return OperationResult.success("Rate created");
+        return rateController.addRate(rate);
     }
 
-    public OperationResult updateRate(Rate rate) {
-        Rate existing = findRateById(rate.getRateId());
+    public OperationResult updateRate(Rate rate) throws IOException {
+        Rate existing = rateController.findRateById(rate.getRateId());
         if (existing == null) {
             return OperationResult.failure("Rate not found");
         }
-        rates.remove(existing);
-        rates.add(rate);
-        return OperationResult.success("Rate updated");
+        return rateController.updateRate(rate);
     }
 
-    public OperationResult deleteRate(Rate rate) {
-        Rate existing = findRateById(rate.getRateId());
+    public OperationResult deleteRate(Rate rate) throws IOException {
+        Rate existing = rateController.findRateById(rate.getRateId());
         if (existing == null) {
             return OperationResult.failure("Rate not found");
         }
-        rates.remove(existing);
-        return OperationResult.success("Rate deleted");
-    }
+        return rateController.removeRate(existing);
 
-    private Rate findRateById(int id) {
-        for (Rate rate : rates) {
-            if (rate.getRateId() == id) {
-                return rate;
-            }
-        }
-        return null;
     }
 
     public Rate readRateById(int id) {
-        return findRateById(id);
+        return rateController.findRateById(id);
     }
 
-    public OperationResult createTicket(ParkingTicket ticket) {
-        if (findTicketById(ticket.getTicketId()) != null) {
+    public OperationResult createTicket(ParkingTicket ticket) throws IOException {
+        if (parkingTicketController.findById(ticket.getTicketId()) != null) {
             return OperationResult.failure("Ticket already exists");
         }
-        tickets.add(ticket);
+        parkingTicketController.addParkingTicket(ticket);
         return OperationResult.success("Ticket created");
     }
 
-    public OperationResult updateTicket(ParkingTicket ticket) {
-        ParkingTicket existing = findTicketById(ticket.getTicketId());
+    public OperationResult updateTicket(ParkingTicket ticket) throws IOException {
+        ParkingTicket existing = parkingTicketController.findById(ticket.getTicketId());
         if (existing == null) {
             return OperationResult.failure("Ticket not found");
         }
-        tickets.remove(existing);
-        tickets.add(ticket);
-        return OperationResult.success("Ticket updated");
+        return parkingTicketController.updateParkingTicket(ticket);
     }
 
-    public OperationResult deleteTicket(ParkingTicket ticket) {
-        ParkingTicket existing = findTicketById(ticket.getTicketId());
+    public OperationResult deleteTicket(ParkingTicket ticket) throws IOException {
+        ParkingTicket existing = parkingTicketController.findById(ticket.getTicketId());
         if (existing == null) {
             return OperationResult.failure("Ticket not found");
         }
-        tickets.remove(existing);
+        parkingTicketController.removeParkingTicket(existing);
         return OperationResult.success("Ticket deleted");
     }
 
-    private ParkingTicket findTicketById(String id) {
-        for (ParkingTicket ticket : tickets) {
-            if (ticket.getTicketId().equals(id)) {
-                return ticket;
-            }
-        }
-        return null;
-    }
+
 
     public ParkingTicket readTicketById(String id) {
-        return findTicketById(id);
+        return parkingTicketController.findById(id);
     }
 
     private String promptText(String title, String header, String content) {
@@ -1017,12 +1008,8 @@ public class MainMenuController {
         return vehicleController.getAllVehicles();
     }
 
-    public ArrayList<Rate> getAllRates() {
-        return rates;
-    }
-
     public ArrayList<ParkingSpace> getAllParkingSpaces() {
-        return parkingSpaceData.getAllParkingSpaces();
+        return parkingSpaceController.getAllParkingSpaces();
     }
 
     public ArrayList<ParkingLot> getAllParkingLots() {
@@ -1030,7 +1017,7 @@ public class MainMenuController {
     }
 
     public ArrayList<ParkingTicket> getAllTickets() {
-        return tickets;
+        return (ArrayList<ParkingTicket>) parkingTicketController.getAllTickets();
     }
 
     public java.util.List<User> getAllUsers() {
@@ -1132,5 +1119,61 @@ public class MainMenuController {
                 count++;
         }
         return count;
+    }
+
+    public List<Rate> getAllRates() {
+        return rateController.getAllRates();
+    }
+
+    public CustomerController getCustomerController() {
+        return customerController;
+    }
+
+    public ParkingLotController getParkingLotController() {
+        return parkingLotController;
+    }
+
+    public VehicleController getVehicleController() {
+        return vehicleController;
+    }
+
+    public ParkingSpaceController getParkingSpaceController() {
+        return parkingSpaceController;
+    }
+
+    public RateController getRateController() {
+        return rateController;
+    }
+
+    public ParkingTicketController getParkingTicketController() {
+        return parkingTicketController;
+    }
+
+    public void setUserController(UserController userController) {
+        this.userController = userController;
+    }
+
+    public void setCustomerController(CustomerController customerController) {
+        this.customerController = customerController;
+    }
+
+    public void setParkingLotController(ParkingLotController parkingLotController) {
+        this.parkingLotController = parkingLotController;
+    }
+
+    public void setVehicleController(VehicleController vehicleController) {
+        this.vehicleController = vehicleController;
+    }
+
+    public void setParkingSpaceController(ParkingSpaceController parkingSpaceController) {
+        this.parkingSpaceController = parkingSpaceController;
+    }
+
+    public void setRateController(RateController rateController) {
+        this.rateController = rateController;
+    }
+
+    public void setParkingTicketController(ParkingTicketController parkingTicketController) {
+        this.parkingTicketController = parkingTicketController;
     }
 }

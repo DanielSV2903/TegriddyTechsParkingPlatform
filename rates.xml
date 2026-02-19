@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rates>
+  <rate rateId="1">
+    <vehicleTypeId>1</vehicleTypeId>
+    <fee>1000.0</fee>
+    <timeUnit>HOURS</timeUnit>
+    <active>true</active>
+  </rate>
+</rates>

@@ -49,12 +49,19 @@ public class CustomerData extends CustomerXmlRepository {
     }
 
     @Override
-    public void upsert(Customer customer) throws IOException {
+    public void insert(Customer customer) throws IOException {
+        if (customer == null) throw new IllegalArgumentException("customer cannot be null");
+        if (findCustomerById(customer.getId()) != null) throw new IllegalArgumentException("Customer with ID " + customer.getId() + " already exists.");
+        super.insert(customer);
+        customers.add(customer);
+    }
+
+    @Override
+    public void update(Customer customer) throws IOException {
         if (customer == null) throw new IllegalArgumentException("customer cannot be null");
 
-        super.upsert(customer);
+        super.update(customer);
 
-        // actualizar cache
         findInCacheById(customer.getId()).ifPresent(customers::remove);
         customers.add(customer);
     }
@@ -76,7 +83,7 @@ public class CustomerData extends CustomerXmlRepository {
 
     public boolean registerCustomer(Customer customer) throws IOException {
         if (findCustomerById(customer.getId()) != null) return false;
-        upsert(customer);
+        this.update(customer);
         return true;
     }
 

@@ -49,10 +49,21 @@ public class ParkingLotData extends ParkingLotXmlRepository {
     }
 
     @Override
-    public void upsert(ParkingLot parkingLot) throws IOException {
+    public void insert(ParkingLot parkingLot) throws IOException {
+        if (parkingLot == null) throw new IllegalArgumentException("parkingLot cannot be null");
+        if (!findInCacheById(parkingLot.getParkingLotId()).isPresent()){
+            super.insert(parkingLot);
+            parkingLots.add(parkingLot);
+        } else {
+            throw new IllegalArgumentException("ParkingLot with ID " + parkingLot.getParkingLotId() + " already exists.");
+        }
+    }
+
+    @Override
+    public void update(ParkingLot parkingLot) throws IOException {
         if (parkingLot == null) throw new IllegalArgumentException("parkingLot cannot be null");
 
-        super.upsert(parkingLot); // XML primero
+        super.update(parkingLot); // XML primero
 
         // cache después
         findInCacheById(parkingLot.getParkingLotId()).ifPresent(parkingLots::remove);
@@ -74,12 +85,11 @@ public class ParkingLotData extends ParkingLotXmlRepository {
         return deleteById(parkingLot.getParkingLotId());
     }
 
-    // Métodos "de negocio" (compatibles con tu código existente)
     public boolean registerParkingLot(ParkingLot parkingLot) throws IOException {
         if (parkingLot == null) throw new IllegalArgumentException("parkingLot cannot be null");
         if (findParkingLotById(parkingLot.getParkingLotId()) != null) return false;
-
-        upsert(parkingLot);
+        if (findInCacheById(parkingLot.getParkingLotId()).isPresent()) return false;
+        insert(parkingLot);
         return true;
     }
 
@@ -88,7 +98,7 @@ public class ParkingLotData extends ParkingLotXmlRepository {
     }
 
     public void editParkingLot(ParkingLot parkingLot) throws IOException {
-        // En este esquema, editar = upsert (mismo ID)
-        upsert(parkingLot);
+        // En este esquema, editar = update (mismo ID)
+        update(parkingLot);
     }
 }

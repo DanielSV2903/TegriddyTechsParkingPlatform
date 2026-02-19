@@ -1,15 +1,28 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.ParkingSpaceXmlRepository;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingSpace;
+import org.jdom2.JDOMException;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
-public class ParkingSpaceData {
+public class ParkingSpaceData extends ParkingSpaceXmlRepository {
     private ArrayList <ParkingSpace> parkingSpaces;
 
-    public ParkingSpaceData() {
-        this.parkingSpaces = new ArrayList<>();
+    public ParkingSpaceData() throws IOException, JDOMException {
+        super();
+        parkingSpaces = new ArrayList<>();
+        reload();
+    }
+
+    public void reload() {
+        parkingSpaces.clear();
+        parkingSpaces.addAll(super.findAll()); // XML -> cache
     }
 
     public ArrayList <ParkingSpace> getAllParkingSpaces() {
@@ -26,26 +39,56 @@ public class ParkingSpaceData {
         return parkingSpace;
     }
 
-    public void registerParkingSpace(ParkingSpace parkingSpace) {
-        this.parkingSpaces.add(parkingSpace);
+    @Override
+    public List<ParkingSpace> findAll() {
+        return super.findAll();
     }
 
-    public void deleteParkingSpace(ParkingSpace parkingSpace) {
-        this.parkingSpaces.remove(parkingSpace);
+    @Override
+    public Optional<ParkingSpace> findById(int id) {
+        return super.findById(id);
     }
 
-    public void editParkingSpace(ParkingSpace parkingSpace) {
-        ParkingSpace existingParkingSpace = findParkingSpaceByNumber(parkingSpace.getSpaceNumber(),parkingSpace.getParkingLot());
-        if (existingParkingSpace != null) {
-            existingParkingSpace.setSpaceNumber(parkingSpace.getSpaceNumber());
-            existingParkingSpace.setPreferential(parkingSpace.isPreferential());
-            existingParkingSpace.setState(parkingSpace.isState());
-            parkingSpaces.remove(existingParkingSpace);
-            parkingSpaces.add(parkingSpace);
-        }else {
-            //TODO: throw exception
+    @Override
+    public void insert(ParkingSpace parkingSpace) throws IOException {
+        super.insert(parkingSpace);
+    }
+
+    @Override
+    public void update(ParkingSpace parkingSpace) throws IOException {
+        super.update(parkingSpace);
+    }
+
+    @Override
+    public boolean deleteById(int id) throws IOException {
+        return super.deleteById(id);
+    }
+
+    @Override
+    public boolean delete(ParkingSpace parkingSpace) throws IOException {
+        return super.delete(parkingSpace);
+    }
+
+    public void registerParkingSpace(ParkingSpace parkingSpace) throws IOException {
+        insert(parkingSpace);
+    }
+
+    public void deleteParkingSpace(ParkingSpace parkingSpace) throws IOException {
+        delete(parkingSpace);
+    }
+
+    public void editParkingSpace(ParkingSpace parkingSpace) throws IOException {
+            update(parkingSpace);
+    }
+
+
+    public List<ParkingSpace> getAllParkingSpacesByLot(int lotId) {
+        List<ParkingSpace> spaces = new ArrayList<>();
+        for (ParkingSpace parkingSpace : parkingSpaces) {
+            if (parkingSpace.getParkingLot().getParkingLotId() == lotId) {
+                spaces.add(parkingSpace);
+            }
         }
+        return spaces;
     }
-
-
 }

@@ -26,9 +26,15 @@ public class UserXmlRepository implements DataRepository<User> {
         return xml.findById(String.valueOf(id));
     }
 
+
     @Override
-    public void upsert(User user) throws IOException {
-        xml.upsert(user);
+    public void insert(User user) throws IOException {
+        xml.insert(user);
+    }
+
+    @Override
+    public void update(User user) throws IOException {
+        xml.update(user);
     }
 
     @Override

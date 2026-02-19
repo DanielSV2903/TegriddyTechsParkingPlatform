@@ -1,11 +1,16 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.mappers;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.VehicleController;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.VehicleData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.XmlEntityMapper;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Customer;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Vehicle;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
+
+import java.io.IOException;
 
 public class CustomerXmlMapper implements XmlEntityMapper< Customer> {
     private final String ID_ATTRIBUTE = "id";
@@ -41,7 +46,7 @@ public class CustomerXmlMapper implements XmlEntityMapper< Customer> {
     }
 
     @Override
-    public Customer fromElement(Element element) {
+    public Customer fromElement(Element element){
         Customer customer = new Customer();//usado para construir el objeto mas abstracto
         int id = Integer.parseInt(element.getAttributeValue(ID_ATTRIBUTE));
         String name = element.getChildText(NAME_ATTRIBUTE);
@@ -50,7 +55,9 @@ public class CustomerXmlMapper implements XmlEntityMapper< Customer> {
 
         customer.setId(id);
         customer.setName(name);
-        customer.setVehicle(new Vehicle(vehiclePlate));//TODO CONECTAR la entidad completa
+        Vehicle vehicle = new Vehicle();
+        vehicle.setPlate(vehiclePlate);
+        customer.setVehicle(vehicle);
         customer.setDisability(disability);
 
         return customer;
@@ -59,4 +66,5 @@ public class CustomerXmlMapper implements XmlEntityMapper< Customer> {
     private boolean castDisability(String childText) {
         return childText.equals("true");
     }
+
 }

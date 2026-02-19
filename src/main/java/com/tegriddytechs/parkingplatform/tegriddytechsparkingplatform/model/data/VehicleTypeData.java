@@ -1,50 +1,57 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.VehicleTypeXmlRepository;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.VehicleType;
+import org.jdom2.JDOMException;
 
-public class VehicleTypeData {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-    private Map<String, Integer> vehicleTypeCounts;
-    private transient PersistenceManager persistenceManager;
+public class VehicleTypeData extends VehicleTypeXmlRepository {
+    private List<VehicleType> vehicleTypes;
 
-    public VehicleTypeData() {
-        this.vehicleTypeCounts = new HashMap<>();
-        this.persistenceManager = new PersistenceManager();
+    public VehicleTypeData() throws IOException, JDOMException {
+        super();
+        vehicleTypes = new ArrayList<>();
+        reload();
     }
 
-    public void save() {
-        try {
-            persistenceManager.saveVehicleTypeData(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void reload() {
+        vehicleTypes.clear();
+        vehicleTypes.addAll(super.findAll());
     }
 
-    public Map<String, Integer> getVehicleTypeCounts() {
-        return vehicleTypeCounts;
+
+    public void addVehicleType(VehicleType vehicleType) throws IOException {
+        if (vehicleType==null)
+            throw new IllegalArgumentException("VehicleType cannot be null");
+        if (findById(vehicleType.getId()) != null)
+            throw new IllegalArgumentException("VehicleType with ID " + vehicleType.getId() + " already exists.");
+        super.insert(vehicleType);
+        vehicleTypes.add(vehicleType);
     }
 
-    public int getCount(String key) {
-        Integer v = vehicleTypeCounts.get(key);
-        return (v == null) ? 0 : v;
+    public void updateVehicleType(VehicleType vehicleType) throws IOException {
+        if (vehicleType==null)
+            throw new IllegalArgumentException("VehicleType cannot be null");
+        super.update(vehicleType);
+        reload();
     }
 
-    public void setCount(String key, int value) {
-        vehicleTypeCounts.put(key, value);
-        save();
+    public void removeVehicleType(VehicleType vehicleType) throws IOException {
+        if (findById(vehicleType.getId())==null)
+            throw new IllegalArgumentException("VehicleType with ID " + vehicleType.getId() + " does not exist.");
+        boolean deleted = super.delete(vehicleType);
+        if (deleted) vehicleTypes.remove(vehicleType);
     }
 
-    public void increment(String key) {
-        vehicleTypeCounts.put(key, getCount(key) + 1);
-        save();
+    public Optional<VehicleType> findById(int id) {
+        return super.findById(id);
     }
 
-    public void decrement(String key) {
-        int current = getCount(key);
-        if (current > 0) {
-            vehicleTypeCounts.put(key, current - 1);
-            save();
-        }
+    public List<VehicleType> getAllVehicleTypes() {
+        return super.findAll();
     }
 }

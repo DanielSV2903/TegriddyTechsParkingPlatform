@@ -54,7 +54,7 @@ public class ParkingLotController {
             return OperationResult.failure("Parking lot not found");
         }
 
-        // upsert por ID
+        // update por ID
         parkingLotData.editParkingLot(parkingLot);
         return OperationResult.success("Parking lot updated successfully");
     }

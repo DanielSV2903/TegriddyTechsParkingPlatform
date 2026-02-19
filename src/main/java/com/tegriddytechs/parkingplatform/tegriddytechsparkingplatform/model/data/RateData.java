@@ -1,45 +1,57 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data;
 
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.RateXmlRepository;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Rate;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.SpaceType;
+import org.jdom2.JDOMException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class RateData {
-
+public class RateData extends RateXmlRepository {
     private ArrayList<Rate> rates;
 
-    public RateData() {
+    public RateData() throws IOException, JDOMException {
+        super();
         this.rates = new ArrayList<>();
+        reload();
     }
+     private void reload(){
+        rates.clear();
+        rates.addAll(super.findAll());
+     }
 
     public ArrayList<Rate> getAllRates() {
+        reload();
         return rates;
     }
 
-    public void registerRate(Rate rate) {
+    public void registerRate(Rate rate) throws IOException {
+        if (findRateById(rate.getRateId()) != null) {
+            throw new IllegalArgumentException("Rate already exists");
+        }
+        super.insert(rate);
         rates.add(rate);
     }
 
     public Rate findRateById(int rateId) {
-        for (Rate rate : rates) {
-            if (rate.getRateId() == rateId) {
-                return rate;
-            }
-        }
-        return null;
+        return findById(rateId).orElse(null);
     }
 
-    public void updateRate(Rate updatedRate) {
-        for (int i = 0; i < rates.size(); i++) {
-            if (rates.get(i).getRateId() == updatedRate.getRateId()) {
-                rates.set(i, updatedRate);
-                return;
-            }
-        }
+    public void updateRate(Rate updatedRate) throws IOException {
+       if (findRateById(updatedRate.getRateId()) == null) {
+           throw new IllegalArgumentException("Rate not found");
+       }
+        super.update(updatedRate);
+        rates.remove(findRateById(updatedRate.getRateId()));
+        rates.add(updatedRate);
     }
 
-    public void deleteRate(Rate rate) {
+    public void deleteRate(Rate rate) throws IOException {
+        if (findRateById(rate.getRateId()) == null) {
+            throw new IllegalArgumentException("Rate not found");
+        }
+        super.delete(rate);
         rates.remove(rate);
     }
 

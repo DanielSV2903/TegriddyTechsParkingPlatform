@@ -65,7 +65,7 @@ public class ParkingLotCrudController {
             colId.setCellValueFactory(new PropertyValueFactory<>("parkingLotId"));
             colName.setCellValueFactory(new PropertyValueFactory<>("name"));
 //            colPreferenciales.setCellValueFactory(cell-> new SimpleIntegerProperty(mainMenuController.calculatePreferentialSpaces(cell.getValue().getSpaces())).asObject());
-            colCapacity.setCellValueFactory(cell-> new SimpleIntegerProperty(cell.getValue().getSpaces().length).asObject());
+            colCapacity.setCellValueFactory(cell-> new SimpleIntegerProperty(cell.getValue().getSpaces()!=null?cell.getValue().getSpaces().length:0).asObject());
 
             tableParkingLots.setItems(filteredList);
 
@@ -244,7 +244,7 @@ public class ParkingLotCrudController {
            try {
                // 3) Cargar tipos de vehículo (desde tu “BD” / XML)
                VehicleTypeController vehicleTypeController = new VehicleTypeController();
-               List<VehicleType> vehicleTypes = vehicleTypeController.getPredefinedVehicleTypes(); // ajusta el nombre si difiere
+               List<VehicleType> vehicleTypes = vehicleTypeController.getAllVehicleTypes(); // ajusta el nombre si difiere
 
                if (vehicleTypes == null || vehicleTypes.isEmpty()) {
                    new Alert(

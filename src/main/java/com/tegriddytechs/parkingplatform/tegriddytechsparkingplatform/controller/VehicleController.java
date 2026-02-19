@@ -1,7 +1,6 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.VehicleData;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.PersistenceManager;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Vehicle;
 import org.jdom2.JDOMException;

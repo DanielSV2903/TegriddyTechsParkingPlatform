@@ -45,15 +45,14 @@ public class VehicleData extends VehicleXmlRepository {
     public void registerVehicle(Vehicle vehicle) throws IOException {
         if (vehicle == null) throw new IllegalArgumentException("vehicle cannot be null");
 
-        // XML primero
-        super.upsert(vehicle);
-
-        // cache después
         Vehicle existing = findVehicleByLicensePlate(vehicle.getPlate());
         if (existing != null) {
-            vehicles.remove(existing);
+            super.insert(vehicle);
+            vehicles.add(vehicle);
+        }else {
+            throw new IllegalArgumentException("Vehicle already exists");
         }
-        vehicles.add(vehicle);
+
     }
 
     public void removeVehicle(Vehicle vehicle) throws IOException {
@@ -73,8 +72,7 @@ public class VehicleData extends VehicleXmlRepository {
     public void editVehicle(Vehicle vehicle) throws IOException {
         if (vehicle == null) throw new IllegalArgumentException("vehicle cannot be null");
 
-        // Para editar, un upsert es suficiente (misma placa = mismo “ID” lógico)
-        super.upsert(vehicle);
+        super.update(vehicle);
 
         Vehicle existing = findVehicleByLicensePlate(vehicle.getPlate());
         if (existing != null) {

@@ -29,8 +29,13 @@ public class CustomerXmlRepository implements DataRepository<Customer> {
     }
 
     @Override
-    public void upsert(Customer customer) throws IOException {
-        xml.upsert(customer);
+    public void insert(Customer customer) throws IOException {
+        xml.insert(customer);
+    }
+
+    @Override
+    public void update(Customer customer) throws IOException {
+        xml.update(customer);
     }
 
     @Override

@@ -42,9 +42,10 @@ public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
         String vehiclePlate = element.getChildText(ID_ATTRIBUTE);
         int typeId = Integer.parseInt(element.getChildText(VEHICLE_TYPE_ID));
         VehicleStatus status = castStatus(element.getChildText(VEHICLE_STATUS));
-
+        VehicleType type = new VehicleType();
+        type.setId(typeId);//TODO CONECTAR la entidad completa
         vehicle.setPlate(vehiclePlate);
-        vehicle.setVehicleType(new VehicleType());//TODO CONECTAR la entidad completa
+        vehicle.setVehicleType(type);
         vehicle.setVehicleStatus(status);
 
         return vehicle;

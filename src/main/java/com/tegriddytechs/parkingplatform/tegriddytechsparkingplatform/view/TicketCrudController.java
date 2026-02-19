@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class TicketCrudController {
@@ -125,7 +126,11 @@ public class TicketCrudController {
             return;
         }
         ParkingTicket ticket = new ParkingTicket(ticketId, space, LocalDateTime.now(), rate);
-        CrudAlertHelper.showResult("Tickets", mainMenuController.createTicket(ticket));
+        try {
+            CrudAlertHelper.showResult("Tickets", mainMenuController.createTicket(ticket));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -157,7 +162,11 @@ public class TicketCrudController {
         }
         ticket.setRate(rate);
         ticket.setExitTime(LocalDateTime.now());
-        CrudAlertHelper.showResult("Tickets", mainMenuController.updateTicket(ticket));
+        try {
+            CrudAlertHelper.showResult("Tickets", mainMenuController.updateTicket(ticket));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -171,7 +180,11 @@ public class TicketCrudController {
             CrudAlertHelper.showWarning("Tickets", "Ticket no encontrado");
             return;
         }
-        CrudAlertHelper.showResult("Tickets", mainMenuController.deleteTicket(ticket));
+        try {
+            CrudAlertHelper.showResult("Tickets", mainMenuController.deleteTicket(ticket));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private ParkingLot loadLot() {
