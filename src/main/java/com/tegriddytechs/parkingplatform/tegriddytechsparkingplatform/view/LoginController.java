@@ -4,6 +4,7 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -83,7 +84,7 @@ public class LoginController {
             } else {
                 loader = new FXMLLoader(
                         TegriddyTechsParkingPlatformApp.class.getResource(
-                                "/old/clerk-view.fxml"
+                                "/tegriddytechsparkingplatform/clerk-view.fxml"
                         )
                 );
             }
@@ -121,5 +122,9 @@ public class LoginController {
 
     public User getActualUser() {
         return actualUser;
+    }
+
+    @FXML
+    public void forgotPassword(Event event) {
     }
 }

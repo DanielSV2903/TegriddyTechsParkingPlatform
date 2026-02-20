@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.SVGPath?>
 
-<BorderPane style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.ClerkCrudController">
+<BorderPane style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.ClerkCrudController">
 
     <top>
         <VBox style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
@@ -31,7 +31,7 @@
                     </VBox>
                 </HBox>
                 <Region HBox.hgrow="ALWAYS" />
-                <Button onAction="#goBack" style="-fx-background-color: #f7fafc; -fx-text-fill: #38a169; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-border-width: 1;" text="Regresar al Menú" />
+            <Button onAction="#goBack" style="-fx-background-color: #edf2f7;                                 -fx-text-fill: #4a5568;                                 -fx-font-size: 13px;                                -fx-font-weight: 600;                                -fx-background-radius: 8;                                 -fx-padding: 10 20;                                -fx-cursor: hand;" text="← Volver" />
             </HBox>
             <Separator style="-fx-background-color: #e2e8f0;" />
         </VBox>
@@ -66,10 +66,10 @@
                 </VBox>
 
                 <VBox spacing="12" style="-fx-padding: 20 0 0 0;">
-                    <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="Crear Cajero" />
-                    <Button maxWidth="Infinity" onAction="#onUpdate" style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="Actualizar Cajero" />
-                    <Button maxWidth="Infinity" onAction="#onDelete" style="-fx-background-color: #f56565; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="Eliminar Cajero" />
-                    <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: #f7fafc; -fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-border-width: 1;" text="Limpiar Formulario" />
+                    <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="✓ Crear Cajero" />
+                    <Button maxWidth="Infinity" onAction="#onUpdate" style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="↻ Actualizar Cajero" />
+                    <Button maxWidth="Infinity" onAction="#onDelete" style="-fx-background-color: #f56565; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="🗑 Eliminar Cajero" />
+               <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: #edf2f7;                                         -fx-text-fill: #4a5568;                                         -fx-font-size: 13px;                                        -fx-font-weight: 600;                                        -fx-background-radius: 8;                                         -fx-padding: 12;                                        -fx-cursor: hand;                                        -fx-border-color: #cbd5e0;                                        -fx-border-radius: 8;                                        -fx-border-width: 1.5;" text="⟲ Limpiar Formulario" />
                 </VBox>
             </VBox>
 
@@ -79,7 +79,7 @@
                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Lista de Cajeros" />
                     <Region HBox.hgrow="ALWAYS" />
                     <TextField fx:id="tfSearch" prefHeight="38" prefWidth="240" promptText="Buscar por nombre o usuario..." style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 10 14; -fx-font-size: 13px; -fx-text-fill: #2d3748;" />
-                    <Button onAction="#onRefresh" style="-fx-background-color: #f7fafc; -fx-text-fill: #38a169; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-border-width: 1;" text="Actualizar Tabla" />
+               <Button onAction="#onRefresh" style="-fx-background-color: white;                                         -fx-text-fill: #4a5568;                                         -fx-font-size: 13px;                                        -fx-font-weight: 600;                                        -fx-background-radius: 8;                                         -fx-padding: 10 20;                                        -fx-cursor: hand;                                        -fx-border-color: #cbd5e0;                                        -fx-border-radius: 8;                                        -fx-border-width: 1.5;" text="↻ Refrescar" />
                 </HBox>
 
                 <TableView fx:id="tableClerks" onMouseClicked="#selectClerkOnMouseClicked" style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
@@ -89,10 +89,12 @@
                         <TableColumn fx:id="colUsername" prefWidth="159.0" text="Usuario" />
                     </columns>
                 </TableView>
-
-                <HBox alignment="CENTER_LEFT">
-                    <Label fx:id="lblTotalRecords" style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Total: 0 registros" />
-                </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 8 0 0 0;">
+               <children>
+                  <Label style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Total de registros:" />
+                  <Label fx:id="lblTotalRecords" style="-fx-font-size: 12px; -fx-font-weight: 700; -fx-text-fill: #2d3748;" text="0" />
+               </children>
+            </HBox>
             </VBox>
         </HBox>
     </center>

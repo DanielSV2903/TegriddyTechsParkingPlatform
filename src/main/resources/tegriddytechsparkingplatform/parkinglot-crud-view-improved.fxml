@@ -14,12 +14,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.ParkingLotCrudController">
+<BorderPane style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.ParkingLotCrudController">
 
     <top>
         <VBox style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
             <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding: 18 24;">
-                <Circle radius="8" style="-fx-fill: #3182ce;" />
+            <Circle fill="#00a1ff" radius="24" />
                 <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Gestión de Parqueaderos" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Button onAction="#goBack" style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568; -fx-font-size: 13px;                                -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;" text="← Volver" />
@@ -31,7 +31,7 @@
     <center>
         <HBox spacing="0">
             <VBox spacing="0" style="-fx-pref-width: 420; -fx-background-color: white;                                       -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 2, 0);">
-                <VBox spacing="20" style="-fx-padding: 24;">
+                <VBox spacing="20" style="-fx-background-radius: 12; -fx-background-color: white; -fx-padding: 24; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
                     <VBox spacing="8">
                         <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Formulario de Parqueadero" />
                         <Label style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Configure la información del parqueadero" />
@@ -40,7 +40,7 @@
                     <Separator style="-fx-background-color: #e2e8f0;" />
                     
                     <ScrollPane fitToWidth="true" style="-fx-background: transparent;">
-                        <VBox spacing="20" style="-fx-padding: 4 2;">
+                        <VBox spacing="20" style="-fx-background-color: white; -fx-padding: 24;">
                             <VBox spacing="8">
                                 <Label style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #4a5568;" text="ID del Parqueadero" />
                                 <TextField fx:id="tfId" prefHeight="42" promptText="Identificador único" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0;                                                   -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 12 14; -fx-font-size: 13px;" />
@@ -53,27 +53,37 @@
                             
                             <VBox spacing="8">
                                 <Label fx:id="lblAdmin" prefHeight="36.0" prefWidth="360.0" style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #4a5568;" text="Administrador:" textAlignment="CENTER" />
-                        <Button mnemonicParsing="false" onAction="#selectAdminOnAction" prefHeight="25.0" prefWidth="360.0" text="Seleccionar Administrador" textAlignment="CENTER" />
+                        <Button mnemonicParsing="false" onAction="#selectAdminOnAction" prefHeight="25.0" prefWidth="360.0" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-background-radius: 8; -fx-border-width: 1.5; -fx-padding: 8 14; -fx-font-size: 13px;" text="Seleccionar Administrador" textAlignment="CENTER" />
                             </VBox>
                             
                             <VBox spacing="8">
                                 <Label prefHeight="19.0" prefWidth="365.0" style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #4a5568;" text="Espacios de parqueo" />
-                        <Button mnemonicParsing="false" onAction="#configParkingSpacesOnAction" prefHeight="25.0" prefWidth="365.0" text="Configurar espacios" />
+                        <Button mnemonicParsing="false" onAction="#configParkingSpacesOnAction" prefHeight="25.0" prefWidth="365.0" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-background-radius: 8; -fx-border-width: 1.5; -fx-padding: 8 14; -fx-font-size: 13px;" text="Configurar espacios" />
                             </VBox>
                      <VBox alignment="TOP_CENTER" prefHeight="62.0" prefWidth="366.0">
                         <children>
                            <Label style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #4a5568;" text="Operativo" />
-                           <CheckBox fx:id="cbActive" mnemonicParsing="false" prefHeight="45.0" prefWidth="265.0" text="Activo" textAlignment="CENTER" />
+                            <CheckBox fx:id="cbActive"
+                                      mnemonicParsing="false"
+                                      prefHeight="45.0"
+                                      prefWidth="265.0"
+                                      text="Activo"
+                                      textAlignment="CENTER"
+                                      style="-fx-background-color: white;
+                 -fx-text-fill: black;
+                 -fx-padding: 10;
+                 -fx-background-radius: 8;" />
+
                         </children>
                      </VBox>
                         </VBox>
                     </ScrollPane>
                     
                     <VBox spacing="12" style="-fx-padding: 8 0 0 0;">
-                        <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: linear-gradient(135deg, #63b3ed 0%, #3182ce 100%); -fx-text-fill: white;                                         -fx-font-size: 14px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;                                        -fx-effect: dropshadow(gaussian, rgba(49, 130, 206, 0.3), 8, 0, 0, 3);" text="✓ Crear Parqueadero" />
+                  <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="✓ Crear Parqueadero" />
                         <HBox spacing="10">
-                            <Button maxWidth="Infinity" onAction="#onUpdate" style="-fx-background-color: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); -fx-text-fill: white;                                             -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 12; -fx-cursor: hand;" text="↻ Actualizar" HBox.hgrow="ALWAYS" />
-                            <Button maxWidth="Infinity" onAction="#onDelete" style="-fx-background-color: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%); -fx-text-fill: white;                                             -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 12; -fx-cursor: hand;" text="🗑 Eliminar" HBox.hgrow="ALWAYS" />
+                     <Button maxWidth="Infinity" onAction="#onUpdate" prefHeight="47.0" prefWidth="317.0" style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="↻ Actualizar" />
+                     <Button maxWidth="Infinity" onAction="#onDelete" prefHeight="47.0" prefWidth="306.0" style="-fx-background-color: #f56565; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="🗑 Eliminar" />
                         </HBox>
                         <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-font-weight: 600;                                        -fx-background-radius: 8; -fx-padding: 12; -fx-cursor: hand; -fx-border-color: #cbd5e0;                                        -fx-border-radius: 8; -fx-border-width: 1.5;" text="⟲ Limpiar Formulario" />
                     </VBox>

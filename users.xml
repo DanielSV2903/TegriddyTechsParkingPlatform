@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <users>
   <user id="1">
-    <name>Aidan</name>
-    <username>admin1</username>
-    <password>admin1</password>
-    <role>ADMIN</role>
+    <name>Andreé Murillo Sojo</name>
+    <username>choco</username>
+    <password>choco</password>
+    <role>CLERK</role>
   </user>
   <user id="2">
     <name>DanielSV</name>

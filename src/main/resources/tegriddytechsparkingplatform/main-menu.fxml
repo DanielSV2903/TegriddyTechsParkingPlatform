@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuController">
+<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuController">
 
     <!-- TOP BAR -->
     <top>
@@ -35,8 +35,8 @@
                 <!-- Información usuario -->
                 <HBox alignment="CENTER" spacing="12">
                     <VBox alignment="CENTER_RIGHT" spacing="2">
-                        <Label style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Administrador" />
-                        <Label style="-fx-font-size: 11px; -fx-text-fill: #718096;" text="admin@tegriddytechs.com" />
+                        <Label fx:id="adminNameLabel" style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Administrador" />
+                        <Label fx:id="adminMailLabel" style="-fx-font-size: 11px; -fx-text-fill: #718096;" text="admin@tegriddytechs.com" />
                     </VBox>
                     <Circle fill="#667eea" radius="20" />
                 </HBox>
@@ -65,7 +65,7 @@
                                 <Circle fill="#e6f2ff" radius="28" />
                                 <VBox spacing="4">
                                     <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Total Parqueaderos" />
-                                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="8" />
+                                    <Label fx:id="totalParkingLots" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="8" />
                                 </VBox>
                             </HBox>
                         </VBox>
@@ -76,7 +76,7 @@
                                 <Circle fill="#e6ffed" radius="28" />
                                 <VBox spacing="4">
                                     <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Espacios Disponibles" />
-                                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="145" />
+                                    <Label fx:id="totalSpaces" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="145" />
                                 </VBox>
                             </HBox>
                         </VBox>
@@ -87,7 +87,7 @@
                                 <Circle fill="#fff5e6" radius="28" />
                                 <VBox spacing="4">
                                     <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Vehículos Activos" />
-                                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="73" />
+                                    <Label fx:id="totalActiveVehicles" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="73" />
                                 </VBox>
                             </HBox>
                         </VBox>
@@ -98,7 +98,7 @@
                                 <Circle fill="#f0e6ff" radius="28" />
                                 <VBox spacing="4">
                                     <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Ingresos Hoy" />
-                                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="2450" />
+                                    <Label fx:id="todayUsage" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="2450" />
                                 </VBox>
                             </HBox>
                         </VBox>

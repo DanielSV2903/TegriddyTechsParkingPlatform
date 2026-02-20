@@ -1176,4 +1176,8 @@ public class MainMenuController {
     public void setParkingTicketController(ParkingTicketController parkingTicketController) {
         this.parkingTicketController = parkingTicketController;
     }
+
+    @FXML
+    public void openCrusd(ActionEvent actionEvent) {
+    }
 }
