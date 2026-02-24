@@ -445,8 +445,19 @@ public class ParkingOperationMapController {
             }
 
             if (result.isSuccessfull()) {
-                setResultOk(result.getMessage());
+                //mostrar Alert con el total a pagar
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Salida de Vehículo");
+                alert.setHeaderText("El vehículo ha salido exitosamente");
+                alert.setContentText(result.getMessage());
+                alert.showAndWait();
+
+                setResultOk("Salida registrada correctamente");
                 refreshView();
+
+                if (tfPlateExit != null) {
+                    tfPlateExit.clear();
+                }
             } else {
                 setResultError(result.getMessage());
             }
