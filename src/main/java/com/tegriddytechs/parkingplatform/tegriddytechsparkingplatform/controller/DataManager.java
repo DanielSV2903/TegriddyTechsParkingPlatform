@@ -73,8 +73,20 @@ public class DataManager {
 
         // 5) Vehicle -> Ticket (reemplazar por ticket canónico) + Space.parkedVehicle
         connectVehiclesTicketsAndSpaces(vehicles, ticketById, lots);
-        // 6) Clerk -> ParkingLot
+
+        // 6)VehicleType -> Vehicle
+        connectVehicleToTypes(vehicles,vehicleTypeById);
+
+        // 7) Clerk -> ParkingLot
         connectClerksToParkingLots(lotById);
+    }
+
+    private void connectVehicleToTypes(List<Vehicle> vehicles, Map<Integer, VehicleType> vehicleTypes) {
+        for (Vehicle vehicle : vehicles) {
+            int vtId = vehicle.getVehicleType().getId();
+            VehicleType canonical = vehicleTypes.get(vtId);
+            vehicle.setVehicleType(canonical);
+        }
     }
 
     private void connectClerksToParkingLots(Map<Integer, ParkingLot> lotById) {

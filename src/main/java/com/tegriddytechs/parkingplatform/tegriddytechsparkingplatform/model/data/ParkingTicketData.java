@@ -25,10 +25,16 @@ public class ParkingTicketData extends ParkingTicketXmlRepository {
     }
 
     public void registerTicket(ParkingTicket ticket) throws IOException {
-        if (findTicketById(ticket.getTicketId()) != null) {
+        if (ticket == null) throw new IllegalArgumentException("ticket cannot be null");
+        if (tickets.isEmpty()){
             super.insert(ticket);
             tickets.add(ticket);
         }
+        if (findTicketById(ticket.getTicketId()) != null) {
+            throw new IllegalArgumentException("Ticket with ID " + ticket.getTicketId() + " already exists.");
+        }
+        super.insert(ticket);
+        tickets.add(ticket);
     }
 
     public ParkingTicket findTicketById(String ticketId) {

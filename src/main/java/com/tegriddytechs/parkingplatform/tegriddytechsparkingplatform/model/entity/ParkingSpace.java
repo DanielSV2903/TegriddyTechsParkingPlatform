@@ -10,6 +10,7 @@ public class ParkingSpace {
     private Vehicle parkedVehicle;
     private  ParkingLot parkingLot;
 
+
     public ParkingSpace() {
     }
 
@@ -59,6 +60,7 @@ public class ParkingSpace {
     public void setParkingLot(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
     }
+
 
     @Override
     public boolean equals(Object o) {

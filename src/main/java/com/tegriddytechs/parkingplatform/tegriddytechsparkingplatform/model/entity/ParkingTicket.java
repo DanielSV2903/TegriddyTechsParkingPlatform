@@ -9,6 +9,7 @@ public class ParkingTicket {
     private LocalDateTime entryTime;
     private LocalDateTime exitTime;
     private Rate rate;
+    private double amountPaid;
 
     public ParkingTicket(String ticketId, ParkingSpace parkingSpace, LocalDateTime entryTime, Rate rate, LocalDateTime exitTime) {
         this.ticketId = ticketId;
@@ -23,6 +24,10 @@ public class ParkingTicket {
         this.parkingSpace = parkingSpace;
         this.entryTime = entryTime;
         this.rate = rate;
+    }
+
+    public ParkingTicket() {
+
     }
 
     public String getTicketId() {
@@ -63,6 +68,14 @@ public class ParkingTicket {
 
     public void setRate(Rate rate) {
         this.rate = rate;
+    }
+
+    public double getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     @Override

@@ -12,7 +12,7 @@ public class ParkingSpaceXmlMapper implements XmlEntityMapper<ParkingSpace> {
     private final String STATUS_ATTRIBUTE = "state";
     private final String PREFERENTIAL_ATTRIBUTE = "isPreferential";
     private final String TYPE = "type";
-    private final String VEHICLE_PLATE = "vehiclePlate";//Para medir el tamaño del parqueo (ParkingSpace)
+    private final String VEHICLE_PLATE = "vehiclePlate";
 
 
     @Override
@@ -38,6 +38,7 @@ public class ParkingSpaceXmlMapper implements XmlEntityMapper<ParkingSpace> {
         e.addContent(new Element(STATUS_ATTRIBUTE).setText(parkingSpace.isState()?"true":"false"));
         e.addContent(new Element(PREFERENTIAL_ATTRIBUTE).setText(parkingSpace.isPreferential()?"true":"false"));
         e.addContent(new Element(TYPE).setText(parkingSpace.getSpaceType().name()+""));
+        e.addContent(new Element(VEHICLE_PLATE).setText(parkingSpace.getParkedVehicle() != null ? parkingSpace.getParkedVehicle().getPlate() : ""));
         return e;
     }
     @Override

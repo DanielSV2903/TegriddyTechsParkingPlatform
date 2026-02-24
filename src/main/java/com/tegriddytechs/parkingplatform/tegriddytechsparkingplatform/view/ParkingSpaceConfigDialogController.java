@@ -163,7 +163,7 @@ public class ParkingSpaceConfigDialogController {
                 boolean preferential = remainingPreferential > 0;
                 if (preferential) remainingPreferential--;
 
-                ParkingSpace s = new ParkingSpace(number++, vt.getSpaceType(), preferential, true);
+                ParkingSpace s = new ParkingSpace(number++, vt.getSpaceType(), preferential, false);
                 s.setParkingLot(targetLot);
                 spaces.add(s);
             }
@@ -175,7 +175,7 @@ public class ParkingSpaceConfigDialogController {
             boolean preferential = remainingPreferential > 0;
             if (preferential) remainingPreferential--;
 
-            ParkingSpace s = new ParkingSpace(number++, fallback != null ? fallback.getSpaceType() : null, preferential, true);
+            ParkingSpace s = new ParkingSpace(number++, fallback != null ? fallback.getSpaceType() : null, preferential, false);
             s.setParkingLot(targetLot);
             spaces.add(s);
         }

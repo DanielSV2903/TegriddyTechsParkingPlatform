@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -58,13 +59,14 @@ public class VehicleCrudController {
     @FXML
     private void initialize() {
         try {
+            loadData();
             cbVehicleType.getItems().setAll(SpaceType.values());
 //            cbCustomer.getItems().setAll(mainMenuController.getAllCustomers());
             colPlate.setCellValueFactory(new PropertyValueFactory<>("plate"));
             colBrand.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getBrand() : ""));
             colModel.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getModel() : ""));
             colColor.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getColor() : ""));
-            colType.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getSpaceType().name() : ""));
+            colType.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getSpaceType().getType() : ""));
 
             tableVehicles.setItems(filteredList);
 
@@ -79,8 +81,6 @@ public class VehicleCrudController {
                     updateRecordCount();
                 });
             }
-
-            loadData();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -127,6 +127,9 @@ public class VehicleCrudController {
 
         Vehicle vehicle = new Vehicle();
         vehicle.setPlate(plate);
+        vehicle.setBrand(tfBrand.getText());
+        vehicle.setModel(tfModel.getText());
+        vehicle.setColor(tfColor.getText());
         vehicle.setVehicleType(vehicleType);
         vehicle.setVehicleStatus(VehicleStatus.EXITED);
         vehicle.setOwner(customer);
@@ -172,10 +175,13 @@ public class VehicleCrudController {
         if (plate == null) {
             return;
         }
-        Vehicle vehicle = new Vehicle();
+        Vehicle vehicle = mainMenuController.readVehicleByPlate(plate);
         vehicle.setPlate(plate);
         vehicle.setVehicleStatus(VehicleStatus.EXITED);
         vehicle.setVehicleType(defaultType());
+        Customer owner = mainMenuController.getCustomerController().findCustomerById(Integer.parseInt(tfCustomerId.getText().trim()));
+        vehicle.setOwner(owner);
+        vehicle.setTicket(null);
         CrudAlertHelper.showResult("Vehiculos", mainMenuController.updateVehicle(vehicle));
         loadData();
     }
@@ -216,6 +222,27 @@ public class VehicleCrudController {
         if (tfColor != null) tfColor.clear();
         if (tfCustomerId != null) tfCustomerId.clear();
         if (cbVehicleType != null) cbVehicleType.setValue(null);
+    }
+
+    @FXML
+    public void selectVehicleOnMouseClicked(Event event) {
+        fillFields();
+    }
+
+    private void fillFields() {
+        Vehicle selected = tableVehicles.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            tfPlate.setText(selected.getPlate());
+            tfBrand.setText(selected.getBrand());
+            tfModel.setText(selected.getModel());
+            tfColor.setText(selected.getColor());
+            if (selected.getOwner() != null) {
+                tfCustomerId.setText(String.valueOf(selected.getOwner().getId()));
+            }
+            if (selected.getVehicleType() != null) {
+                cbVehicleType.setValue(selected.getVehicleType().getSpaceType());
+            }
+        }
     }
 
     private VehicleType defaultType() {

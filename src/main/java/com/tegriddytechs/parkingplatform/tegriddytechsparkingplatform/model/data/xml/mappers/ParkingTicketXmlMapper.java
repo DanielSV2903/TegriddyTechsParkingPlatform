@@ -16,6 +16,7 @@ public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
     private final String ENTRY_TIME = "entryTime";
     private final String EXIT_TIME = "exitTime";
     private final String RATE_ID = "rateID";
+    private final String AMOUNT = "amount";
 
 
     @Override
@@ -39,9 +40,10 @@ public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
         e.setAttribute(idAttributeName(), entity.getTicketId());
         e.addContent(new Element(LOT_ID).setText(entity.getParkingSpace().getParkingLot().getParkingLotId()+""));
         e.addContent(new Element(SPACE_NUMBER).setText(entity.getParkingSpace().getSpaceNumber()+""));
-        e.addContent(new Element(ENTRY_TIME).setText(entity.getEntryTime()!= null ?entity.toString():""));
+        e.addContent(new Element(ENTRY_TIME).setText(entity.getEntryTime()!= null ?entity.getEntryTime().toString():""));
         e.addContent(new Element(EXIT_TIME).setText(entity.getExitTime() != null ? entity.getExitTime().toString() : ""));
         e.addContent(new Element(RATE_ID).setText(entity.getRate().getRateId()+""));
+        e.addContent(new Element(AMOUNT).setText(entity.getAmountPaid()+""));
         return e;
     }
 
@@ -50,8 +52,12 @@ public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
        String  id =element.getAttributeValue(ID_ATTRIBUTE);
         int lotId = Integer.parseInt(element.getChildText(LOT_ID));
         int spaceNumber= Integer.parseInt(element.getChildText(SPACE_NUMBER));
+        double amountPaid=Double.parseDouble(element.getChildText(AMOUNT));
         LocalDateTime entryTime= LocalDateTime.parse(element.getChildText(ENTRY_TIME));
-        LocalDateTime exitTime= LocalDateTime.parse(element.getChildText(EXIT_TIME));
+        LocalDateTime exitTime=null;
+        if(element.getChildText(EXIT_TIME).length()>2){
+            exitTime= LocalDateTime.parse(element.getChildText(EXIT_TIME));
+        }
         int rateId = Integer.parseInt(element.getChildText(RATE_ID));
         ParkingLot lot = new ParkingLot();
         lot.setParkingLotId(lotId);//TODO CONECTAR la entidad completa
@@ -61,6 +67,7 @@ public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
         space.setSpaceNumber(spaceNumber);
         space.setParkingLot(lot);
         ParkingTicket ticket = new ParkingTicket(id,space,entryTime,rate,exitTime);
+        ticket.setAmountPaid(amountPaid);
 
         return ticket;
     }

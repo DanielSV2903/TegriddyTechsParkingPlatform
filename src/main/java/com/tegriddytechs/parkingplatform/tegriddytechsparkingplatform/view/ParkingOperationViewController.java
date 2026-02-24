@@ -46,7 +46,7 @@ import java.util.List;
             this.loggedUser = loggedUser;
 
             try {
-                this.parkingOperationController = new ParkingOperationController();
+                this.parkingOperationController = new ParkingOperationController(mainMenuController);
             } catch (IOException | JDOMException ex) {
                 setResultError("No se pudo inicializar ParkingOperationController: " + ex.getMessage());
                 return;
@@ -245,15 +245,7 @@ import java.util.List;
             }        }
 
         private Vehicle findVehicleByPlate(String plate) {
-            String target = plate.trim().toUpperCase();
-            List<Vehicle> vehicles = dataManager.getVehicleController().getAllVehicles();
-            if (vehicles == null) return null;
-
-            for (Vehicle v : vehicles) {
-                String vp = safePlate(v).toUpperCase();
-                if (vp.equals(target)) return v;
-            }
-            return null;
+            return mainMenuController.getVehicleController().findVehicleByPlate(plate);
         }
 
         private String safePlate(Vehicle v) {
