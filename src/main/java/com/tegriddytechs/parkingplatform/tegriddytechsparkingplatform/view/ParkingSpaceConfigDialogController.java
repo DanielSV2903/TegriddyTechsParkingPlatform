@@ -181,6 +181,17 @@ public class ParkingSpaceConfigDialogController {
         }
 
         resultSpaces = spaces.toArray(new ParkingSpace[0]);
+
+        // DEBUG: Logging para verificar espacios preferenciales
+        int preferentialCount_actual = 0;
+        for (ParkingSpace space : resultSpaces) {
+            if (space != null && space.isPreferential()) {
+                preferentialCount_actual++;
+                System.out.println("✓ Espacio " + space.getSpaceNumber() + " - Preferencial: true");
+            }
+        }
+        System.out.println("Total de espacios preferenciales guardados: " + preferentialCount_actual + " de " + preferentialCount);
+
         applied = true;
         closeWindow();
     }

@@ -1,8 +1,6 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller.*;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.ParkingSpaceData;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.RateData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,6 +58,9 @@ public class MainMenuController {
             rateController = dataManager.getRateController();
             parkingTicketController = dataManager.getParkingTicketController();
             vehicleTypeController=new VehicleTypeController();
+
+            // Actualizar estadísticas al inicializar
+            updateDashboardStatistics();
         } catch (IOException | JDOMException e) {
             throw new RuntimeException(e);
         }
@@ -353,6 +354,10 @@ public class MainMenuController {
             Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(new Scene(root));
+
+            // Actualizar estadísticas cuando se cierre la ventana
+            stage.setOnHidden(e -> updateDashboardStatistics());
+
             stage.show();
         } catch (IOException ex) {
             CrudAlertHelper.showWarning("Navegacion", "No se pudo abrir la ventana: " + title + " - " + ex.getMessage());
@@ -1123,6 +1128,26 @@ public class MainMenuController {
 
     public void setUser(User user) {
         this.user = user;
+
+        //se actualizan los labels de info del usuario
+        if (user != null) {
+            if (adminNameLabel != null) {
+                String displayName = user.getName() != null ? user.getName() : "Usuario";
+                if (user instanceof Administrator) {
+                    displayName = "Admin: " + displayName;
+                } else if (user instanceof Clerk) {
+                    displayName = "Cajero: " + displayName;
+                }
+                adminNameLabel.setText(displayName);
+            }
+
+            if (adminMailLabel != null) {
+                String username = user.getUserName() != null ? user.getUserName() : "Sin usuario";
+                adminMailLabel.setText(username);
+            }
+
+            updateDashboardStatistics();
+        }
     }
 
     public UserController getUserController() {
@@ -1173,37 +1198,6 @@ public class MainMenuController {
         return parkingTicketController;
     }
 
-    public void setUserController(UserController userController) {
-        this.userController = userController;
-    }
-
-    public void setCustomerController(CustomerController customerController) {
-        this.customerController = customerController;
-    }
-
-    public void setParkingLotController(ParkingLotController parkingLotController) {
-        this.parkingLotController = parkingLotController;
-    }
-
-    public void setVehicleController(VehicleController vehicleController) {
-        this.vehicleController = vehicleController;
-    }
-
-    public void setParkingSpaceController(ParkingSpaceController parkingSpaceController) {
-        this.parkingSpaceController = parkingSpaceController;
-    }
-
-    public void setRateController(RateController rateController) {
-        this.rateController = rateController;
-    }
-
-    public void setParkingTicketController(ParkingTicketController parkingTicketController) {
-        this.parkingTicketController = parkingTicketController;
-    }
-
-    public void setVehicleTypeController(VehicleTypeController vehicleTypeController) {
-        this.vehicleTypeController = vehicleTypeController;
-    }
 
     public DataManager getDataManager() {
         return dataManager;
@@ -1223,5 +1217,59 @@ public class MainMenuController {
 
     public VehicleTypeController getVehicleTypeController() {
         return this.vehicleTypeController;
+    }
+
+
+    public void updateDashboardStatistics() {
+        try {
+            //1-Total de parqueos
+            if (totalParkingLots != null && parkingLotController != null) {
+                List<ParkingLot> parkingLots = parkingLotController.getAllParkingLots();
+                long activeLots = parkingLots.stream().filter(ParkingLot::isActive).count();
+                totalParkingLots.setText(String.valueOf(activeLots));
+            }
+
+            //2-Total de espacios disponibles
+            if (totalSpaces != null && parkingSpaceController != null) {
+                List<ParkingSpace> spaces = parkingSpaceController.getAllParkingSpaces();
+                long availableSpaces = spaces.stream()
+                        .filter(space -> !space.isState()) // Estado false = disponible
+                        .count();
+                totalSpaces.setText(String.valueOf(availableSpaces));
+            }
+
+            //3-Vehículos Activos
+            if (totalActiveVehicles != null && vehicleController != null) {
+                List<Vehicle> vehicles = vehicleController.getAllVehicles();
+                long parkedVehicles = vehicles.stream()
+                        .filter(v -> v.getVehicleStatus() == VehicleStatus.PARKED)
+                        .count();
+                totalActiveVehicles.setText(String.valueOf(parkedVehicles));
+            }
+
+            //4-Ingresos del día
+            if (todayUsage != null && parkingTicketController != null) {
+                List<ParkingTicket> tickets = parkingTicketController.getAllTickets();
+                LocalDateTime today = LocalDateTime.now();
+
+                double todayRevenue = tickets.stream()
+                        .filter(ticket -> ticket.getEntryTime() != null)
+                        .filter(ticket -> {
+                            LocalDateTime entryTime = ticket.getEntryTime();
+                            return entryTime.getYear() == today.getYear()
+                                    && entryTime.getMonth() == today.getMonth()
+                                    && entryTime.getDayOfMonth() == today.getDayOfMonth();
+                        })
+                        .filter(ticket -> ticket.getExitTime() != null) // Solo tickets cerrados
+                        .mapToDouble(ParkingTicket::getAmountPaid)
+                        .sum();
+
+                todayUsage.setText(String.format("%.0f", todayRevenue));
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error actualizando estadísticas del dashboard: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

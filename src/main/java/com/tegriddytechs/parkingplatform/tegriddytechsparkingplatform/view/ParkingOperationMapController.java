@@ -18,33 +18,34 @@ import org.jdom2.JDOMException;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Controlador fusionado de visualización y operación de parqueos
- * Combina la visualización gráfica basada en Sudoku (ParkingMapController)
- * con las operaciones de parquear/desparquear (ParkingOperationViewController)
- * 
- * Basado en el patrón de matriz de paneles del proyecto Sudoku
- * Similar a VentanaDelPanel.java - usa matriz de paneles para representar espacios
- */
 public class ParkingOperationMapController {
 
-    // ============== FXML COMPONENTS ==============
-    @FXML private ComboBox<ParkingLot> cbParkingLot;
-    @FXML private GridPane gridParkingMap;
-    @FXML private Label lblParkingName;
-    @FXML private Label lblTotalSpaces;
-    @FXML private Label lblOccupiedSpaces;
-    @FXML private Label lblAvailableSpaces;
-    @FXML private Pane legendPanel;
+    @FXML
+    private ComboBox<ParkingLot> cbParkingLot;
+    @FXML
+    private GridPane gridParkingMap;
+    @FXML
+    private Label lblParkingName;
+    @FXML
+    private Label lblTotalSpaces;
+    @FXML
+    private Label lblOccupiedSpaces;
+    @FXML
+    private Label lblAvailableSpaces;
+    @FXML
+    private Pane legendPanel;
     
-    // Campos de operación
-    @FXML private TextField tfPlatePark;
-    @FXML private TextField tfPlateExit;
-    @FXML private TextField tfSpaceNumber;  // NUEVO: para especificar espacio
-    @FXML private Label lblResult;
-    @FXML private Label lblSpaceDetail;
+    @FXML
+    private TextField tfPlatePark;
+    @FXML
+    private TextField tfPlateExit;
+    @FXML
+    private TextField tfSpaceNumber;
+    @FXML
+    private Label lblResult;
+    @FXML
+    private Label lblSpaceDetail;
 
-    // ============== CONTROLLERS ==============
     private ParkingLotController parkingLotController;
     private ParkingSpaceController parkingSpaceController;
     private ParkingOperationController parkingOperationController;
@@ -52,22 +53,18 @@ public class ParkingOperationMapController {
     private User loggedUser;
     private MainMenuController mainMenuController;
 
-    // ============== STATE ==============
     private ParkingLot selectedParkingLot;
-    private ParkingSpace selectedSpace;  // Espacio seleccionado con click
+    private ParkingSpace selectedSpace;
     
-    // Matriz de paneles similar al Sudoku (VentanaDelPanel línea 32)
     private StackPane[][] matrizPaneles;
     private int filas;
     private int columnas;
     
-    // Colores basados en el patrón del Sudoku
     private static final String COLOR_DISPONIBLE = "#90EE90";    // Verde claro
     private static final String COLOR_OCUPADO = "#FF6B6B";        // Rojo
     private static final String COLOR_PREFERENCIAL = "#87CEEB";   // Azul cielo
     private static final String COLOR_SELECCIONADO = "#FFD700";   // Dorado (cuando se hace click)
 
-    // ============== CONSTRUCTORS ==============
     public ParkingOperationMapController() throws IOException, JDOMException {
         this.parkingLotController = new ParkingLotController();
         this.parkingSpaceController = new ParkingSpaceController();
@@ -92,7 +89,6 @@ public class ParkingOperationMapController {
         loadParkingLots();
         setupLegend();
         
-        // Listener para cuando se selecciona un parqueadero
         cbParkingLot.setOnAction(e -> onParkingLotSelected());
     }
 
@@ -111,11 +107,7 @@ public class ParkingOperationMapController {
         applyDefaultSelectionByRole();
     }
 
-    // ============== PARKING LOT LOADING ==============
-    
-    /**
-     * Carga los parqueaderos según el rol del usuario
-     */
+    //Carga los parqueos
     private void loadParkingLots() {
         cbParkingLot.getItems().clear();
         
@@ -167,12 +159,7 @@ public class ParkingOperationMapController {
         }
     }
 
-    // ============== GRID VISUALIZATION (From ParkingMapController - Sudoku based) ==============
-    
-    /**
-     * Método que se ejecuta cuando se selecciona un parqueadero
-     * Similar a matrizPaneles() del Sudoku (línea 165)
-     */
+    //Visualización dek parqueo
     @FXML
     private void onParkingLotSelected() {
         selectedParkingLot = cbParkingLot.getValue();
@@ -202,9 +189,6 @@ public class ParkingOperationMapController {
         setResultInfo("Parqueadero cargado: " + selectedParkingLot.getName());
     }
 
-    /**
-     * Calcula las dimensiones de la cuadrícula según el número de espacios
-     */
     private void calculateGridDimensions(int totalSpaces) {
         columnas = (int) Math.ceil(Math.sqrt(totalSpaces));
         filas = (int) Math.ceil((double) totalSpaces / columnas);
@@ -215,10 +199,6 @@ public class ParkingOperationMapController {
         }
     }
 
-    /**
-     * Crea la matriz de paneles para visualizar el parqueo
-     * Basado en matrizPaneles() del Sudoku (líneas 165-250)
-     */
     private void crearMatrizPaneles(ParkingSpace[] spaces) {
         gridParkingMap.getChildren().clear();
         gridParkingMap.getColumnConstraints().clear();
@@ -252,20 +232,22 @@ public class ParkingOperationMapController {
                     gridParkingMap.add(emptyPanel, j, i);
                 } else {
                     ParkingSpace space = spaces[spaceIndex];
-                    StackPane panel = createSpacePanel(space);
-                    matrizPaneles[i][j] = panel;
-                    gridParkingMap.add(panel, j, i);
+                    // VALIDACIÓN: Verificar que el espacio no sea null
+                    if (space == null) {
+                        StackPane emptyPanel = createEmptyPanel();
+                        matrizPaneles[i][j] = emptyPanel;
+                        gridParkingMap.add(emptyPanel, j, i);
+                    } else {
+                        StackPane panel = createSpacePanel(space);
+                        matrizPaneles[i][j] = panel;
+                        gridParkingMap.add(panel, j, i);
+                    }
                     spaceIndex++;
                 }
             }
         }
     }
 
-    /**
-     * Crea un panel para un espacio de parqueo
-     * Similar a como se crean los paneles en el Sudoku (líneas 173-183)
-     * MODIFICADO: Ahora permite seleccionar el espacio con click
-     */
     private StackPane createSpacePanel(ParkingSpace space) {
         StackPane panel = new StackPane();
         panel.setPrefSize(80, 80);
@@ -307,10 +289,12 @@ public class ParkingOperationMapController {
         return panel;
     }
 
-    /**
-     * Obtiene el color del espacio según su estado
-     */
+
     private String getSpaceColor(ParkingSpace space) {
+        if (space == null) {
+            return "#f0f0f0"; // Gris claro para espacios null
+        }
+
         if (space.isParked()) {
             return COLOR_OCUPADO;  // Rojo si está ocupado
         } else if (space.isPreferential()) {
@@ -320,10 +304,7 @@ public class ParkingOperationMapController {
         }
     }
 
-    /**
-     * Maneja el click en un espacio
-     * Selecciona el espacio y actualiza el campo de número
-     */
+    //Si sea clickea el espacio
     private void onSpaceClicked(ParkingSpace space, StackPane panel) {
         // Deseleccionar espacio anterior
         if (selectedSpace != null) {
@@ -345,9 +326,7 @@ public class ParkingOperationMapController {
         showSpaceDetail(space);
     }
 
-    /**
-     * Refresca un solo espacio en la cuadrícula
-     */
+
     private void refreshSingleSpace(ParkingSpace space) {
         if (matrizPaneles == null || space == null) return;
         
@@ -380,12 +359,6 @@ public class ParkingOperationMapController {
     }
 
     // ============== PARKING OPERATIONS ==============
-    
-    /**
-     * Parquea un vehículo
-     * Si se especifica número de espacio, usa ese
-     * Si no, busca el espacio libre más cercano
-     */
     @FXML
     private void onPark(ActionEvent e) {
         if (selectedParkingLot == null) {
@@ -424,9 +397,10 @@ public class ParkingOperationMapController {
             
             if (spaceNumber != null) {
                 // Parquear en espacio específico
-                result = parkingOperationController.parkVehicle(
+                result = parkingOperationController.parkVehicleInSpecificSpace(
                     selectedParkingLot.getParkingLotId(),
-                    vehicle
+                    vehicle,
+                    spaceNumber
                 );
             } else {
                 // Parquear en el espacio libre más cercano
@@ -436,14 +410,17 @@ public class ParkingOperationMapController {
                 );
             }
 
-            // Reconectar datos
+            // Reconectar datos para asegurar consistencia
             if (dataManager != null) {
                 dataManager.connectAll();
             }
 
             if (result.isSuccessfull()) {
                 setResultOk(result.getMessage());
-                refreshView();  // Refresca la vista completa
+                // Limpiar formulario después del parqueo exitoso
+                onClear();
+                // Refresca la vista completa
+                refreshView();
             } else {
                 setResultError(result.getMessage());
             }
@@ -452,9 +429,6 @@ public class ParkingOperationMapController {
         }
     }
 
-    /**
-     * Registra la salida de un vehículo
-     */
     @FXML
     private void onExit(ActionEvent e) {
         String plate = tfPlateExit.getText() == null ? "" : tfPlateExit.getText().trim();
@@ -481,9 +455,7 @@ public class ParkingOperationMapController {
         }
     }
 
-    /**
-     * Refresca completamente la vista
-     */
+
     @FXML
     private void onRefresh() {
         refreshView();
@@ -506,15 +478,15 @@ public class ParkingOperationMapController {
 
     @FXML
     private void onClear() {
+        // Limpiar solo los textfields, NO redibujar el mapa
         if (tfPlatePark != null) tfPlatePark.clear();
         if (tfPlateExit != null) tfPlateExit.clear();
         if (tfSpaceNumber != null) tfSpaceNumber.clear();
         
-        selectedSpace = null;
-        
-        // Refrescar cuadrícula para quitar selección
-        if (selectedParkingLot != null) {
-            crearMatrizPaneles(selectedParkingLot.getSpaces());
+        // Deseleccionar el espacio visualmente pero mantener la cuadrícula
+        if (selectedSpace != null) {
+            refreshSingleSpace(selectedSpace);  // Restaura color original
+            selectedSpace = null;
         }
         
         setResultInfo("Formulario limpio.");
@@ -557,7 +529,8 @@ public class ParkingOperationMapController {
         
         int occupied = 0;
         for (ParkingSpace space : spaces) {
-            if (space.isParked()) {
+            // Validar que el espacio no sea null antes de verificar si está ocupado
+            if (space != null && space.isParked()) {
                 occupied++;
             }
         }

@@ -229,7 +229,32 @@ public class RateCrudController {
     }
 
     private VehicleType defaultVehicleType(double fee, SpaceType spaceType, String desc) {
-        return new VehicleType(1, desc, (byte) 4, fee, spaceType);
+        // Asignar ID según el SpaceType para mantener consistencia:
+        // BICYCLE = 1, MOTORCYCLE = 2, CAR = 3, HEAVY = 4
+        int vehicleTypeId;
+        byte tyres;
+        switch (spaceType) {
+            case BICYCLE:
+                vehicleTypeId = 1;
+                tyres = 2;
+                break;
+            case MOTORCYCLE:
+                vehicleTypeId = 2;
+                tyres = 2;
+                break;
+            case CAR:
+                vehicleTypeId = 3;
+                tyres = 4;
+                break;
+            case HEAVY:
+                vehicleTypeId = 4;
+                tyres = 6;
+                break;
+            default:
+                vehicleTypeId = 1;
+                tyres = 4;
+        }
+        return new VehicleType(vehicleTypeId, desc, tyres, fee, spaceType);
     }
 
     private void updateRecordCount() {

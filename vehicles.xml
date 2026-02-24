@@ -7,7 +7,7 @@
     <color>Gris</color>
     <ownerId>119310248</ownerId>
     <status>Estacionado</status>
-    <ticketId>c5d52b9e-76d6-4dde-aa9f-2a5255ddd877</ticketId>
+    <ticketId>7ecb15ec-6cab-43ae-9f19-5c727902b722</ticketId>
   </vehicle>
   <vehicle plate="dsv">
     <vehicleTypeId>3</vehicleTypeId>
@@ -15,7 +15,25 @@
     <model>Zentorno</model>
     <color>Negro</color>
     <ownerId>2</ownerId>
-    <status>Retirado</status>
-    <ticketId />
+    <status>Estacionado</status>
+    <ticketId>6e854f88-f6b4-40d6-bed2-8d71a2d92ce6</ticketId>
+  </vehicle>
+  <vehicle plate="875008">
+    <vehicleTypeId>2</vehicleTypeId>
+    <brand>Honda</brand>
+    <model>Navi</model>
+    <color>Negro</color>
+    <ownerId>2</ownerId>
+    <status>Estacionado</status>
+    <ticketId>0e5fcf03-aca0-4f35-b803-83a1af2c6a69</ticketId>
+  </vehicle>
+  <vehicle plate="FBD111">
+    <vehicleTypeId>1</vehicleTypeId>
+    <brand>Chevrolet</brand>
+    <model>Beat</model>
+    <color>Gris</color>
+    <ownerId>1</ownerId>
+    <status>Estacionado</status>
+    <ticketId>9c8b24ae-2198-4955-979d-5e852ae5dd0b</ticketId>
   </vehicle>
 </vehicles>

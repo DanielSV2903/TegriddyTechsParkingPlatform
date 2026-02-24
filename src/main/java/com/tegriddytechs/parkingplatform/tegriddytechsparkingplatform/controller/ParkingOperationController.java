@@ -29,24 +29,27 @@ public class ParkingOperationController {
         //Busca que el parqueo esté disponible
         ParkingLot parkingLot = parkingLotController.findParkingLotById(parkingLotId);
         if (parkingLot == null || !parkingLot.isActive()) {
-            return OperationResult.failure("Parking lot not available");
+            return OperationResult.failure("Parqueo no disponible");
         }
 
         //Valida el estado del vehículo
         if (vehicle.getVehicleStatus() == VehicleStatus.PARKED) {
-            return OperationResult.failure("Vehicle is already parked");
+            return OperationResult.failure("El vehículo ya está estacionado");
         }
 
         //busca un espacio disponible
         ParkingSpace availableSpace= assignSpace(vehicle,parkingLot);
 
         if (availableSpace == null) {
-            return OperationResult.failure("No available space for this vehicle type");
+            return OperationResult.failure("No hay espacios disponibles para el tipo de vehículo: " + vehicle.getVehicleType());
         }
 
-        double fee = vehicle.getVehicleType().getFee();
-
         Rate rate = mainMenuController.getRateController().findBySpaceType(availableSpace.getSpaceType());
+
+        if (rate == null) {
+            return OperationResult.failure("No existe tarifa para el tipo de vehículo: " + availableSpace.getSpaceType());
+        }
+
         //Generar ticket
         ParkingTicket ticket = new ParkingTicket(
                 UUID.randomUUID().toString(),
@@ -66,23 +69,118 @@ public class ParkingOperationController {
         vehicleController.editVehicle(vehicle);
         parkingLotController.editParkingLot(parkingLot);
 
-        return OperationResult.success("Vehicle parked successfully", ticket);
+        return OperationResult.success("El vehículo fue parqueado correctamente", ticket);
+    }
+
+    /**
+     * Parquea un vehículo en un espacio específico
+     * @param parkingLotId ID del parqueadero
+     * @param vehicle Vehículo a parquear
+     * @param spaceNumber Número del espacio específico donde parquear
+     * @return Resultado de la operación
+     */
+    public OperationResult parkVehicleInSpecificSpace(int parkingLotId, Vehicle vehicle, int spaceNumber) throws IOException {
+        // Buscar el parqueadero
+        ParkingLot parkingLot = parkingLotController.findParkingLotById(parkingLotId);
+        if (parkingLot == null || !parkingLot.isActive()) {
+            return OperationResult.failure("Parqueo no disponible");
+        }
+
+        // Validar el estado del vehículo
+        if (vehicle.getVehicleStatus() == VehicleStatus.PARKED) {
+            return OperationResult.failure("El vehículo ya está estacionado");
+        }
+
+        // Buscar el espacio específico
+        ParkingSpace specificSpace = null;
+        for (ParkingSpace space : parkingLot.getSpaces()) {
+            if (space != null && space.getSpaceNumber() == spaceNumber) {
+                specificSpace = space;
+                break;
+            }
+        }
+
+        if (specificSpace == null) {
+            return OperationResult.failure("El espacio número " + spaceNumber + " no fue encontrado");
+        }
+
+        // Validar que el espacio esté disponible
+        if (specificSpace.isState()) {
+            return OperationResult.failure("El espacio " + spaceNumber + " ya se encuentra ocupado");
+        }
+
+        // Validar que el espacio sea del tipo correcto
+        if (specificSpace.getSpaceType() != vehicle.getVehicleType().getSpaceType()) {
+            return OperationResult.failure("El espacio seleccionado no es compatible con el tipo de vehículo: " + vehicle.getVehicleType());
+        }
+
+        // Obtener la tarifa
+        Rate rate = mainMenuController.getRateController().findBySpaceType(specificSpace.getSpaceType());
+        if (rate == null) {
+            return OperationResult.failure("No se encontró una tarifa para el tipo de vehículo : " + specificSpace.getSpaceType());
+        }
+
+        // Crear ticket
+        ParkingTicket ticket = new ParkingTicket(
+                UUID.randomUUID().toString(),
+                specificSpace,
+                LocalDateTime.now(),
+                rate
+        );
+
+        // Actualizar estados
+        specificSpace.setState(true);
+        specificSpace.setParkedVehicle(vehicle);
+        vehicle.setVehicleStatus(VehicleStatus.PARKED);
+        vehicle.setTicket(ticket);
+
+        // Guardar cambios
+        ticketController.addParkingTicket(ticket);
+        parkingSpaceController.editParkingSpace(specificSpace);
+        vehicleController.editVehicle(vehicle);
+        parkingLotController.editParkingLot(parkingLot);
+
+        return OperationResult.success("El vehículo "+ vehicle.getPlate() + " se parqueó correctamente en el espacio: " + spaceNumber, ticket);
     }
 
     private ParkingSpace assignSpace(Vehicle vehicle, ParkingLot parkingLot) {
         ParkingSpace availableSpace = null;
         boolean preferentialNeeded = checkForPreferentialNeeded(vehicle);
+
+        // Primera pasada: buscar con restricción de preferencial
         for (ParkingSpace space : parkingLot.getSpaces()) {
+            // Validar que el espacio no sea null
+            if (space == null) continue;
+
+            // Verificar que esté disponible, sea del tipo correcto y cumpla con preferencial
             if (!space.isState() &&
-                    space.getSpaceType() == vehicle.getVehicleType().getSpaceType()&& preferentialNeeded == space.isPreferential()) {
+                    space.getSpaceType() == vehicle.getVehicleType().getSpaceType() &&
+                    preferentialNeeded == space.isPreferential()) {
                 availableSpace = space;
                 break;
             }
         }
+
+        // Segunda pasada: si no se encontró y no requiere preferencial, buscar cualquier espacio disponible del tipo correcto
+        if (availableSpace == null && !preferentialNeeded) {
+            for (ParkingSpace space : parkingLot.getSpaces()) {
+                if (space == null) continue;
+
+                if (!space.isState() && space.getSpaceType() == vehicle.getVehicleType().getSpaceType()) {
+                    availableSpace = space;
+                    break;
+                }
+            }
+        }
+
         return availableSpace;
     }
 
     private boolean checkForPreferentialNeeded(Vehicle vehicle) {
+        // Validar que el vehículo tenga owner y que este tenga la propiedad de discapacidad
+        if (vehicle == null || vehicle.getOwner() == null) {
+            return false;
+        }
         return vehicle.getOwner().isDisability();
     }
 
@@ -91,17 +189,17 @@ public class ParkingOperationController {
         //Se busca el vehículo
         Vehicle vehicle = vehicleController.findVehicleByPlate(licensePlate);
         if (vehicle == null) {
-            return OperationResult.failure("Vehicle not found");
+            return OperationResult.failure("Vehículo no encontrado");
         }
 
         //Se valida el estado
         if (vehicle.getVehicleStatus() != VehicleStatus.PARKED) {
-            return OperationResult.failure("Vehicle is not currently parked");
+            return OperationResult.failure("Vehículo no está estacionado");
         }
 
         ParkingTicket ticket = vehicle.getTicket();
         if (ticket == null) {
-            return OperationResult.failure("Parking ticket not found");
+            return OperationResult.failure("No se encontró un ticket asociado al vehículo");
         }
 
         //Asignar hora de salida
@@ -134,7 +232,7 @@ public class ParkingOperationController {
 
 
         return OperationResult.success(
-                "Vehicle exited successfully. Total amount: " + totalAmount);
+                "El vehículo ha salido del parqueo. Total a pagar: " + totalAmount);
     }
 
 }

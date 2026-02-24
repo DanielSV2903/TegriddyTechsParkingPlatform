@@ -1,6 +1,5 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.RateData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -133,7 +132,7 @@ public class VehicleCrudController {
             return;
         }
 
-         Rate rate = mainMenuController.getRateController().findBySpaceType(vehicleSpaceType.getSpaceType());
+        Rate rate = mainMenuController.getRateController().findBySpaceType(vehicleSpaceType.getSpaceType());
 
         if (rate == null) {
             CrudAlertHelper.showWarning(
