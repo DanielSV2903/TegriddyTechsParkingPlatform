@@ -8,7 +8,7 @@ public class ParkingSpace {
     private boolean preferential;
     private boolean state;
     private Vehicle parkedVehicle;
-    private transient ParkingLot parkingLot;
+    private  ParkingLot parkingLot;
 
     public ParkingSpace() {
     }

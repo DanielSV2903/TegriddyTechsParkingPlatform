@@ -32,67 +32,83 @@ public class MainMenuController {
     private  ParkingSpaceController parkingSpaceController;
     private RateController rateController;
     private  ParkingTicketController parkingTicketController;
+    private VehicleTypeController vehicleTypeController;
     private User user;
+    private DataManager dataManager;
+    @FXML
+    private Label todayUsage;
+    @FXML
+    private Label totalSpaces;
+    @FXML
+    private Label adminNameLabel;
+    @FXML
+    private Label adminMailLabel;
+    @FXML
+    private Label totalParkingLots;
+    @FXML
+    private Label totalActiveVehicles;
 
     @FXML
     private void initialize() {
         try {
-            userController = new UserController();
-            customerController=new CustomerController();
-            vehicleController = new VehicleController();
-            parkingLotController = new ParkingLotController();
-            parkingSpaceController = new ParkingSpaceController();
-            rateController = new RateController();
-            parkingTicketController = new ParkingTicketController();
+            dataManager = new DataManager();
+            userController = dataManager.getUserController();
+            customerController=dataManager.getCustomerController();
+            vehicleController = dataManager.getVehicleController();
+            parkingLotController = dataManager.getParkingLotController();
+            parkingSpaceController = dataManager.getParkingSpaceController();
+            rateController = dataManager.getRateController();
+            parkingTicketController = dataManager.getParkingTicketController();
+            vehicleTypeController=new VehicleTypeController();
         } catch (IOException | JDOMException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    @Deprecated
+    @FXML
     public void toClients(ActionEvent actionEvent) {
         openCrudWindow("customer-crud-view-improved.fxml", "CRUD Clientes", () -> new CustomerCrudController(this));
     }
 
-    @Deprecated
+    @FXML
     public void toRates(ActionEvent actionEvent) {
         openCrudWindow("rate-crud-view-improved.fxml", "CRUD Tarifas", () -> new RateCrudController(this));
     }
 
-    @Deprecated
+    @FXML
     public void toClerks(ActionEvent actionEvent) {
         openCrudWindow("clerk-crud-view-improved.fxml", "CRUD Cajeros", () -> new ClerkCrudController(this));
 
     }
 
-    @Deprecated
+    @FXML
     public void toAdmin(ActionEvent actionEvent) {
         openCrudWindow("admin-crud-view-improved.fxml", "CRUD Administradores", () -> new AdminCrudController(this));
     }
 
-    @Deprecated
+    @FXML
     public void toParkings(ActionEvent actionEvent) {
         openCrudWindow("parkinglot-crud-view-improved.fxml", "CRUD Parqueaderos", () -> new ParkingLotCrudController(this));
 
     }
 
-    @Deprecated
+    @FXML
     public void toUsers(ActionEvent actionEvent) {
         openCrudWindow("user-crud-view-improved.fxml", "CRUD Usuarios", () -> new UserCrudControllerImproved(this));
     }
 
-    @Deprecated
+    @FXML
     public void toTickets(ActionEvent actionEvent) {
         openCrudWindow("ticket-crud-view-improved.fxml", "CRUD Tickets", () -> new TicketCrudController(this));
     }
 
-    @Deprecated
+    @FXML
     public void toVehicles(ActionEvent actionEvent) {
         openCrudWindow("vehicle-crud-view-improved.fxml", "CRUD Vehiculos", () -> new VehicleCrudController(this));
     }
 
-    @Deprecated
+    @FXML
     public void toSpaces(ActionEvent actionEvent) {
         openCrudWindow("parkingspace-crud-view-improved.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
     }
@@ -132,11 +148,17 @@ public class MainMenuController {
             case "Tarifas":
                 openCrudWindow("rate-crud-view-improved.fxml", "CRUD Tarifas", () -> new RateCrudController(this));
                 break;
+                case "TiposVehiculo":
+                    openCrudWindow("vehicleTypeManagementView.fxml", "CRUD Tipo de Vehiculos", () -> new VehicleTypeCrudController(this));
+            case "OperacionParqueo":
+                openCrudWindow("parkingOperationView.fxml", "CRUD Operaciones de Parqueo", () -> new ParkingOperationViewController(this));
+                break;
             default:
                 CrudAlertHelper.showWarning("Navegacion", "Sin CRUD configurado para: " + target);
                 break;
         }
     }
+
 
     public OperationResult createUser(User user) {
         try {
@@ -1059,7 +1081,7 @@ public class MainMenuController {
         }
     }
 
-    @FXML
+    @Deprecated
     public void logOut(ActionEvent actionEvent) {
         int respuesta = JOptionPane.showConfirmDialog(
                 null,
@@ -1105,7 +1127,7 @@ public class MainMenuController {
         return userController;
     }
 
-    @Deprecated
+    @FXML
     public void logOutOnAction(ActionEvent actionEvent) {
         logOut(actionEvent);
     }
@@ -1177,7 +1199,27 @@ public class MainMenuController {
         this.parkingTicketController = parkingTicketController;
     }
 
-    @FXML
+    public void setVehicleTypeController(VehicleTypeController vehicleTypeController) {
+        this.vehicleTypeController = vehicleTypeController;
+    }
+
+    public DataManager getDataManager() {
+        return dataManager;
+    }
+
+    public void setDataManager(DataManager dataManager) {
+        this.dataManager = dataManager;
+    }
+
+    @Deprecated
     public void openCrusd(ActionEvent actionEvent) {
+    }
+
+    public List<VehicleType> getAllVehicleTypes() {
+        return vehicleTypeController.getAllVehicleTypes();
+    }
+
+    public VehicleTypeController getVehicleTypeController() {
+        return this.vehicleTypeController;
     }
 }

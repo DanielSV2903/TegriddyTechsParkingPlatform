@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vehicles />
+<vehicles>
+  <vehicles plate="BPS">
+    <vehicleTypeId>1</vehicleTypeId>
+    <ownerId>119310248</ownerId>
+    <status>Retirado</status>
+  </vehicles>
+</vehicles>

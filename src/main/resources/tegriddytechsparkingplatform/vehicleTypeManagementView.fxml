@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<BorderPane style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.VehicleTypeCrudController">
+
+    <top>
+        <VBox style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+            <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding: 18 24;">
+                <Circle fill="#805ad5" radius="24"/>
+                <Label text="Gestión de Tipos de Vehículo"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="← Volver"
+                        prefHeight="39"
+                        prefWidth="105"
+                        onAction="#goBack"
+                        style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568;
+                               -fx-font-size: 13px; -fx-font-weight: 600;
+                               -fx-background-radius: 8; -fx-padding: 10 20;"/>
+            </HBox>
+            <Separator/>
+        </VBox>
+    </top>
+
+    <center>
+        <HBox>
+
+            <!-- Panel izquierdo -->
+            <VBox prefWidth="420"
+                  style="-fx-background-color: white;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 2, 0);">
+
+                <VBox spacing="20" style="-fx-padding: 24;">
+
+                    <Label text="Formulario de Tipo de Vehículo"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+                    <ScrollPane fitToWidth="true">
+                        <VBox spacing="20" style="-fx-padding: 24;">
+
+                            <TextField fx:id="tfId" promptText="ID"/>
+                            <TextField fx:id="tfDescription" promptText="Descripción"/>
+                            <TextField fx:id="tfAmountOfTyres" promptText="Cantidad de llantas"/>
+                            <TextField fx:id="tfFee" promptText="Tarifa"/>
+
+                            <ComboBox fx:id="cbSpaceType" promptText="Tipo de espacio"/>
+
+                        </VBox>
+                    </ScrollPane>
+
+                    <Button text="Registrar" onAction="#onCreate"/>
+                </VBox>
+            </VBox>
+
+            <!-- Panel derecho -->
+            <VBox HBox.hgrow="ALWAYS" style="-fx-padding: 24;">
+                <TableView fx:id="tableVehicleTypes" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID"/>
+                        <TableColumn fx:id="colDescription" text="Descripción"/>
+                        <TableColumn fx:id="colTyres" text="Llantas"/>
+                        <TableColumn fx:id="colFee" text="Tarifa"/>
+                        <TableColumn fx:id="colSpaceType" text="SpaceType"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>

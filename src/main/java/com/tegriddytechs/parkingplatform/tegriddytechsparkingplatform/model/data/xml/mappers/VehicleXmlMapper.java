@@ -53,6 +53,7 @@ public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
 
 
     private VehicleStatus castStatus(String childText) {
-        return VehicleStatus.valueOf(childText);
+        if (childText.equals(VehicleStatus.EXITED.getEstado())) return VehicleStatus.EXITED;
+        return VehicleStatus.PARKED;
     }
 }

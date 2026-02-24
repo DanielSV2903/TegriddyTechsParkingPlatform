@@ -43,6 +43,11 @@ public class VehicleData extends VehicleXmlRepository {
     }
 
     public void registerVehicle(Vehicle vehicle) throws IOException {
+        if (vehicles.isEmpty()){
+            super.insert(vehicle);
+            vehicles.add(vehicle);
+            return;
+        }
         if (vehicle == null) throw new IllegalArgumentException("vehicle cannot be null");
 
         Vehicle existing = findVehicleByLicensePlate(vehicle.getPlate());

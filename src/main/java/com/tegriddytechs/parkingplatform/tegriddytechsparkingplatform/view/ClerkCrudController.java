@@ -1,6 +1,7 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Clerk;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -36,6 +37,8 @@ public class ClerkCrudController {
     private TableView<Clerk> tableClerks;
     @FXML
     private TableColumn colUsername;
+    @FXML
+    private ComboBox<ParkingLot> cbParkingLot;
 
     public ClerkCrudController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
@@ -45,6 +48,7 @@ public class ClerkCrudController {
     private void initialize() {
         updateRecordCount();
         fillTable();
+        cbParkingLot.setItems(FXCollections.observableArrayList(mainMenuController.getAllParkingLots()));
     }
 
     private void fillTable() {
@@ -77,7 +81,15 @@ public class ClerkCrudController {
         if (id == null || name == null || username == null || password == null) {
             return;
         }
+
+        ParkingLot selectedLot = cbParkingLot != null ? cbParkingLot.getSelectionModel().getSelectedItem() : null;
+        if (selectedLot == null) {
+            CrudAlertHelper.showWarning("Cajeros", "Seleccione el parqueo asignado para el cajero.");
+            return;
+        }
+
         Clerk clerk = new Clerk(id, name, username, password);
+        clerk.setParkingLot(selectedLot);
         CrudAlertHelper.showResult("Cajeros", mainMenuController.createClerk(clerk));
         updateRecordCount();
     }
@@ -101,7 +113,13 @@ public class ClerkCrudController {
         if (id == null || name == null || username == null || password == null) {
             return;
         }
+        ParkingLot selectedLot = cbParkingLot != null ? cbParkingLot.getSelectionModel().getSelectedItem() : null;
+        if (selectedLot == null) {
+            CrudAlertHelper.showWarning("Cajeros", "Seleccione el parqueo asignado para el cajero.");
+            return;
+        }
         Clerk clerk = new Clerk(id, name, username, password);
+        clerk.setParkingLot(selectedLot);
         CrudAlertHelper.showResult("Cajeros", mainMenuController.updateClerk(clerk));
         initialize();
     }
@@ -170,5 +188,6 @@ public class ClerkCrudController {
         tfName.setText(clerk.getName());
         tfUsername.setText(clerk.getUserName());
         tfPassword.setText(clerk.getPassword());
+        cbParkingLot.setValue(clerk.getParkingLot());
     }
 }

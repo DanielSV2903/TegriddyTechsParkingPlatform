@@ -5,11 +5,13 @@
     <username>choco</username>
     <password>choco</password>
     <role>CLERK</role>
+    <parkingLotId />
   </user>
   <user id="2">
     <name>DanielSV</name>
     <username>dsv</username>
     <password>dsv</password>
     <role>ADMIN</role>
+    <parkingLotId />
   </user>
 </users>

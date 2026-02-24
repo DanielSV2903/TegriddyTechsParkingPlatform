@@ -172,6 +172,30 @@
                             <Region prefHeight="10" />
                             <Button maxWidth="Infinity" onAction="#toRates" style="-fx-background-color: #f7fafc; -fx-text-fill: #d53f8c; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
                         </VBox>
+
+                        <!-- Tarjeta Tipos de Vehículo (NUEVA) -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;
+                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+                                      -fx-pref-width: 260; -fx-pref-height: 140;"
+                              GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#f0e6ff" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Tipos de Vehículo" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;"
+                                       text="Registro y configuración de VehicleTypes" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity"
+                                    onAction="#openCrud"
+                                    userData="TiposVehiculo"
+                                    style="-fx-background-color: #f7fafc; -fx-text-fill: #805ad5; -fx-font-size: 13px;
+                                           -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;
+                                           -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;"
+                                    text="Administrar" />
+                        </VBox>
+
                   <columnConstraints>
                      <ColumnConstraints />
                      <ColumnConstraints />
@@ -179,6 +203,7 @@
                      <ColumnConstraints />
                   </columnConstraints>
                   <rowConstraints>
+                     <RowConstraints />
                      <RowConstraints />
                   </rowConstraints>
 
@@ -242,7 +267,7 @@
                             <Region prefHeight="10" />
                             <Button maxWidth="Infinity" onAction="#toVehicles" style="-fx-background-color: #f7fafc; -fx-text-fill: #dd6b20; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
                         </VBox>
-
+                        
                         <!-- Tarjeta Tickets -->
                         <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <VBox spacing="12" style="-fx-padding: 20;">
@@ -255,6 +280,31 @@
                             <Region prefHeight="10" />
                             <Button maxWidth="Infinity" onAction="#toTickets" style="-fx-background-color: #f7fafc; -fx-text-fill: #d69e2e; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
                         </VBox>
+
+                            <!-- Tarjeta Operación Parqueo (NUEVA) -->
+                            <VBox style="-fx-background-color: white; -fx-background-radius: 12;
+                                          -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+                                          -fx-pref-width: 260; -fx-pref-height: 140;"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <VBox spacing="12" style="-fx-padding: 20;">
+                                    <HBox alignment="CENTER_LEFT" spacing="12">
+                                        <Circle fill="#ebf4ff" radius="20" />
+                                        <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;"
+                                               text="Operación Parqueo" />
+                                    </HBox>
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;"
+                                           text="Parquear/Desparquear y ver mapa de espacios" />
+                                </VBox>
+                                <Region prefHeight="10" />
+                                <Button maxWidth="Infinity"
+                                        onAction="#openCrud"
+                                        userData="OperacionParqueo"
+                                        style="-fx-background-color: #f7fafc; -fx-text-fill: #3182ce; -fx-font-size: 13px;
+                                               -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;
+                                               -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;"
+                                        text="Abrir" />
+                            </VBox>
+
                   <columnConstraints>
                      <ColumnConstraints />
                      <ColumnConstraints />

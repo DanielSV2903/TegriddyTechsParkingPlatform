@@ -21,7 +21,7 @@ public class CustomerXmlMapper implements XmlEntityMapper< Customer> {
 
     @Override
     public String elementName() {
-        return "customers";
+        return "customer";
     }
 
     @Override

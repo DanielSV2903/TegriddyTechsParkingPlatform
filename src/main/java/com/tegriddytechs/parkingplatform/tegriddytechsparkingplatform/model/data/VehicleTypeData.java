@@ -25,9 +25,14 @@ public class VehicleTypeData extends VehicleTypeXmlRepository {
 
 
     public void addVehicleType(VehicleType vehicleType) throws IOException {
+        if (getAllVehicleTypes().isEmpty()){
+            super.insert(vehicleType);
+            vehicleTypes.add(vehicleType);
+            return;
+        }
         if (vehicleType==null)
             throw new IllegalArgumentException("VehicleType cannot be null");
-        if (findById(vehicleType.getId()) != null)
+        if (findById(vehicleType.getId()).isPresent())
             throw new IllegalArgumentException("VehicleType with ID " + vehicleType.getId() + " already exists.");
         super.insert(vehicleType);
         vehicleTypes.add(vehicleType);

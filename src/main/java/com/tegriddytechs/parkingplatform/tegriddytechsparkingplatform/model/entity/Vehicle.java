@@ -2,6 +2,9 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.ent
 
 public class Vehicle {
     private String plate;
+    private String model;
+    private String color;
+    private String brand;
     private VehicleType vehicleType;
     private VehicleStatus vehicleStatus;
     private Customer owner;
@@ -23,6 +26,29 @@ public class Vehicle {
         this.vehicleStatus = vehicleStatus;
         this.owner = owner;
         this.ticket = ticket;
+    }
+
+    public Vehicle(String plate, String model, String color, String brand, VehicleType vehicleType, VehicleStatus vehicleStatus, Customer owner, ParkingTicket ticket) {
+        this.plate = plate;
+        this.model = model;
+        this.color = color;
+        this.brand = brand;
+        this.vehicleType = vehicleType;
+        this.vehicleStatus = vehicleStatus;
+        this.owner = owner;
+        this.ticket = ticket;
+        this.disabledPermit = owner.isDisability();
+    }
+
+    public Vehicle(String plate, String model, String color, String brand, VehicleType vehicleType, Customer owner) {
+        this.plate = plate;
+        this.model = model;
+        this.color = color;
+        this.brand = brand;
+        this.vehicleType = vehicleType;
+        this.owner = owner;
+        this.disabledPermit = owner.isDisability();
+        this.ticket = null;
     }
 
     public Vehicle(String vehiclePlate) {
@@ -83,5 +109,29 @@ public class Vehicle {
 
     public void setDisabledPermit(boolean disabledPermit) {
         this.disabledPermit = disabledPermit;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }

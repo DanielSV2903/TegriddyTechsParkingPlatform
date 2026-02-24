@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vehicleTypes>
+  <vehicleType id="1">
+    <description>Vehiculo Liviano</description>
+    <amountOfTyres>4</amountOfTyres>
+    <fee>1000.0</fee>
+    <spaceType>CAR</spaceType>
+  </vehicleType>
+  <vehicleType id="2">
+    <description>Moto</description>
+    <amountOfTyres>2</amountOfTyres>
+    <fee>500.0</fee>
+    <spaceType>MOTORCYCLE</spaceType>
+  </vehicleType>
+</vehicleTypes>

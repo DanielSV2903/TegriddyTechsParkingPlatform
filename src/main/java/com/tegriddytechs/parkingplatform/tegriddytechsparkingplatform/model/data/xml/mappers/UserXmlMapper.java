@@ -1,10 +1,7 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.mappers;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.XmlEntityMapper;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Administrator;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Clerk;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import org.jdom2.Element;
 
 public class UserXmlMapper implements XmlEntityMapper<User> {
@@ -13,6 +10,7 @@ public class UserXmlMapper implements XmlEntityMapper<User> {
     private final String USERNAME_ATTRIBUTE = "username";
     private final String PASSWORD_ATTRIBUTE = "password";
     private final String ROLE_ATTRIBUTE = "role";
+    private final String PARKING_LOT_ID = "parkingLotId";
 
     @Override
     public String elementName() {
@@ -37,20 +35,16 @@ public class UserXmlMapper implements XmlEntityMapper<User> {
         e.addContent(new Element(USERNAME_ATTRIBUTE).setText(user.getUserName()));
         e.addContent(new Element(PASSWORD_ATTRIBUTE).setText(user.getPassword()));
         e.addContent(new Element(ROLE_ATTRIBUTE).setText(user.getUserRole().name()));
+        if (user instanceof Clerk clerk) {
+            Integer lotId = clerk.getParkingLot().getParkingLotId();
+            if (lotId == null && clerk.getParkingLot() != null) {
+                lotId = clerk.getParkingLot().getParkingLotId();
+            }
+            e.addContent(new Element(PARKING_LOT_ID).setText(lotId != null ? String.valueOf(lotId) : ""));
+        } else {
+            e.addContent(new Element(PARKING_LOT_ID).setText(""));
+        }
         return e;
-    }
-    private int readId(Element element) {
-        // Formato nuevo: <user id="123">
-        String raw = element.getAttributeValue(ID_ATTRIBUTE);
-
-        // Formato anterior: <user><id>123</id>...</user>
-        if (raw == null || raw.isBlank()) {
-            raw = element.getChildText(ID_ATTRIBUTE);
-        }
-
-        if (raw == null || raw.isBlank()) {
-        }
-            return Integer.parseInt(raw.trim());
     }
 
     @Override
@@ -71,7 +65,15 @@ public class UserXmlMapper implements XmlEntityMapper<User> {
         if (u.getUserRole().name().equals(UserRole.ADMIN.getRole())) {
             toReturn = toAdmin(u);
         } else if (u.getUserRole().name().equals(UserRole.CLERK.getRole())) {
-            toReturn=toClerk(u);
+            Integer parkingLotId = null;
+            String rawLotId = element.getChildText(PARKING_LOT_ID);
+            if (rawLotId != null && !rawLotId.isBlank()) {
+                parkingLotId = Integer.parseInt(rawLotId.trim());
+            }
+
+            Clerk clerk = toClerk(u);
+            clerk.setParkingLot(new ParkingLot(parkingLotId, ""));
+            toReturn = clerk;
         }
         return toReturn;
     }

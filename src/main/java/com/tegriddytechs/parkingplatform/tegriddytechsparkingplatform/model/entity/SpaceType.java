@@ -8,4 +8,8 @@ public enum SpaceType {
     SpaceType(String type) {
         this.type = type;
     }
+
+    public String getType() {
+        return type;
+    }
 }

@@ -2,6 +2,7 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.RateData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -9,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class VehicleCrudController {
@@ -17,12 +19,6 @@ public class VehicleCrudController {
 
     @FXML
     private TextField tfPlate;
-    @FXML
-    private ComboBox<VehicleStatus> cbStatus;
-    @FXML
-    private CheckBox cbDisabled;
-    @FXML
-    private ComboBox<Customer> cbCustomer;
     @FXML
     private ComboBox<SpaceType> cbVehicleType;
 
@@ -62,15 +58,13 @@ public class VehicleCrudController {
     @FXML
     private void initialize() {
         try {
-            cbStatus.getItems().setAll(VehicleStatus.values());
             cbVehicleType.getItems().setAll(SpaceType.values());
-            cbCustomer.getItems().setAll(mainMenuController.getAllCustomers());
-
-            colPlate.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("plate"));
-            colBrand.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getDescription() : ""));
-            colModel.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>(""));
-            colColor.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>(""));
-            colType.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getSpaceType().name() : ""));
+//            cbCustomer.getItems().setAll(mainMenuController.getAllCustomers());
+            colPlate.setCellValueFactory(new PropertyValueFactory<>("plate"));
+            colBrand.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getBrand() : ""));
+            colModel.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getModel() : ""));
+            colColor.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getColor() : ""));
+            colType.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getSpaceType().name() : ""));
 
             tableVehicles.setItems(filteredList);
 
@@ -106,9 +100,8 @@ public class VehicleCrudController {
 
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehículo", "Placa");
         SpaceType spaceType = (SpaceType) CrudFormUtils.readSelection(cbVehicleType, "Vehículo", "Tipo de vehículo");
-        Customer customer = (Customer) CrudFormUtils.readSelection(cbCustomer, "Vehículo", "Propietario");
-
-        boolean disabledPermit = cbDisabled.isSelected();
+        Customer customer = mainMenuController.getCustomerController().findCustomerById(Integer.parseInt(tfCustomerId.getText().trim()));
+        boolean disabledPermit =customer.isDisability();
 
         if (plate == null || spaceType == null || customer == null) {
             return;
@@ -163,7 +156,7 @@ public class VehicleCrudController {
 
 
 
-    @FXML
+    @Deprecated
     private void onRead(ActionEvent actionEvent) {
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehiculos", "Placa");
         if (plate == null) {
@@ -176,13 +169,12 @@ public class VehicleCrudController {
     @FXML
     private void onUpdate(ActionEvent actionEvent) {
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehiculos", "Placa");
-        VehicleStatus status = CrudFormUtils.readSelection(cbStatus, "Vehiculos", "Estado");
-        if (plate == null || status == null) {
+        if (plate == null) {
             return;
         }
         Vehicle vehicle = new Vehicle();
         vehicle.setPlate(plate);
-        vehicle.setVehicleStatus(status);
+        vehicle.setVehicleStatus(VehicleStatus.EXITED);
         vehicle.setVehicleType(defaultType());
         CrudAlertHelper.showResult("Vehiculos", mainMenuController.updateVehicle(vehicle));
         loadData();
@@ -224,9 +216,6 @@ public class VehicleCrudController {
         if (tfColor != null) tfColor.clear();
         if (tfCustomerId != null) tfCustomerId.clear();
         if (cbVehicleType != null) cbVehicleType.setValue(null);
-        if (cbStatus != null) cbStatus.setValue(null);
-        if (cbCustomer != null) cbCustomer.setValue(null);
-        if (cbDisabled != null) cbDisabled.setSelected(false);
     }
 
     private VehicleType defaultType() {
