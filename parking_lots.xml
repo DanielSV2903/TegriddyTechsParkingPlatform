@@ -6,10 +6,4 @@
     <adminId>2</adminId>
     <size>10</size>
   </parkingLot>
-  <parkingLot parkingLotId="2">
-    <name>Los Yoses</name>
-    <active>true</active>
-    <adminId>2</adminId>
-    <size>15</size>
-  </parkingLot>
 </parkingLots>
