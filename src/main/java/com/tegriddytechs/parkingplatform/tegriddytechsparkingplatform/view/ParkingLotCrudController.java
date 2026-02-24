@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.LinkOption;
 import java.util.List;
 
 public class ParkingLotCrudController {
@@ -127,7 +128,14 @@ public class ParkingLotCrudController {
             return;
         }
         ParkingLot lot = new ParkingLot(id, name);
+        lot.setAdministrator(administrator);
+        lot.setSpaces(spaces);
         lot.setActive(cbActive.isSelected());
+        try {
+            saveSpaces(spaces);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         CrudAlertHelper.showResult("Parqueaderos", mainMenuController.updateParkingLot(lot));
     }
 
@@ -281,9 +289,9 @@ public class ParkingLotCrudController {
 
                // 6) Si aplicó, guardar configuración en el lote y persistir
                if (controller.isApplied()) {
-                   ParkingSpace[] spaces = controller.getResultSpaces();
+                   spaces = controller.getResultSpaces();
                    targetLot.setSpaces(spaces);
-
+                   saveSpaces(spaces);
                    if (creatingNewLot) {
                        CrudAlertHelper.showResult("Parqueaderos", mainMenuController.createParkingLot(targetLot));
                    } else {
@@ -297,6 +305,23 @@ public class ParkingLotCrudController {
                new Alert(Alert.AlertType.ERROR, "No se pudo abrir la configuración de espacios: " + ex.getMessage(), ButtonType.OK).showAndWait();
            }
        }
+
+    private void saveSpaces(ParkingSpace[] spaces) throws IOException {
+        if (spaces == null) return;
+        for (ParkingSpace space : spaces) {
+            if (space == null) continue;
+            ParkingSpace existing = mainMenuController.getParkingSpaceController()
+                    .findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
+            if (existing == null) {
+                // No existe en el archivo: registrar
+                mainMenuController.getParkingSpaceController().registerParkingSpace(space);
+            } else {
+                // Ya existe: sobrescribir/editar
+                mainMenuController.getParkingSpaceController().editParkingSpace(space);
+            }
+        }
+    }
+
     private void fillFields() {
         ParkingLot lot= tableParkingLots.getSelectionModel().getSelectedItem();
         tfId.setText(String.valueOf(lot.getParkingLotId()));

@@ -5,6 +5,8 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.enti
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.VehicleType;
 import org.jdom2.Element;
 
+import java.lang.ref.PhantomReference;
+
 public class VehicleTypeXmlMapper implements XmlEntityMapper<VehicleType> {
     private final String ID_ATTRIBUTE = "id";
     private final String DESCRIPTION_ATTRIBUTE = "description";
@@ -45,7 +47,14 @@ public class VehicleTypeXmlMapper implements XmlEntityMapper<VehicleType> {
         vehicleType.setDescription(element.getChildText(DESCRIPTION_ATTRIBUTE));
         vehicleType.setAmountOfTyres(Byte.parseByte(element.getChildText(AMOUNT_OF_TYRES_ATTRIBUTE)));
         vehicleType.setFee(Double.parseDouble(element.getChildText(FEE_ATTRIBUTE)));
-        vehicleType.setSpaceType(SpaceType.valueOf(element.getChildText(SPACE_TYPE_ATTRIBUTE)));
+        vehicleType.setSpaceType(castType(element.getChildText(SPACE_TYPE_ATTRIBUTE)));
         return vehicleType;
+    }
+
+    private SpaceType castType(String childText) {
+        if (childText == null || childText.trim().isEmpty()) {
+            return null;
+        }
+            return SpaceType.valueOf(childText.trim());
     }
 }

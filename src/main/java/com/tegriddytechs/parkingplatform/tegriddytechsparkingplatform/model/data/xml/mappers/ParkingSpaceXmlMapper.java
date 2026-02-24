@@ -43,7 +43,7 @@ public class ParkingSpaceXmlMapper implements XmlEntityMapper<ParkingSpace> {
     @Override
     public ParkingSpace fromElement(Element element) {
         ParkingSpace parkingSpace = new ParkingSpace();//usado para construir el objeto mas abstracto
-        int id = Integer.parseInt(element.getAttributeValue(ID_ATTRIBUTE));
+        int id = Integer.parseInt(element.getAttributeValue(ID_ATTRIBUTE).split("|")[0]);
         int spaceNumber = Integer.parseInt(element.getChildText(SPACE_NUMBER));
         boolean status = castStatus(element.getChildText(STATUS_ATTRIBUTE));
         boolean preferential = castStatus(element.getChildText(PREFERENTIAL_ATTRIBUTE));

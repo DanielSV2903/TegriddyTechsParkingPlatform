@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Carga todos los controllers (que a su vez cargan datos desde persistencia)
@@ -51,6 +50,7 @@ public class DataManager {
         List<Rate> rates = rateController.getAllRates();
         List<ParkingLot> lots = parkingLotController.getAllParkingLots();
         List<ParkingTicket> tickets = parkingTicketController.getAllTickets();
+        List<ParkingSpace> spaces = parkingSpaceController.getAllParkingSpaces();
 
         Map<Integer, VehicleType> vehicleTypeById = indexVehicleTypes(vehicleTypes);
         Map<Integer, Rate> rateById = indexRates(rates);
@@ -60,7 +60,7 @@ public class DataManager {
         Map<Integer, Customer> customerById = indexCustomersById(customers);
 
         // 1) ParkingLot <-> ParkingSpace: asegurar parkingLot en cada space
-        connectParkingLotsAndSpaces(lots, lotById);
+        connectParkingLotsAndSpaces(lots, lotById,spaces);
 
         // 2) Rate -> VehicleType: reemplazar vehicleType por el "canónico"
         connectRatesToVehicleTypes(rates, vehicleTypeById);
@@ -95,20 +95,23 @@ public class DataManager {
     }
 
 
-    private void connectParkingLotsAndSpaces(List<ParkingLot> lots, Map<Integer, ParkingLot> lotById) {
+    private void connectParkingLotsAndSpaces(List<ParkingLot> lots, Map<Integer, ParkingLot> lotById, List<ParkingSpace> spaces) {
         for (ParkingLot lot : lots) {
             if (lot == null) continue;
-
             ParkingLot canonicalLot = lotById.get(lot.getParkingLotId());
+            ParkingSpace [] canonicalSpaces = new ParkingSpace[canonicalLot.getSpaces().length];
+            int counter=0;
             if (canonicalLot == null) canonicalLot = lot;
-
-            ParkingSpace[] spaces = canonicalLot.getSpaces();
-            if (spaces == null) continue;
-
             for (ParkingSpace space : spaces) {
                 if (space == null) continue;
-                space.setParkingLot(canonicalLot);
+                if(space.getParkingLot().getParkingLotId() == canonicalLot.getParkingLotId()){
+                    space.setParkingLot(canonicalLot);
+                    canonicalSpaces[counter]=space;
+                    counter++;
+                    if(counter==canonicalSpaces.length) break;
+                }
             }
+            canonicalLot.setSpaces(canonicalSpaces);
         }
     }
 

@@ -4,5 +4,6 @@
     <name>UCR</name>
     <active>true</active>
     <adminId>2</adminId>
+    <size>10</size>
   </parkingLot>
 </parkingLots>

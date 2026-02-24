@@ -14,6 +14,7 @@ public class ParkingLotXmlMapper implements XmlEntityMapper<ParkingLot> {
         private final String NAME_ATTRIBUTE = "name";
         private final String STATUS_ATTRIBUTE = "active";
         private final String ADMIN_ID = "adminId";
+        private final String SIZE = "size";
         @Override
         public String elementName() {
             return "parkingLot";
@@ -36,6 +37,7 @@ public class ParkingLotXmlMapper implements XmlEntityMapper<ParkingLot> {
             e.addContent(new Element(NAME_ATTRIBUTE).setText(parkingLot.getName()));
             e.addContent(new Element(STATUS_ATTRIBUTE).setText(parkingLot.isActive()?"true":"false"));
             e.addContent(new Element(ADMIN_ID).setText(String.valueOf(parkingLot.getAdministrator().getId())));
+            e.addContent(new Element(SIZE).setText(String.valueOf(parkingLot.getSpaces().length)));
             return e;
         }
         @Override
@@ -45,14 +47,14 @@ public class ParkingLotXmlMapper implements XmlEntityMapper<ParkingLot> {
             String name = element.getChildText(NAME_ATTRIBUTE);
             boolean status = castStatus(element.getChildText(STATUS_ATTRIBUTE));
             int adminId = Integer.parseInt(element.getChildText(ADMIN_ID));
+            int size = Integer.parseInt(element.getChildText(SIZE));
             parkingLot.setParkingLotId(id);
             parkingLot.setName(name);
             parkingLot.setActive(status);
             Administrator admin = new Administrator();
             admin.setId(adminId);
             parkingLot.setAdministrator(admin);
-//            parkingLot.setSpaces(getSpaces(parkingLot.getParkingLotId()));//TODO CONECTAR la entidad completa
-
+            parkingLot.setSpaces(new ParkingSpace[size]);
             return parkingLot;
         }
 
