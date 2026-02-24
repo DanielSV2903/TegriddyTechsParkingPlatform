@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vehicles>
+  <vehicle plate="BPS">
+    <vehicleTypeId>1</vehicleTypeId>
+    <brand>Hyundai</brand>
+    <model>Accent</model>
+    <color>Gris</color>
+    <ownerId>119310248</ownerId>
+    <status>Retirado</status>
+    <ticketId />
+  </vehicle>
+</vehicles>

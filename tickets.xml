@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parkingTickets>
+  <parkingTicket parkingTicketId="12a2e740-dfc7-4442-a1a6-3a97a9a59ef3">
+    <parkingLotId>1</parkingLotId>
+    <spaceNumber>1</spaceNumber>
+    <entryTime>2026-02-23T23:35:26.163539900</entryTime>
+    <exitTime />
+    <rateID>1</rateID>
+    <amount>0.0</amount>
+  </parkingTicket>
+  <parkingTicket parkingTicketId="7af8e561-371e-495f-915a-40c0ded0343d">
+    <parkingLotId>1</parkingLotId>
+    <spaceNumber>1</spaceNumber>
+    <entryTime>2026-02-23T23:39:16.406401700</entryTime>
+    <exitTime>2026-02-23T23:40:49.506319500</exitTime>
+    <rateID>1</rateID>
+    <amount>1000.0</amount>
+  </parkingTicket>
+  <parkingTicket parkingTicketId="c7fb8166-66ab-4655-abc9-a07fd5fdf0c2">
+    <parkingLotId>1</parkingLotId>
+    <spaceNumber>1</spaceNumber>
+    <entryTime>2026-02-23T23:43:25.007064100</entryTime>
+    <exitTime>2026-02-23T23:44:33.416142100</exitTime>
+    <rateID>1</rateID>
+    <amount>1000.0</amount>
+  </parkingTicket>
+</parkingTickets>
