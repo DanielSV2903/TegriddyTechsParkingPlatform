@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 public class VehicleCrudController {
 
     private final MainMenuController mainMenuController;
@@ -64,7 +66,8 @@ public class VehicleCrudController {
             colBrand.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getBrand() : ""));
             colModel.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getModel() : ""));
             colColor.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getColor() : ""));
-            colType.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getSpaceType().name() : ""));
+            colType.setCellValueFactory(data -> new SimpleStringProperty(Optional.ofNullable(data.getValue()).map(Vehicle::getVehicleType).map(VehicleType::getSpaceType).map(SpaceType::name).orElse("")
+));
 
             tableVehicles.setItems(filteredList);
 

@@ -5,4 +5,9 @@
     <ownerId>119310248</ownerId>
     <status>Retirado</status>
   </vehicles>
+  <vehicles plate="BTJ-824">
+    <vehicleTypeId>0</vehicleTypeId>
+    <ownerId>119310248</ownerId>
+    <status>Retirado</status>
+  </vehicles>
 </vehicles>

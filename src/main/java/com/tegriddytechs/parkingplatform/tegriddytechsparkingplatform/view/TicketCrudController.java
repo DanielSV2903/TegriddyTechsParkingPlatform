@@ -15,11 +15,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class TicketCrudController {
 
     private final MainMenuController mainMenuController;
-
+    @FXML
+    private ComboBox cbVehiclePlate;
+    @FXML
+    private ComboBox cbSpaceId;
     @FXML
     private TextField tfTicketId;
     @FXML
@@ -73,6 +77,13 @@ public class TicketCrudController {
             colEntryDate.setCellValueFactory(new PropertyValueFactory<>("entryTime"));
             colExitDate.setCellValueFactory(new PropertyValueFactory<>("exitTime"));
             colAmount.setCellValueFactory(new PropertyValueFactory<>("rate"));
+
+            ArrayList<String> plates = new ArrayList<>();
+            for (Vehicle vehicle : mainMenuController.getAllVehicles()) {
+                plates.add(vehicle.getPlate());
+            }
+            cbVehiclePlate.setItems(FXCollections.observableArrayList(plates));
+            cbSpaceId.setItems(FXCollections.observableArrayList(mainMenuController.getAllParkingSpaces()));
 
             tableTickets.setItems(filteredList);
 
