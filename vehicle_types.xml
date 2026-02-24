@@ -12,4 +12,10 @@
     <fee>500.0</fee>
     <spaceType>MOTORCYCLE</spaceType>
   </vehicleType>
+  <vehicleType id="3">
+    <description>Super Auto</description>
+    <amountOfTyres>4</amountOfTyres>
+    <fee>5000.0</fee>
+    <spaceType>CAR</spaceType>
+  </vehicleType>
 </vehicleTypes>

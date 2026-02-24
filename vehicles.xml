@@ -9,4 +9,13 @@
     <status>Retirado</status>
     <ticketId />
   </vehicle>
+  <vehicle plate="dsv">
+    <vehicleTypeId>3</vehicleTypeId>
+    <brand>Pegassi</brand>
+    <model>Zentorno</model>
+    <color>Negro</color>
+    <ownerId>2</ownerId>
+    <status>Retirado</status>
+    <ticketId />
+  </vehicle>
 </vehicles>

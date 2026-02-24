@@ -51,7 +51,7 @@ public class VehicleData extends VehicleXmlRepository {
         if (vehicle == null) throw new IllegalArgumentException("vehicle cannot be null");
 
         Vehicle existing = findVehicleByLicensePlate(vehicle.getPlate());
-        if (existing != null) {
+        if (existing == null) {
             super.insert(vehicle);
             vehicles.add(vehicle);
         }else {

@@ -21,7 +21,7 @@ public class VehicleCrudController {
     @FXML
     private TextField tfPlate;
     @FXML
-    private ComboBox<SpaceType> cbVehicleType;
+    private ComboBox<VehicleType> cbVehicleType;
 
     // Added fields from improved FXML
     @FXML
@@ -60,13 +60,13 @@ public class VehicleCrudController {
     private void initialize() {
         try {
             loadData();
-            cbVehicleType.getItems().setAll(SpaceType.values());
+            fillCbox();
 //            cbCustomer.getItems().setAll(mainMenuController.getAllCustomers());
             colPlate.setCellValueFactory(new PropertyValueFactory<>("plate"));
             colBrand.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getBrand() : ""));
             colModel.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getModel() : ""));
             colColor.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getColor() : ""));
-            colType.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getSpaceType().getType() : ""));
+            colType.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getDescription()+" | "+c.getValue().getVehicleType().getSpaceType().name() : ""));
 
             tableVehicles.setItems(filteredList);
 
@@ -86,6 +86,32 @@ public class VehicleCrudController {
         }
     }
 
+    private void fillCbox() {
+        cbVehicleType.setCellFactory(param -> new ListCell<VehicleType>() {
+            @Override
+            protected void updateItem(VehicleType item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getDescription()+" | "+item.getSpaceType().name());
+                }
+            }
+        });
+        cbVehicleType.setButtonCell(new ListCell<VehicleType>() {
+            @Override
+            protected void updateItem(VehicleType item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getDescription()+" | "+item.getSpaceType().name());
+                }
+            }
+        });
+        cbVehicleType.getItems().setAll(mainMenuController.getAllVehicleTypes());
+    }
+
     private void loadData() {
         masterList.setAll(mainMenuController.getAllVehicles());
         updateRecordCount();
@@ -99,38 +125,31 @@ public class VehicleCrudController {
     private void onCreate(ActionEvent actionEvent) {
 
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehículo", "Placa");
-        SpaceType spaceType = (SpaceType) CrudFormUtils.readSelection(cbVehicleType, "Vehículo", "Tipo de vehículo");
+        VehicleType vehicleSpaceType = (VehicleType) CrudFormUtils.readSelection(cbVehicleType, "Vehículo", "Tipo de vehículo");
         Customer customer = mainMenuController.getCustomerController().findCustomerById(Integer.parseInt(tfCustomerId.getText().trim()));
         boolean disabledPermit =customer.isDisability();
 
-        if (plate == null || spaceType == null || customer == null) {
+        if (plate == null || vehicleSpaceType == null || customer == null) {
             return;
         }
 
-         Rate rate = mainMenuController.getRateController().findBySpaceType(spaceType);
+         Rate rate = mainMenuController.getRateController().findBySpaceType(vehicleSpaceType.getSpaceType());
 
         if (rate == null) {
             CrudAlertHelper.showWarning(
                     "Vehículo",
-                    "No existe una tarifa registrada para el tipo: " + spaceType
+                    "No existe una tarifa registrada para el tipo: " + vehicleSpaceType
             );
             return;
         }
 
-        VehicleType vehicleType = new VehicleType(
-                spaceType.ordinal(),
-                spaceType.name(),
-                defaultTyres(spaceType),
-                rate.getFee(),
-                spaceType
-        );
 
         Vehicle vehicle = new Vehicle();
         vehicle.setPlate(plate);
         vehicle.setBrand(tfBrand.getText());
         vehicle.setModel(tfModel.getText());
         vehicle.setColor(tfColor.getText());
-        vehicle.setVehicleType(vehicleType);
+        vehicle.setVehicleType(vehicleSpaceType);
         vehicle.setVehicleStatus(VehicleStatus.EXITED);
         vehicle.setOwner(customer);
         vehicle.setTicket(null);
@@ -143,32 +162,6 @@ public class VehicleCrudController {
         loadData();
     }
 
-    private byte defaultTyres(SpaceType spaceType) {
-        switch (spaceType) {
-            case MOTORCYCLE:
-            case BICYCLE:
-                return 2;
-            case CAR:
-                return 4;
-            case HEAVY:
-                return 6;
-            default:
-                return 4;
-        }
-    }
-
-
-
-    @Deprecated
-    private void onRead(ActionEvent actionEvent) {
-        String plate = CrudFormUtils.readRequired(tfPlate, "Vehiculos", "Placa");
-        if (plate == null) {
-            return;
-        }
-        Vehicle vehicle = mainMenuController.readVehicleByPlate(plate);
-        CrudAlertHelper.showEntity("Vehiculos", vehicle);
-    }
-
     @FXML
     private void onUpdate(ActionEvent actionEvent) {
         String plate = CrudFormUtils.readRequired(tfPlate, "Vehiculos", "Placa");
@@ -178,7 +171,7 @@ public class VehicleCrudController {
         Vehicle vehicle = mainMenuController.readVehicleByPlate(plate);
         vehicle.setPlate(plate);
         vehicle.setVehicleStatus(VehicleStatus.EXITED);
-        vehicle.setVehicleType(defaultType());
+        vehicle.setVehicleType(cbVehicleType.getValue());
         Customer owner = mainMenuController.getCustomerController().findCustomerById(Integer.parseInt(tfCustomerId.getText().trim()));
         vehicle.setOwner(owner);
         vehicle.setTicket(null);
@@ -240,12 +233,8 @@ public class VehicleCrudController {
                 tfCustomerId.setText(String.valueOf(selected.getOwner().getId()));
             }
             if (selected.getVehicleType() != null) {
-                cbVehicleType.setValue(selected.getVehicleType().getSpaceType());
+                cbVehicleType.setValue(selected.getVehicleType());
             }
         }
-    }
-
-    private VehicleType defaultType() {
-        return new VehicleType(1, "Default", (byte) 4, 0.0, SpaceType.CAR);
     }
 }

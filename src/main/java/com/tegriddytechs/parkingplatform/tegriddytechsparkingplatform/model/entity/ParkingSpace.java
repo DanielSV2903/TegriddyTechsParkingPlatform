@@ -85,7 +85,7 @@ public class ParkingSpace {
         return this.parkedVehicle == null&& this.state;
     }
     public boolean isParked(){
-        return this.parkedVehicle != null;
+        return this.parkedVehicle != null&& this.state;
     }
 
     @Override

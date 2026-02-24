@@ -5,4 +5,9 @@
     <disability>true</disability>
     <vehiceId />
   </customer>
+  <customer id="2">
+    <name>Aidan</name>
+    <disability>true</disability>
+    <vehiceId />
+  </customer>
 </customers>

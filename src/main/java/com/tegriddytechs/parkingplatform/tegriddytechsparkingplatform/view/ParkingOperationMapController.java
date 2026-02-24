@@ -71,7 +71,6 @@ public class ParkingOperationMapController {
     public ParkingOperationMapController() throws IOException, JDOMException {
         this.parkingLotController = new ParkingLotController();
         this.parkingSpaceController = new ParkingSpaceController();
-        this.parkingOperationController = new ParkingOperationController();
     }
 
     public ParkingOperationMapController(MainMenuController mainMenuController) {
@@ -80,9 +79,9 @@ public class ParkingOperationMapController {
         this.loggedUser = mainMenuController.getUser();
         this.parkingLotController = dataManager.getParkingLotController();
         this.parkingSpaceController = dataManager.getParkingSpaceController();
-        
+
         try {
-            this.parkingOperationController = new ParkingOperationController();
+            this.parkingOperationController = new ParkingOperationController(mainMenuController);
         } catch (IOException | JDOMException e) {
             showError("Error inicializando controlador de operaciones: " + e.getMessage());
         }
@@ -425,10 +424,9 @@ public class ParkingOperationMapController {
             
             if (spaceNumber != null) {
                 // Parquear en espacio específico
-                result = parkingOperationController.parkVehicleInSpace(
-                    selectedParkingLot.getParkingLotId(), 
-                    vehicle, 
-                    spaceNumber
+                result = parkingOperationController.parkVehicle(
+                    selectedParkingLot.getParkingLotId(),
+                    vehicle
                 );
             } else {
                 // Parquear en el espacio libre más cercano
