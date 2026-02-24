@@ -33,6 +33,7 @@ public class MainMenuController {
     private RateController rateController;
     private  ParkingTicketController parkingTicketController;
     private VehicleTypeController vehicleTypeController;
+    private ParkingMapController parkingMapController;
     private User user;
     private DataManager dataManager;
     @FXML
@@ -60,6 +61,7 @@ public class MainMenuController {
             rateController = dataManager.getRateController();
             parkingTicketController = dataManager.getParkingTicketController();
             vehicleTypeController=new VehicleTypeController();
+            parkingMapController=new ParkingMapController();
         } catch (IOException | JDOMException e) {
             throw new RuntimeException(e);
         }
@@ -150,14 +152,16 @@ public class MainMenuController {
                 break;
                 case "TiposVehiculo":
                     openCrudWindow("vehicleTypeManagementView.fxml", "CRUD Tipo de Vehiculos", () -> new VehicleTypeCrudController(this));
+                    break;
             case "OperacionParqueo":
-                openCrudWindow("parkingOperationView.fxml", "CRUD Operaciones de Parqueo", () -> new ParkingOperationViewController(this));
+                openCrudWindow("parking-operation-map-view.fxml", "Mapa de Operación de Parqueo", () -> new ParkingOperationMapController(this));
                 break;
             default:
                 CrudAlertHelper.showWarning("Navegacion", "Sin CRUD configurado para: " + target);
                 break;
         }
     }
+
 
 
     public OperationResult createUser(User user) {
