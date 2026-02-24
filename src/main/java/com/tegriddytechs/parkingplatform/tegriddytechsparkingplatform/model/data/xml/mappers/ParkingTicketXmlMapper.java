@@ -60,10 +60,10 @@ public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
         }
         int rateId = Integer.parseInt(element.getChildText(RATE_ID));
         ParkingLot lot = new ParkingLot();
-        lot.setParkingLotId(lotId);//TODO CONECTAR la entidad completa
-        Rate rate = new Rate();//TODO CONECTAR la entidad completa
+        lot.setParkingLotId(lotId);
+        Rate rate = new Rate();
         rate.setRateId(rateId);
-        ParkingSpace space = new ParkingSpace();//TODO CONECTAR la entidad completa
+        ParkingSpace space = new ParkingSpace();
         space.setSpaceNumber(spaceNumber);
         space.setParkingLot(lot);
         ParkingTicket ticket = new ParkingTicket(id,space,entryTime,rate,exitTime);

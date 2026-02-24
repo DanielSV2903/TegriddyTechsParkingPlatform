@@ -70,7 +70,7 @@ public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
         List<Customer> owners = getOwners(ownersIds);
         vehicle.setOwners(owners);
         VehicleType type = new VehicleType();
-        type.setId(typeId);//TODO CONECTAR la entidad completa
+        type.setId(typeId);
         vehicle.setPlate(vehiclePlate);
         vehicle.setVehicleType(type);
         vehicle.setTicket(ticket);

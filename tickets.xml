@@ -72,4 +72,20 @@
     <rateID>1</rateID>
     <amount>0.0</amount>
   </parkingTicket>
+  <parkingTicket parkingTicketId="0d7314f8-aa20-418e-9fd0-9b18089546e7">
+    <parkingLotId>1</parkingLotId>
+    <spaceNumber>3</spaceNumber>
+    <entryTime>2026-02-24T17:03:41.678668</entryTime>
+    <exitTime>2026-02-24T17:20:16.047815600</exitTime>
+    <rateID>1</rateID>
+    <amount>1000.0</amount>
+  </parkingTicket>
+  <parkingTicket parkingTicketId="f74c3237-fc38-463f-ae0b-af2592c01d2e">
+    <parkingLotId>1</parkingLotId>
+    <spaceNumber>3</spaceNumber>
+    <entryTime>2026-02-24T17:32:06.226568400</entryTime>
+    <exitTime>2026-02-24T17:32:13.026769500</exitTime>
+    <rateID>1</rateID>
+    <amount>1000.0</amount>
+  </parkingTicket>
 </parkingTickets>

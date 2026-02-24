@@ -5,8 +5,10 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainM
 import org.jdom2.JDOMException;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class ParkingOperationController {
 
@@ -209,18 +211,8 @@ public class ParkingOperationController {
             return OperationResult.failure("No se encontró un ticket asociado al vehículo");
         }
 
-        //Asignar hora de salida
-        ticket.setExitTime(LocalDateTime.now());
+        double totalAmount = calculateTotalAmount(ticket);
 
-        //Calcular tiempo estacionado
-        long minutesParked = java.time.Duration
-                .between(ticket.getEntryTime(), ticket.getExitTime())
-                .toMinutes();
-
-        long hoursToCharge = (long) Math.ceil(minutesParked / 60.0);
-
-        double hourlyFee = ticket.getRate().getFee();
-        double totalAmount = hoursToCharge * hourlyFee;
         //Se libera el espacio
         ParkingSpace space = ticket.getParkingSpace();
         space.setState(false);
@@ -240,6 +232,28 @@ public class ParkingOperationController {
 
         return OperationResult.success(
                 "El vehículo ha salido del parqueo. Total a pagar: " + totalAmount);
+    }
+    private double calculateTotalAmount(ParkingTicket ticket) {
+
+        // 1. Asignar hora de salida
+        ticket.setExitTime(LocalDateTime.now());
+
+        // 2. Tiempo estacionado en minutos
+        long minutesParked = Duration
+                .between(ticket.getEntryTime(), ticket.getExitTime())
+                .toMinutes();
+
+        // 3. Unidad de tiempo y tarifa
+        TimeUnit timeUnit = ticket.getRate().getTimeUnit();
+        long unitMinutes = timeUnit.toMinutes(1);   // 👈 CLAVE
+        double feePerUnit = ticket.getRate().getFee();
+
+        // 4. Siempre cobrar mínimo una unidad
+        long unitsToCharge = (long) Math.ceil(
+                Math.max(minutesParked, unitMinutes) / (double) unitMinutes
+        );
+
+        return unitsToCharge * feePerUnit;
     }
 
 }

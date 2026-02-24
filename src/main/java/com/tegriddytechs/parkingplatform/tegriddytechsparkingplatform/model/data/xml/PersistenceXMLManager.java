@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 /*
-TODO
 Handles the persistence of data to and from XML files (generic).
  */
 public class PersistenceXMLManager<T> implements PersistenceOperations<T>, DataRepository<T> {

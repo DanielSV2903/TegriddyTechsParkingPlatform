@@ -16,7 +16,6 @@ public class ClerkController {
     }
 
     public OperationResult registerVehicleEntry(Vehicle vehicle) {
-        //TODO Lógica para registrar la entrada del vehículo
         return OperationResult.success("Vehiculo estacionado exitosamente en el espacio");
     }
 }

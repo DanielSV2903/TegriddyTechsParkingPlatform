@@ -18,4 +18,13 @@
     <status>Retirado</status>
     <ticketId />
   </vehicle>
+  <vehicle plate="FBD111">
+    <vehicleTypeId>1</vehicleTypeId>
+    <brand>SDAWS</brand>
+    <model>WDA</model>
+    <color>WDAAW</color>
+    <ownerId>45;</ownerId>
+    <status>Retirado</status>
+    <ticketId />
+  </vehicle>
 </vehicles>

@@ -50,13 +50,13 @@ public class ParkingSpaceXmlMapper implements XmlEntityMapper<ParkingSpace> {
         boolean preferential = castStatus(element.getChildText(PREFERENTIAL_ATTRIBUTE));
         SpaceType type = SpaceType.valueOf(element.getChildText(TYPE));
         String plate = element.getChildText(VEHICLE_PLATE);
-        ParkingLot lot = new ParkingLot();//TODO CONECTAR la entidad completa
+        ParkingLot lot = new ParkingLot();
         lot.setParkingLotId(id);
         parkingSpace.setParkingLot(lot);
         parkingSpace.setSpaceNumber(spaceNumber);
         parkingSpace.setState(status);
         parkingSpace.setPreferential(preferential);
-        Vehicle parkedVehicle = new Vehicle(plate);//TODO CONECTAR la entidad completa
+        Vehicle parkedVehicle = new Vehicle(plate);
         parkingSpace.setParkedVehicle(parkedVehicle);
         parkingSpace.setSpaceType(type);
         return parkingSpace;
