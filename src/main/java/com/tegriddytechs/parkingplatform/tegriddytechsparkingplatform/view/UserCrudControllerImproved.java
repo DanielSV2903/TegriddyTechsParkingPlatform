@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class UserCrudControllerImproved {
 
-    private final MainMenuController mainMenuController;
+    private final MainMenuView mainMenuView;
     private UserController userController;
     private ObservableList<User> userList;
     private ObservableList<User> filteredList;
@@ -44,8 +44,8 @@ public class UserCrudControllerImproved {
     @FXML
     private Label lblTotalRecords;
 
-    public UserCrudControllerImproved(MainMenuController mainMenuController) {
-        this.mainMenuController = mainMenuController;
+    public UserCrudControllerImproved(MainMenuView mainMenuView) {
+        this.mainMenuView = mainMenuView;
     }
 
     @FXML
@@ -61,9 +61,9 @@ public class UserCrudControllerImproved {
         // Configurar columnas de la tabla
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-        colRole.setCellValueFactory(new PropertyValueFactory<>("role"));
-        
+        colUsername.setCellValueFactory(new PropertyValueFactory<>("userName")); // Corregido
+        colRole.setCellValueFactory(new PropertyValueFactory<>("userRole")); // Corregido
+
         // Listener para selección en tabla
         tableUsers.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -98,7 +98,7 @@ public class UserCrudControllerImproved {
                     ? new Administrator(id, name, username, password)
                     : new Clerk(id, name, username, password);
 
-            OperationResult result = mainMenuController.createUser(user);
+            OperationResult result = mainMenuView.createUser(user);
             
             if (result.isSuccessfull()) {
                 showAlert("Éxito", "Usuario creado correctamente", Alert.AlertType.INFORMATION);
@@ -132,7 +132,7 @@ public class UserCrudControllerImproved {
                     ? new Administrator(id, name, username, password)
                     : new Clerk(id, name, username, password);
 
-            OperationResult result = mainMenuController.updateUser(user);
+            OperationResult result = mainMenuView.updateUser(user);
             
             if (result.isSuccessfull()) {
                 showAlert("Éxito", "Usuario actualizado correctamente", Alert.AlertType.INFORMATION);
@@ -152,7 +152,7 @@ public class UserCrudControllerImproved {
     private void onDelete() {
         try {
             Integer id = Integer.parseInt(tfId.getText().trim());
-            User user = mainMenuController.readUserById(id);
+            User user = mainMenuView.readUserById(id);
             
             if (user == null) {
                 showAlert("Error", "Usuario no encontrado", Alert.AlertType.ERROR);
@@ -165,7 +165,7 @@ public class UserCrudControllerImproved {
             confirmAlert.setContentText("Usuario: " + user.getName());
             
             if (confirmAlert.showAndWait().get() == ButtonType.OK) {
-                OperationResult result = mainMenuController.deleteUser(user);
+                OperationResult result = mainMenuView.deleteUser(user);
                 
                 if (result.isSuccessfull()) {
                     showAlert("Éxito", "Usuario eliminado correctamente", Alert.AlertType.INFORMATION);

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.AdminCrudView">
+
+    <top>
+        <VBox style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+            <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 20 28;">
+                <HBox alignment="CENTER_LEFT" spacing="14">
+                    <StackPane>
+                        <Circle fill="#d69e2e" radius="24" />
+                        <SVGPath content="M -4,-2 L 0,-6 L 4,-2 M 0,-6 L 0,2 M -6,6 L 6,6" style="-fx-fill: transparent; -fx-stroke: white; -fx-stroke-width: 1.8;" />
+                    </StackPane>
+                    <VBox spacing="2">
+                        <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Gestión de Administradores" />
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Crea, actualiza o elimina administradores del sistema" />
+                    </VBox>
+                </HBox>
+                <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#goBack" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #edf2f7;                                 -fx-text-fill: #4a5568;                                 -fx-font-size: 13px;                                -fx-font-weight: 600;                                -fx-background-radius: 8;                                 -fx-padding: 10 20;                                -fx-cursor: hand;" text="← Volver" />
+            </HBox>
+            <Separator style="-fx-background-color: #e2e8f0;" />
+        </VBox>
+    </top>
+
+    <center>
+        <HBox spacing="24" style="-fx-padding: 24 28;">
+            <!-- Formulario izquierdo -->
+            <VBox prefWidth="380" spacing="20" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Datos del Administrador">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+
+                <VBox spacing="16">
+                    <VBox spacing="6">
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: #4a5568;" text="ID (automático)" />
+                        <TextField fx:id="tfId" prefHeight="42" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 12 14; -fx-font-size: 13px; -fx-text-fill: #2d3748;" />
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: #4a5568;" text="Nombre Completo" />
+                        <TextField fx:id="tfName" prefHeight="42" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 12 14; -fx-font-size: 13px; -fx-text-fill: #2d3748;" />
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: #4a5568;" text="Usuario" />
+                        <TextField fx:id="tfUsername" prefHeight="42" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 12 14; -fx-font-size: 13px; -fx-text-fill: #2d3748;" />
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: #4a5568;" text="Contraseña" />
+                        <PasswordField fx:id="tfPassword" prefHeight="42" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 12 14; -fx-font-size: 13px; -fx-text-fill: #2d3748;" />
+                    </VBox>
+                </VBox>
+
+                <VBox spacing="12" style="-fx-padding: 20 0 0 0;">
+                    <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="✓ Crear Administrador" />
+                    <Button maxWidth="Infinity" onAction="#onUpdate" style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="↻ Actualizar Administrador" />
+                    <Button maxWidth="Infinity" onAction="#onDelete" style="-fx-background-color: #f56565; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="🗑 Eliminar Administrador" />
+               <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: #edf2f7;                                         -fx-text-fill: #4a5568;                                         -fx-font-size: 13px;                                        -fx-font-weight: 600;                                        -fx-background-radius: 8;                                         -fx-padding: 12;                                        -fx-cursor: hand;                                        -fx-border-color: #cbd5e0;                                        -fx-border-radius: 8;                                        -fx-border-width: 1.5;" text="⟲ Limpiar Formulario" />
+                </VBox>
+            </VBox>
+
+            <!-- Tabla derecha -->
+            <VBox spacing="16" style="-fx-pref-width: 700;">
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Lista de Administradores" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="tfSearch" prefHeight="38" prefWidth="240" promptText="Buscar por nombre o usuario..." style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 10 14; -fx-font-size: 13px; -fx-text-fill: #2d3748;" />
+               <Button onAction="#onRefresh" style="-fx-background-color: white;                                         -fx-text-fill: #4a5568;                                         -fx-font-size: 13px;                                        -fx-font-weight: 600;                                        -fx-background-radius: 8;                                         -fx-padding: 10 20;                                        -fx-cursor: hand;                                        -fx-border-color: #cbd5e0;                                        -fx-border-radius: 8;                                        -fx-border-width: 1.5;" text="↻ Refrescar" />
+                </HBox>
+
+                <TableView fx:id="tableAdmins" onMouseClicked="#selectClerkOnMouseClicked" style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="80" text="ID" />
+                        <TableColumn fx:id="colName" prefWidth="200" text="Nombre" />
+                        <TableColumn fx:id="colUsername" prefWidth="150" text="Usuario" />
+                    </columns>
+                </TableView>
+            <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 8 0 0 0;">
+               <children>
+                  <Label style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Total de registros:" />
+                  <Label fx:id="lblTotalRecords" style="-fx-font-size: 12px; -fx-font-weight: 700; -fx-text-fill: #2d3748;" text="0" />
+               </children>
+            </HBox>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

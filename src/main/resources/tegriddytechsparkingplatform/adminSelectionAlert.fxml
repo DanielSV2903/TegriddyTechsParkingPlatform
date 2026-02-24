@@ -10,7 +10,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.AdminSelectDialogController"
+      fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.AdminSelectDialogView"
       spacing="12" prefWidth="420">
 
     <padding>

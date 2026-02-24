@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="900" prefWidth="1400" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.ParkingOperationMapView">
+
+    <!-- TOP BAR -->
+    <top>
+        <VBox style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+            <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 16 28;">
+                
+                <HBox alignment="CENTER_LEFT" spacing="14">
+                    <Circle fill="#3182ce" radius="22" />
+                    <VBox spacing="2">
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Operacion de Parqueo Visual" />
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Mapa Interactivo y Control de Espacios" />
+                    </VBox>
+                </HBox>
+
+                <Region prefWidth="100" />
+
+                <VBox spacing="8" style="-fx-padding: 0;">
+                    <Label style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Seleccionar Parqueadero" />
+                    <ComboBox fx:id="cbParkingLot" prefWidth="260" style="-fx-background-color: white; -fx-border-color: #cbd5e0;                                       -fx-border-radius: 8; -fx-background-radius: 8;                                       -fx-font-size: 13px; -fx-padding: 8;" />
+                </VBox>
+
+                <Button onAction="#onRefresh" style="-fx-background-color: linear-gradient(to right, #3182ce, #4299e1);                                 -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600;                                -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;" text="Refrescar" />
+
+                <Button onAction="#goBack" style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568; -fx-font-weight: 600;                                -fx-background-radius: 8; -fx-padding: 10 20;" text="Volver" />
+            </HBox>
+            <Separator style="-fx-background-color: #e2e8f0;" />
+        </VBox>
+    </top>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <center>
+        <HBox spacing="20" style="-fx-padding: 24 28;">
+            
+            <!-- PANEL IZQUIERDO: Operaciones -->
+            <VBox prefWidth="380" spacing="18" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 22;                          -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Control de Operaciones" />
+
+                <!-- Sección: Parquear Vehículo -->
+                <VBox spacing="12" style="-fx-padding: 16; -fx-background-color: #f0fdf4; -fx-background-radius: 10;                              -fx-border-color: #86efac; -fx-border-radius: 10; -fx-border-width: 2;">
+
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #166534;" text="Parquear Vehiculo" />
+                    
+                    <VBox spacing="6">
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #4a5568;" text="Placa del Vehiculo *" />
+                        <TextField fx:id="tfPlatePark" prefHeight="38" promptText="Ej: ABC123" style="-fx-background-color: white; -fx-border-color: #cbd5e0;                                           -fx-border-radius: 6; -fx-background-radius: 6;                                           -fx-border-width: 1.5; -fx-padding: 8;" />
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #4a5568;" text="Numero de Espacio (opcional)" />
+                        <TextField fx:id="tfSpaceNumber" prefHeight="38" promptText="Dejar vacio para asignar automatico" style="-fx-background-color: white; -fx-border-color: #cbd5e0;                                           -fx-border-radius: 6; -fx-background-radius: 6;                                           -fx-border-width: 1.5; -fx-padding: 8;" />
+                    </VBox>
+
+                    <Button maxWidth="Infinity" onAction="#onPark" style="-fx-background-color: linear-gradient(to right, #48bb78, #38a169);                                    -fx-text-fill: white; -fx-font-weight: 700; -fx-font-size: 14px;                                    -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;                                    -fx-effect: dropshadow(gaussian, rgba(72,187,120,0.3), 6, 0, 0, 2);" text="✓ PARQUEAR" />
+                </VBox>
+
+                <!-- Sección: Desparquear Vehículo -->
+                <VBox spacing="12" style="-fx-padding: 16; -fx-background-color: #fef2f2; -fx-background-radius: 10;                              -fx-border-color: #fca5a5; -fx-border-radius: 10; -fx-border-width: 2;">
+
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #991b1b;" text="Registrar Salida" />
+                    
+                    <VBox spacing="6">
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #4a5568;" text="Placa del Vehiculo *" />
+                        <TextField fx:id="tfPlateExit" prefHeight="38" promptText="Ej: ABC123" style="-fx-background-color: white; -fx-border-color: #cbd5e0;                                           -fx-border-radius: 6; -fx-background-radius: 6;                                           -fx-border-width: 1.5; -fx-padding: 8;" />
+                    </VBox>
+
+                    <Button maxWidth="Infinity" onAction="#onExit" style="-fx-background-color: linear-gradient(to right, #f56565, #e53e3e);                                    -fx-text-fill: white; -fx-font-weight: 700; -fx-font-size: 14px;                                    -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;                                    -fx-effect: dropshadow(gaussian, rgba(245,101,101,0.3), 6, 0, 0, 2);" text="↪ REGISTRAR SALIDA" />
+                </VBox>
+
+                <!-- Resultado -->
+                <VBox spacing="8" style="-fx-padding: 14; -fx-background-color: #f7fafc; -fx-background-radius: 8;">
+                    <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #4a5568;" text="Resultado" />
+                    <Label fx:id="lblResult" style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Seleccione un parqueo y realice una operacion." wrapText="true" />
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS" />
+
+                <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: white; -fx-border-color: #cbd5e0;                                -fx-border-radius: 8; -fx-background-radius: 8; -fx-border-width: 1.5;                                -fx-text-fill: #4a5568; -fx-font-weight: 600; -fx-padding: 10;" text="Limpiar Formulario" />
+            </VBox>
+
+            <!-- PANEL DERECHO: Visualización -->
+            <VBox spacing="16" HBox.hgrow="ALWAYS">
+                
+                <!-- Estadísticas -->
+                <HBox alignment="CENTER" spacing="16">
+                    
+                    <VBox alignment="CENTER" spacing="6" style="-fx-background-color: white; -fx-background-radius: 12;                                   -fx-padding: 16; -fx-pref-width: 180;                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #718096;" text="Parqueadero" />
+                        <Label fx:id="lblParkingName" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="No seleccionado" />
+                    </VBox>
+                    
+                    <VBox alignment="CENTER" spacing="6" style="-fx-background-color: white; -fx-background-radius: 12;                                   -fx-padding: 16; -fx-pref-width: 140;                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+                        <Circle fill="#e6f2ff" radius="16" />
+                        <Label style="-fx-font-size: 10px; -fx-text-fill: #718096;" text="Total" />
+                        <Label fx:id="lblTotalSpaces" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3182ce;" text="0" />
+                    </VBox>
+                    
+                    <VBox alignment="CENTER" spacing="6" style="-fx-background-color: white; -fx-background-radius: 12;                                   -fx-padding: 16; -fx-pref-width: 140;                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+                        <Circle fill="#ffe6e6" radius="16" />
+                        <Label style="-fx-font-size: 10px; -fx-text-fill: #718096;" text="Ocupados" />
+                        <Label fx:id="lblOccupiedSpaces" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #e53e3e;" text="0" />
+                    </VBox>
+                    
+                    <VBox alignment="CENTER" spacing="6" style="-fx-background-color: white; -fx-background-radius: 12;                                   -fx-padding: 16; -fx-pref-width: 140;                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+                        <Circle fill="#e6ffed" radius="16" />
+                        <Label style="-fx-font-size: 10px; -fx-text-fill: #718096;" text="Disponibles" />
+                        <Label fx:id="lblAvailableSpaces" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #38a169;" text="0" />
+                    </VBox>
+                    
+                </HBox>
+
+                <!-- Leyenda -->
+                <Pane fx:id="legendPanel" style="-fx-background-color: white; -fx-background-radius: 12;                               -fx-padding: 12;                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" />
+
+                <!-- Mapa del Parqueadero -->
+                <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                    <VBox alignment="CENTER" spacing="12" style="-fx-background-color: white; -fx-background-radius: 12;                                   -fx-padding: 20;                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+                        
+                        <Label style="-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Mapa de Espacios - Haz click para seleccionar" />
+                        
+                        <GridPane fx:id="gridParkingMap" alignment="CENTER" hgap="4" style="-fx-padding: 16;" vgap="4">
+                        </GridPane>
+                        
+                    </VBox>
+                </ScrollPane>
+
+                <!-- Detalle del Espacio -->
+                <VBox spacing="8" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 14;                              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+                    <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #4a5568;" text="Detalle del Espacio Seleccionado" />
+                    <Label fx:id="lblSpaceDetail" style="-fx-font-size: 12px; -fx-text-fill: #718096;" text="Haz click en un espacio del mapa para ver detalles." wrapText="true" />
+                </VBox>
+
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>
