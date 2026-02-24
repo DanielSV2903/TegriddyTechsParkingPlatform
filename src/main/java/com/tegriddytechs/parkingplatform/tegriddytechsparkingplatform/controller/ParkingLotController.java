@@ -58,4 +58,8 @@ public class ParkingLotController {
         parkingLotData.editParkingLot(parkingLot);
         return OperationResult.success("Parking lot updated successfully");
     }
+
+    public int getNextId() {
+        return parkingLotData.getNextId();
+    }
 }

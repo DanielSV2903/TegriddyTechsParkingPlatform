@@ -1,9 +1,6 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingSpace;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingTicket;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Rate;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -103,6 +100,7 @@ public class TicketCrudController {
     }
 
     private void updateRecordCount() {
+        tfTicketId.setText(String.valueOf(mainMenuController.getParkingTicketController().getNextId()));
         if (lblTotalRecords != null) lblTotalRecords.setText(String.valueOf(filteredList.size()));
     }
 
