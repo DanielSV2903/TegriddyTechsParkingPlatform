@@ -150,14 +150,16 @@ public class MainMenuController {
                 break;
                 case "TiposVehiculo":
                     openCrudWindow("vehicleTypeManagementView.fxml", "CRUD Tipo de Vehiculos", () -> new VehicleTypeCrudController(this));
+                    break;
             case "OperacionParqueo":
-                openCrudWindow("parkingOperationView.fxml", "CRUD Operaciones de Parqueo", () -> new ParkingOperationViewController(this));
+                openCrudWindow("parking-operation-map-view.fxml", "Mapa de Operación de Parqueo", () -> new ParkingOperationMapController(this));
                 break;
             default:
                 CrudAlertHelper.showWarning("Navegacion", "Sin CRUD configurado para: " + target);
                 break;
         }
     }
+
 
 
     public OperationResult createUser(User user) {

@@ -281,29 +281,30 @@
                             <Button maxWidth="Infinity" onAction="#toTickets" style="-fx-background-color: #f7fafc; -fx-text-fill: #d69e2e; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
                         </VBox>
 
-                            <!-- Tarjeta Operación Parqueo (NUEVA) -->
+                            <!-- Tarjeta Operación Parqueo -->
                             <VBox style="-fx-background-color: white; -fx-background-radius: 12;
                                           -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
                                           -fx-pref-width: 260; -fx-pref-height: 140;"
                                   GridPane.columnIndex="1" GridPane.rowIndex="1">
                                 <VBox spacing="12" style="-fx-padding: 20;">
                                     <HBox alignment="CENTER_LEFT" spacing="12">
-                                        <Circle fill="#ebf4ff" radius="20" />
+                                        <Circle fill="#667eea" radius="20" />
                                         <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;"
-                                               text="Operación Parqueo" />
+                                               text="Mapa de Operación" />
                                     </HBox>
                                     <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;"
-                                           text="Parquear/Desparquear y ver mapa de espacios" />
+                                           text="Visualización integrada y operación de espacios de parqueo" />
                                 </VBox>
                                 <Region prefHeight="10" />
                                 <Button maxWidth="Infinity"
                                         onAction="#openCrud"
                                         userData="OperacionParqueo"
-                                        style="-fx-background-color: #f7fafc; -fx-text-fill: #3182ce; -fx-font-size: 13px;
+                                        style="-fx-background-color: #f7fafc; -fx-text-fill: #667eea; -fx-font-size: 13px;
                                                -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;
                                                -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;"
-                                        text="Abrir" />
+                                        text="Abrir Mapa" />
                             </VBox>
+
 
                   <columnConstraints>
                      <ColumnConstraints />
