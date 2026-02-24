@@ -18,35 +18,26 @@ public class RateCrudController {
 
     private final MainMenuController mainMenuController;
 
-    @FXML
-    private TextField tfRateId;
-    @FXML
-    private ComboBox<SpaceType> cbVehicleType;
-    @FXML
-    private TextField tfHourlyRate;
-    @FXML
-    private TextField tfDailyRate;
-    @FXML
-    private TextArea taDescription;
+    @FXML private TextField tfRateId;
+    @FXML private ComboBox<VehicleType> cbVehicleType;
 
-    @FXML
-    private TextField tfSearch;
-    @FXML
-    private TableView<Rate> tableRates;
-    @FXML
-    private TableColumn<Rate, Integer> colRateId;
-    @FXML
-    private TableColumn<Rate, String> colVehicleType;
-    @FXML
-    private TableColumn<Rate, Double> colHourlyRate;
-    @FXML
-    private TableColumn<Rate, Double> colDailyRate;
-    @FXML
-    private TableColumn<Rate, String> colDescription;
-    @FXML
-    private Label lblTotalRecords;
+    @FXML private ComboBox<TimeUnit> cbTimeUnit;
+    @FXML private TextField tfFee;
 
-    private ObservableList<Rate> rateList = FXCollections.observableArrayList();
+    @FXML private TextArea taDescription;
+
+    @FXML private TextField tfSearch;
+    @FXML private TableView<Rate> tableRates;
+    @FXML private TableColumn<Rate, Integer> colRateId;
+    @FXML private TableColumn<Rate, String> colVehicleType;
+
+    @FXML private TableColumn<Rate, String> colTimeUnit;
+    @FXML private TableColumn<Rate, Double> colFee;
+
+    @FXML private TableColumn<Rate, String> colDescription;
+    @FXML private Label lblTotalRecords;
+
+    private final ObservableList<Rate> rateList = FXCollections.observableArrayList();
 
     public RateCrudController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
@@ -54,24 +45,27 @@ public class RateCrudController {
 
     @FXML
     private void initialize() {
-        if (cbVehicleType != null) cbVehicleType.getItems().setAll(SpaceType.values());
+        if (cbVehicleType != null) cbVehicleType.getItems().setAll(mainMenuController.getAllVehicleTypes());
+
+        if (cbTimeUnit != null) {
+            cbTimeUnit.getItems().setAll(TimeUnit.HOURS, TimeUnit.DAYS,TimeUnit.MINUTES);
+        }
 
         if (colRateId != null) colRateId.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getRateId()));
+
         if (colVehicleType != null) colVehicleType.setCellValueFactory(cell -> {
             VehicleType vt = cell.getValue().getVehicleType();
             String desc = vt != null ? vt.getDescription() : "-";
             return new ReadOnlyObjectWrapper<>(desc);
         });
-        if (colHourlyRate != null) colHourlyRate.setCellValueFactory(cell -> {
-            Rate r = cell.getValue();
-            Double v = r.getTimeUnit() == TimeUnit.HOURS ? r.getFee() : null;
-            return new ReadOnlyObjectWrapper<>(v);
+
+        if (colTimeUnit != null) colTimeUnit.setCellValueFactory(cell -> {
+            TimeUnit tu = cell.getValue().getTimeUnit();
+            return new ReadOnlyObjectWrapper<>(tu != null ? tu.name() : "-");
         });
-        if (colDailyRate != null) colDailyRate.setCellValueFactory(cell -> {
-            Rate r = cell.getValue();
-            Double v = r.getTimeUnit() == TimeUnit.DAYS ? r.getFee() : null;
-            return new ReadOnlyObjectWrapper<>(v);
-        });
+
+        if (colFee != null) colFee.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getFee()));
+
         if (colDescription != null) colDescription.setCellValueFactory(cell -> {
             VehicleType vt = cell.getValue().getVehicleType();
             String desc = vt != null ? vt.getDescription() : "";
@@ -107,9 +101,12 @@ public class RateCrudController {
         String q = query.toLowerCase();
         ObservableList<Rate> filtered = FXCollections.observableArrayList();
         for (Rate r : rateList) {
-            String vehicleDesc = r.getVehicleType() != null ? r.getVehicleType().getDescription().toLowerCase() : "";
+            String vehicleDesc = r.getVehicleType() != null && r.getVehicleType().getDescription() != null
+                    ? r.getVehicleType().getDescription().toLowerCase()
+                    : "";
             String fee = String.valueOf(r.getFee()).toLowerCase();
-            if (vehicleDesc.contains(q) || fee.contains(q)) filtered.add(r);
+            String unit = r.getTimeUnit() != null ? r.getTimeUnit().name().toLowerCase() : "";
+            if (vehicleDesc.contains(q) || fee.contains(q) || unit.contains(q)) filtered.add(r);
         }
         tableRates.setItems(filtered);
         lblTotalRecords.setText(String.valueOf(filtered.size()));
@@ -118,41 +115,53 @@ public class RateCrudController {
     private void loadRateToForm(Rate r) {
         tfRateId.setText(String.valueOf(r.getRateId()));
         if (r.getVehicleType() != null) {
-            SpaceType st = r.getVehicleType().getSpaceType();
+            VehicleType st = r.getVehicleType();
             cbVehicleType.setValue(st);
             taDescription.setText(r.getVehicleType().getDescription());
+        } else {
+            cbVehicleType.setValue(null);
         }
-        if (r.getTimeUnit() == TimeUnit.HOURS) tfHourlyRate.setText(String.valueOf(r.getFee()));
-        else if (r.getTimeUnit() == TimeUnit.DAYS) tfDailyRate.setText(String.valueOf(r.getFee()));
+
+        cbTimeUnit.setValue(r.getTimeUnit());
+        tfFee.setText(String.valueOf(r.getFee()));
     }
 
     @FXML
     private void onCreate() {
         try {
             int id = Integer.parseInt(tfRateId.getText().trim());
-            SpaceType st = cbVehicleType.getValue();
+
+            VehicleType st = cbVehicleType.getValue();
             if (st == null) {
                 showAlert("Error", "Seleccione un tipo de vehículo", Alert.AlertType.ERROR);
                 return;
             }
 
-            String desc = taDescription.getText() != null ? taDescription.getText().trim() : "Default";
+            TimeUnit unit = cbTimeUnit.getValue();
+            if (unit == null) {
+                showAlert("Error", "Seleccione la unidad de tiempo", Alert.AlertType.ERROR);
+                return;
+            }
 
-            if (tfHourlyRate.getText() != null && !tfHourlyRate.getText().trim().isEmpty()) {
-                double hourly = Double.parseDouble(tfHourlyRate.getText().trim());
-                Rate r = new Rate(id, defaultVehicleType(hourly, st, desc), TimeUnit.HOURS, hourly);
-                CrudAlertHelper.showResult("Tarifas", mainMenuController.createRate(r));
+            String feeText = tfFee.getText() != null ? tfFee.getText().trim() : "";
+            if (feeText.isEmpty()) {
+                showAlert("Error", "Ingrese el precio", Alert.AlertType.ERROR);
+                return;
             }
-            if (tfDailyRate.getText() != null && !tfDailyRate.getText().trim().isEmpty()) {
-                double daily = Double.parseDouble(tfDailyRate.getText().trim());
-                Rate r2 = new Rate(id, defaultVehicleType(daily, st, desc), TimeUnit.DAYS, daily);
-                CrudAlertHelper.showResult("Tarifas", mainMenuController.createRate(r2));
+
+            double fee = Double.parseDouble(feeText);
+            if (fee < 0) {
+                showAlert("Error", "El precio no puede ser negativo", Alert.AlertType.ERROR);
+                return;
             }
+
+            Rate r = new Rate(id, st, unit, fee);
+            CrudAlertHelper.showResult("Tarifas", mainMenuController.createRate(r));
 
             onClear();
             loadData();
         } catch (NumberFormatException ex) {
-            showAlert("Error", "Valores numéricos inválidos", Alert.AlertType.ERROR);
+            showAlert("Error", "Valores numéricos inválidos (ID/Precio)", Alert.AlertType.ERROR);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -162,28 +171,38 @@ public class RateCrudController {
     private void onUpdate() {
         try {
             int id = Integer.parseInt(tfRateId.getText().trim());
-            SpaceType st = cbVehicleType.getValue();
+
+            VehicleType st = cbVehicleType.getValue();
             if (st == null) {
                 showAlert("Error", "Seleccione un tipo de vehículo", Alert.AlertType.ERROR);
                 return;
             }
-            String desc = taDescription.getText() != null ? taDescription.getText().trim() : "Default";
 
-            if (tfHourlyRate.getText() != null && !tfHourlyRate.getText().trim().isEmpty()) {
-                double hourly = Double.parseDouble(tfHourlyRate.getText().trim());
-                Rate r = new Rate(id, defaultVehicleType(hourly, st, desc), TimeUnit.HOURS, hourly);
-                CrudAlertHelper.showResult("Tarifas", mainMenuController.updateRate(r));
+            TimeUnit unit = cbTimeUnit.getValue();
+            if (unit == null) {
+                showAlert("Error", "Seleccione la unidad de tiempo", Alert.AlertType.ERROR);
+                return;
             }
-            if (tfDailyRate.getText() != null && !tfDailyRate.getText().trim().isEmpty()) {
-                double daily = Double.parseDouble(tfDailyRate.getText().trim());
-                Rate r2 = new Rate(id, defaultVehicleType(daily, st, desc), TimeUnit.DAYS, daily);
-                CrudAlertHelper.showResult("Tarifas", mainMenuController.updateRate(r2));
+
+            String feeText = tfFee.getText() != null ? tfFee.getText().trim() : "";
+            if (feeText.isEmpty()) {
+                showAlert("Error", "Ingrese el precio", Alert.AlertType.ERROR);
+                return;
             }
+
+            double fee = Double.parseDouble(feeText);
+            if (fee < 0) {
+                showAlert("Error", "El precio no puede ser negativo", Alert.AlertType.ERROR);
+                return;
+            }
+
+            Rate r = new Rate(id, st, unit, fee);
+            CrudAlertHelper.showResult("Tarifas", mainMenuController.updateRate(r));
 
             onClear();
             loadData();
         } catch (NumberFormatException ex) {
-            showAlert("Error", "Valores numéricos inválidos", Alert.AlertType.ERROR);
+            showAlert("Error", "Valores numéricos inválidos (ID/Precio)", Alert.AlertType.ERROR);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -210,12 +229,12 @@ public class RateCrudController {
 
     @FXML
     private void onClear() {
-        tfRateId.clear();
-        cbVehicleType.setValue(null);
-        tfHourlyRate.clear();
-        tfDailyRate.clear();
-        taDescription.clear();
-        tableRates.getSelectionModel().clearSelection();
+        if (tfRateId != null) tfRateId.clear();
+        if (cbVehicleType != null) cbVehicleType.setValue(null);
+        if (cbTimeUnit != null) cbTimeUnit.setValue(null);
+        if (tfFee != null) tfFee.clear();
+        if (taDescription != null) taDescription.clear();
+        if (tableRates != null) tableRates.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -229,8 +248,6 @@ public class RateCrudController {
     }
 
     private VehicleType defaultVehicleType(double fee, SpaceType spaceType, String desc) {
-        // Asignar ID según el SpaceType para mantener consistencia:
-        // BICYCLE = 1, MOTORCYCLE = 2, CAR = 3, HEAVY = 4
         int vehicleTypeId;
         byte tyres;
         switch (spaceType) {
@@ -258,8 +275,13 @@ public class RateCrudController {
     }
 
     private void updateRecordCount() {
-        tfRateId.setText(String.valueOf(mainMenuController.getAllRates().size()+1));
-        lblTotalRecords.setText(String.valueOf((tableRates.getItems() == null) ? 0 : tableRates.getItems().size()));
+        // No pises el ID si el usuario está editando uno existente.
+        if (tfRateId != null && (tfRateId.getText() == null || tfRateId.getText().isBlank())) {
+            tfRateId.setText(String.valueOf(mainMenuController.getAllRates().size() + 1));
+        }
+        if (lblTotalRecords != null) {
+            lblTotalRecords.setText(String.valueOf((tableRates.getItems() == null) ? 0 : tableRates.getItems().size()));
+        }
     }
 
     private void showAlert(String title, String message, Alert.AlertType type) {

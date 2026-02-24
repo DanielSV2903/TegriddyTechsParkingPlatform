@@ -14,4 +14,11 @@
     <timeUnit>HOURS</timeUnit>
     <active>true</active>
   </rate>
+  <rate rateId="3">
+    <vehicleTypeId>1</vehicleTypeId>
+    <spaceType>CAR</spaceType>
+    <fee>20.0</fee>
+    <timeUnit>MINUTES</timeUnit>
+    <active>true</active>
+  </rate>
 </rates>
