@@ -1,7 +1,7 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controller;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuController;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuView;
 import org.jdom2.JDOMException;
 
 import java.io.IOException;
@@ -14,14 +14,14 @@ public class ParkingOperationController {
     private ParkingSpaceController parkingSpaceController;
     private VehicleController vehicleController;
     private ParkingTicketController ticketController;
-    private MainMenuController mainMenuController;
+    private MainMenuView mainMenuView;
 
-    public ParkingOperationController(MainMenuController mainMenuController) throws IOException, JDOMException {
-        this.parkingLotController =mainMenuController.getParkingLotController();
-        this.vehicleController =mainMenuController.getVehicleController();
-        this.ticketController =mainMenuController.getParkingTicketController();
-        this.parkingSpaceController=mainMenuController.getParkingSpaceController();
-        this.mainMenuController=mainMenuController;
+    public ParkingOperationController(MainMenuView mainMenuView) throws IOException, JDOMException {
+        this.parkingLotController = mainMenuView.getParkingLotController();
+        this.vehicleController = mainMenuView.getVehicleController();
+        this.ticketController = mainMenuView.getParkingTicketController();
+        this.parkingSpaceController= mainMenuView.getParkingSpaceController();
+        this.mainMenuView = mainMenuView;
     }
 
     public OperationResult parkVehicle(int parkingLotId, Vehicle vehicle) throws IOException {
@@ -44,7 +44,7 @@ public class ParkingOperationController {
             return OperationResult.failure("No hay espacios disponibles para el tipo de vehículo: " + vehicle.getVehicleType());
         }
 
-        Rate rate = mainMenuController.getRateController().findBySpaceType(availableSpace.getSpaceType());
+        Rate rate = mainMenuView.getRateController().findBySpaceType(availableSpace.getSpaceType());
 
         if (rate == null) {
             return OperationResult.failure("No existe tarifa para el tipo de vehículo: " + availableSpace.getSpaceType());
@@ -115,7 +115,7 @@ public class ParkingOperationController {
         }
 
         // Obtener la tarifa
-        Rate rate = mainMenuController.getRateController().findBySpaceType(specificSpace.getSpaceType());
+        Rate rate = mainMenuView.getRateController().findBySpaceType(specificSpace.getSpaceType());
         if (rate == null) {
             return OperationResult.failure("No se encontró una tarifa para el tipo de vehículo : " + specificSpace.getSpaceType());
         }
