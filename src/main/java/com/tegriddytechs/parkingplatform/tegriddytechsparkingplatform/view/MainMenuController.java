@@ -31,6 +31,7 @@ public class MainMenuController {
     private RateController rateController;
     private  ParkingTicketController parkingTicketController;
     private VehicleTypeController vehicleTypeController;
+    private StatisticsController statisticsController;
     private User user;
     private DataManager dataManager;
     @FXML
@@ -110,8 +111,8 @@ public class MainMenuController {
     }
 
     @FXML
-    public void toSpaces(ActionEvent actionEvent) {
-        openCrudWindow("parkingspace-crud-view-improved.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
+    public void toStats(ActionEvent actionEvent) {
+        openCrudWindow("statistics-view.fxml", "Estadísticas", () -> new StatisticsController(this));
     }
 
     @FXML
@@ -138,7 +139,7 @@ public class MainMenuController {
                 openCrudWindow("parkinglot-crud-view-improved.fxml", "CRUD Parqueaderos", () -> new ParkingLotCrudController(this));
                 break;
             case "Espacios":
-                openCrudWindow("parkingspace-crud-view-improved.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
+                openCrudWindow("statistics-view.fxml", "CRUD Espacios", () -> new ParkingSpaceCrudController(this));
                 break;
             case "Vehiculos":
                 openCrudWindow("vehicle-crud-view-improved.fxml", "CRUD Vehiculos", () -> new VehicleCrudController(this));
