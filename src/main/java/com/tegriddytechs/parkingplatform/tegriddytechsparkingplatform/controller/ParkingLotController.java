@@ -3,6 +3,7 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.controlle
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.ParkingLotData;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingSpace;
 import org.jdom2.JDOMException;
 
 import java.io.IOException;
@@ -37,12 +38,21 @@ public class ParkingLotController {
     // Deletes parking lot by ID if exists on the data
     public OperationResult deleteParkingLot(ParkingLot parkingLot) throws IOException {
         if (parkingLot == null) return OperationResult.failure("Parking lot cannot be null");
+        if (hasVehiclesParked(parkingLot.getSpaces()))
+            return OperationResult.failure("Parking lot cannot be deleted because it has vehicles parked");
 
         boolean deleted = parkingLotData.deleteParkingLot(parkingLot);
         if (!deleted) {
             return OperationResult.failure("Parking lot not found");
         }
         return OperationResult.success("Parking lot removed successfully");
+    }
+
+    private boolean hasVehiclesParked(ParkingSpace[] spaces) {
+        for (ParkingSpace space : spaces) {
+            if (space.isParked()) return true;
+        }
+        return false;
     }
 
     // A parking lot can be edited but not its ID

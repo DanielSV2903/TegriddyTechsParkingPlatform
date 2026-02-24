@@ -6,8 +6,8 @@
     <vehiceId />
   </customer>
   <customer id="2">
-    <name>Aidan</name>
-    <disability>true</disability>
+    <name>Aidan M</name>
+    <disability>false</disability>
     <vehiceId />
   </customer>
 </customers>

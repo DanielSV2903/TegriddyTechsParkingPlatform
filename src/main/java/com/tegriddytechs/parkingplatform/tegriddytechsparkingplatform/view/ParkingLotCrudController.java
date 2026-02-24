@@ -150,7 +150,14 @@ public class ParkingLotCrudController {
             CrudAlertHelper.showWarning("Parqueaderos", "Parqueadero no encontrado");
             return;
         }
-        CrudAlertHelper.showResult("Parqueaderos", mainMenuController.deleteParkingLot(lot));
+        try {
+            OperationResult deleted = mainMenuController.deleteParkingLot(lot);
+            CrudAlertHelper.showResult("Parqueaderos", deleted);
+            if (deleted.isSuccessfull())
+                CrudAlertHelper.showResult("Espacios",mainMenuController.getParkingSpaceController().deleteParkingSpaces(lot.getSpaces()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

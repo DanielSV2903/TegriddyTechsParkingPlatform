@@ -52,20 +52,24 @@ public class ParkingSpaceData extends ParkingSpaceXmlRepository {
     @Override
     public void insert(ParkingSpace parkingSpace) throws IOException {
         super.insert(parkingSpace);
+        reload();
     }
 
     @Override
     public void update(ParkingSpace parkingSpace) throws IOException {
         super.update(parkingSpace);
+        reload();
     }
 
     @Override
     public boolean deleteById(int id) throws IOException {
+        parkingSpaces.removeIf(parkingSpace -> parkingSpace.getSpaceNumber() == id);
         return super.deleteById(id);
     }
 
     @Override
     public boolean delete(ParkingSpace parkingSpace) throws IOException {
+        parkingSpaces.remove(parkingSpace);
         return super.delete(parkingSpace);
     }
 
@@ -90,5 +94,11 @@ public class ParkingSpaceData extends ParkingSpaceXmlRepository {
             }
         }
         return spaces;
+    }
+
+    public void deleteParkingSpaces(ParkingSpace[] spaces) throws IOException {
+        for (ParkingSpace space: spaces) {
+                delete(space);
+        }
     }
 }

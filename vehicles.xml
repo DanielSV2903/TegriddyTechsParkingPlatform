@@ -6,8 +6,8 @@
     <model>Accent</model>
     <color>Gris</color>
     <ownerId>119310248</ownerId>
-    <status>Retirado</status>
-    <ticketId />
+    <status>Estacionado</status>
+    <ticketId>c5d52b9e-76d6-4dde-aa9f-2a5255ddd877</ticketId>
   </vehicle>
   <vehicle plate="dsv">
     <vehicleTypeId>3</vehicleTypeId>

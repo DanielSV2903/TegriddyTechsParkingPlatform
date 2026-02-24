@@ -26,7 +26,7 @@ public class ParkingSpaceController {
         if (findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot()) != null) {
             return OperationResult.failure("Parking space already exists");
         }
-        parkingSpaceData.insert(space);
+        parkingSpaceData.registerParkingSpace(space);
         return OperationResult.success("Parking space registered successfully");
     }
 
@@ -35,7 +35,7 @@ public class ParkingSpaceController {
         if (findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot()) == null) {
             return OperationResult.failure("Parking space not found");
         }
-        parkingSpaceData.update(space);
+        parkingSpaceData.editParkingSpace(space);
         return OperationResult.success("Parking space updated successfully");
     }
 
@@ -48,5 +48,23 @@ public class ParkingSpaceController {
 
     public ArrayList<ParkingSpace> getAllParkingSpaces() {
         return parkingSpaceData.getAllParkingSpaces();
+    }
+
+    public OperationResult deleteParkingSpaces(ParkingSpace[] spaces) throws IOException {
+        if (spaces == null) return OperationResult.failure("Parking spaces cannot be null");
+        if (spaces.length == 0) return OperationResult.failure("Parking spaces cannot be empty");
+        if (!hasParkedVehicles(spaces)){
+            parkingSpaceData.deleteParkingSpaces(spaces);
+        return OperationResult.success("Parking spaces of parking lot "+spaces[0].getParkingLot().getParkingLotId()+" deleted successfully");
+        }else{
+            return OperationResult.failure("Parking lot cannot be deleted because it has vehicles parked");
+        }
+    }
+
+    private boolean hasParkedVehicles(ParkingSpace[] spaces) {
+        for (ParkingSpace space : spaces) {
+            if (space.isParked()) return true;
+        }
+        return false;
     }
 }
