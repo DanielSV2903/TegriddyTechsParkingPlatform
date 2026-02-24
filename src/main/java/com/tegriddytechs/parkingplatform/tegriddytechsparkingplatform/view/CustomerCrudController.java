@@ -45,13 +45,34 @@ public class CustomerCrudController {
     }
 
     @FXML
-    private void initialize() {try {
+    private void initialize() {
+        try {
             colId.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("id"));
             colName.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("name"));
             colAge.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("age"));
+
+            // Cambiar disability para mostrar "Sí" o "No" en lugar de true/false
             colDisability.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("disability"));
+            colDisability.setCellFactory(column -> new TableCell<Customer, Boolean>() {
+                @Override
+                protected void updateItem(Boolean item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item ? "Sí" : "No");
+                    }
+                }
+            });
 
             tableCustomers.setItems(filteredList);
+
+            // Agregar listener para cargar datos al seleccionar en la tabla
+            tableCustomers.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    loadCustomerToForm(newSelection);
+                }
+            });
 
             if (tfSearch != null) {
                 tfSearch.textProperty().addListener((obs, oldV, newV) -> {
@@ -68,6 +89,15 @@ public class CustomerCrudController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void loadCustomerToForm(Customer customer) {
+        if (customer == null) return;
+
+        if (tfId != null) tfId.setText(String.valueOf(customer.getId()));
+        if (tfName != null) tfName.setText(customer.getName() != null ? customer.getName() : "");
+        if (tfAge != null) tfAge.setText(String.valueOf(customer.getAge()));
+        if (cbDisability != null) cbDisability.setSelected(customer.isDisability());
     }
 
     private void loadData() {

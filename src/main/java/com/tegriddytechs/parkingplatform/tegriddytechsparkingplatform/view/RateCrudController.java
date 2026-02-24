@@ -57,23 +57,29 @@ public class RateCrudController {
         if (cbVehicleType != null) cbVehicleType.getItems().setAll(SpaceType.values());
 
         if (colRateId != null) colRateId.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getRateId()));
+
         if (colVehicleType != null) colVehicleType.setCellValueFactory(cell -> {
-            VehicleType vt = cell.getValue().getVehicleType();
-            String desc = vt != null ? vt.getDescription() : "-";
+            Rate rate = cell.getValue();
+            VehicleType vt = rate.getVehicleType();
+            String desc = vt != null && vt.getSpaceType() != null ? vt.getSpaceType().name() : "-";
             return new ReadOnlyObjectWrapper<>(desc);
         });
+
         if (colHourlyRate != null) colHourlyRate.setCellValueFactory(cell -> {
             Rate r = cell.getValue();
-            Double v = r.getTimeUnit() == TimeUnit.HOURS ? r.getFee() : null;
+            Double v = (r.getTimeUnit() != null && r.getTimeUnit() == java.util.concurrent.TimeUnit.HOURS) ? r.getFee() : 0.0;
             return new ReadOnlyObjectWrapper<>(v);
         });
+
         if (colDailyRate != null) colDailyRate.setCellValueFactory(cell -> {
             Rate r = cell.getValue();
-            Double v = r.getTimeUnit() == TimeUnit.DAYS ? r.getFee() : null;
+            Double v = (r.getTimeUnit() != null && r.getTimeUnit() == java.util.concurrent.TimeUnit.DAYS) ? r.getFee() : 0.0;
             return new ReadOnlyObjectWrapper<>(v);
         });
+
         if (colDescription != null) colDescription.setCellValueFactory(cell -> {
-            VehicleType vt = cell.getValue().getVehicleType();
+            Rate rate = cell.getValue();
+            VehicleType vt = rate.getVehicleType();
             String desc = vt != null ? vt.getDescription() : "";
             return new ReadOnlyObjectWrapper<>(desc);
         });

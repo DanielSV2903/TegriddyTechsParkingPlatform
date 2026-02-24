@@ -41,11 +41,15 @@ public class MainMenuController {
     @FXML
     private Label adminNameLabel;
     @FXML
-    private Label adminMailLabel;
+    private Label adminUsernameLabel;
     @FXML
     private Label totalParkingLots;
     @FXML
     private Label totalActiveVehicles;
+    @FXML
+    private Label clerkUsernameLabel;
+    @FXML
+    private Label clerkNameLabel;
 
     @FXML
     private void initialize() {
@@ -1130,23 +1134,36 @@ public class MainMenuController {
     public void setUser(User user) {
         this.user = user;
 
-        //se actualizan los labels de info del usuario
+        // Actualizar labels de información del usuario
         if (user != null) {
+            String displayName = user.getName() != null ? user.getName() : "Usuario";
+            String username = user.getUserName() != null ? user.getUserName() : "Sin usuario";
+
+            // Determinar el prefijo según el rol
+            String rolePrefix = "";
+            if (user instanceof Administrator) {
+                rolePrefix = "Admin: ";
+            } else if (user instanceof Clerk) {
+                rolePrefix = "Cajero: ";
+            }
+
+            // Actualizar labels de Admin (main-menu.fxml)
             if (adminNameLabel != null) {
-                String displayName = user.getName() != null ? user.getName() : "Usuario";
-                if (user instanceof Administrator) {
-                    displayName = "Admin: " + displayName;
-                } else if (user instanceof Clerk) {
-                    displayName = "Cajero: " + displayName;
-                }
-                adminNameLabel.setText(displayName);
+                adminNameLabel.setText(rolePrefix + displayName);
+            }
+            if (adminUsernameLabel != null) {
+                adminUsernameLabel.setText(username);
             }
 
-            if (adminMailLabel != null) {
-                String username = user.getUserName() != null ? user.getUserName() : "Sin usuario";
-                adminMailLabel.setText(username);
+            // Actualizar labels de Clerk (clerk-view.fxml)
+            if (clerkNameLabel != null) {
+                clerkNameLabel.setText(rolePrefix + displayName);
+            }
+            if (clerkUsernameLabel != null) {
+                clerkUsernameLabel.setText(username);
             }
 
+            // Actualizar estadísticas del dashboard (solo para admin)
             updateDashboardStatistics();
         }
     }

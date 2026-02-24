@@ -61,9 +61,9 @@ public class UserCrudControllerImproved {
         // Configurar columnas de la tabla
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-        colRole.setCellValueFactory(new PropertyValueFactory<>("role"));
-        
+        colUsername.setCellValueFactory(new PropertyValueFactory<>("userName")); // Corregido
+        colRole.setCellValueFactory(new PropertyValueFactory<>("userRole")); // Corregido
+
         // Listener para selección en tabla
         tableUsers.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
