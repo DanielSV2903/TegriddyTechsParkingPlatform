@@ -36,4 +36,8 @@ public class ParkingTicketController {
     public ParkingTicket findById(String id){
         return ticketData.findTicketById(id);
     }
+
+    public int getNextId() {
+        return ticketData.getNextId();
+    }
 }

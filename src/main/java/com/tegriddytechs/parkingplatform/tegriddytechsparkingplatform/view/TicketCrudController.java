@@ -1,9 +1,6 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingSpace;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingTicket;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Rate;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -18,11 +15,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class TicketCrudController {
 
     private final MainMenuController mainMenuController;
-
+    @FXML
+    private ComboBox cbVehiclePlate;
+    @FXML
+    private ComboBox cbSpaceId;
     @FXML
     private TextField tfTicketId;
     @FXML
@@ -77,6 +78,13 @@ public class TicketCrudController {
             colExitDate.setCellValueFactory(new PropertyValueFactory<>("exitTime"));
             colAmount.setCellValueFactory(new PropertyValueFactory<>("rate"));
 
+            ArrayList<String> plates = new ArrayList<>();
+            for (Vehicle vehicle : mainMenuController.getAllVehicles()) {
+                plates.add(vehicle.getPlate());
+            }
+            cbVehiclePlate.setItems(FXCollections.observableArrayList(plates));
+            cbSpaceId.setItems(FXCollections.observableArrayList(mainMenuController.getAllParkingSpaces()));
+
             tableTickets.setItems(filteredList);
 
             if (tfSearch != null) {
@@ -103,6 +111,7 @@ public class TicketCrudController {
     }
 
     private void updateRecordCount() {
+        tfTicketId.setText(String.valueOf(mainMenuController.getParkingTicketController().getNextId()));
         if (lblTotalRecords != null) lblTotalRecords.setText(String.valueOf(filteredList.size()));
     }
 

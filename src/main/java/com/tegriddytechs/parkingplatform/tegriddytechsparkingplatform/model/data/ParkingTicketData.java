@@ -57,4 +57,13 @@ public class ParkingTicketData extends ParkingTicketXmlRepository {
         tickets.remove(ticket);
     }
 
+    public int getNextId() {
+        int id = 0;
+        for (ParkingTicket ticket : tickets) {
+            if (ticket.getTicketId().length() > id) {
+                id = ticket.getTicketId().length();
+            }
+        }
+        return id + 1;
+    }
 }

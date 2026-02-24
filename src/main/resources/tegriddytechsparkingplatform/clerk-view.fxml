@@ -148,7 +148,7 @@
                                        text="Parquear/Desparquear y ver espacios del parqueo asignado" />
                             </VBox>
                             <Region prefHeight="12" />
-                            <Button maxWidth="Infinity" onAction="#openParkingOperations"
+                            <Button maxWidth="Infinity" onAction="#openCrud" userData="OperacionParqueo"
                                     style="-fx-background-color: linear-gradient(to right, #3182ce, #4299e1);
                                            -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 600;
                                            -fx-background-radius: 0 0 12 12; -fx-padding: 16;

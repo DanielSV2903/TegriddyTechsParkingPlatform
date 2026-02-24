@@ -101,4 +101,13 @@ public class ParkingLotData extends ParkingLotXmlRepository {
         // En este esquema, editar = update (mismo ID)
         update(parkingLot);
     }
+
+    public int getNextId() {
+        int id = 0;
+        for (ParkingLot p : parkingLots) {
+            if (p.getParkingLotId() > id)
+                id = p.getParkingLotId();
+        }
+        return id + 1;
+    }
 }
