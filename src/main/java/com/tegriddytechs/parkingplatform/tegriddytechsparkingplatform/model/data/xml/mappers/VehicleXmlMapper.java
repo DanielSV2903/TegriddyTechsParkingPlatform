@@ -4,7 +4,8 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import org.jdom2.Element;
 
-import java.lang.ref.PhantomReference;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
     private final String ID_ATTRIBUTE = "plate";
@@ -13,7 +14,7 @@ public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
     private final String BRAND = "brand";
     private final String MODEL = "model";
     private final String COLOR = "color";
-    private final String OWNER = "ownerId";
+    private final String OWNERS = "ownerId";
     private final String TICKET_ID = "ticketId";
 
     @Override
@@ -40,10 +41,17 @@ public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
         e.addContent(new Element(BRAND).setText(entity.getBrand()));
         e.addContent(new Element(MODEL).setText(entity.getModel()));
         e.addContent(new Element(COLOR).setText(entity.getColor()));
-        e.addContent(new Element(OWNER).setText(String.valueOf(entity.getOwner().getId())));
+        e.addContent(new Element(OWNERS).setText(ownersIds(entity)));
         e.addContent(new Element(VEHICLE_STATUS).setText(entity.getVehicleStatus().getEstado()));
         e.addContent(new Element(TICKET_ID).setText(entity.getTicket()!=null?entity.getTicket().getTicketId():""));
         return e;
+    }
+
+    private String ownersIds(Vehicle entity) {
+        StringBuilder ids=new StringBuilder();
+        for (Customer owner: entity.getOwners())
+            ids.append(owner.getId()+";");
+        return ids.toString();
     }
 
     @Override
@@ -58,10 +66,9 @@ public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
         String ticketId = element.getChildText(TICKET_ID);
         ParkingTicket ticket=new ParkingTicket();
         ticket.setTicketId(ticketId);
-        int ownerId = Integer.parseInt(element.getChildText(OWNER));
-        Customer owner = new Customer();
-        owner.setId(ownerId);
-        vehicle.setOwner(owner);
+        String [] ownersIds =  element.getChildText(OWNERS).split(";");
+        List<Customer> owners = getOwners(ownersIds);
+        vehicle.setOwners(owners);
         VehicleType type = new VehicleType();
         type.setId(typeId);//TODO CONECTAR la entidad completa
         vehicle.setPlate(vehiclePlate);
@@ -73,6 +80,16 @@ public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
         vehicle.setColor(color);
 
         return vehicle;
+    }
+
+    private List<Customer> getOwners(String[] ownersIds) {
+        List<Customer> owners=new ArrayList<>();
+        for (String id: ownersIds) {
+            Customer c = new Customer();
+            c.setId(Integer.parseInt(id));
+            owners.add(c);
+        }
+        return owners;
     }
 
 

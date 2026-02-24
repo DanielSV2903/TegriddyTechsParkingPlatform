@@ -67,12 +67,18 @@
                             </VBox>
                             
                             <VBox spacing="8">
-                                <Label style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #4a5568;" text="ID del Cliente" />
-                                <TextField fx:id="tfCustomerId" prefHeight="42" promptText="ID del propietario" style="-fx-background-color: #f7fafc; -fx-background-radius: 8;                                                   -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5;                                                  -fx-padding: 12 14; -fx-font-size: 13px;" />
+                                <Label style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #4a5568;" text="Dueños del Vehículo" />
+                                <Button fx:id="btnConfigureOwners" onAction="#onConfigureOwners" maxWidth="Infinity" prefHeight="42"
+                                        style="-fx-background-color: #edf2f7; -fx-text-fill: #2d3748; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 12 14; -fx-cursor: hand; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5;"
+                                        text="⚙ Configurar dueños..." />
+                                <Label fx:id="lblOwnersSummary"
+                                       style="-fx-font-size: 12px; -fx-text-fill: #718096;"
+                                       text="Sin dueños seleccionados" wrapText="true"/>
                             </VBox>
+
                         </VBox>
                     </ScrollPane>
-                    
+
                     <VBox spacing="12" style="-fx-padding: 8 0 0 0;">
                   <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(72, 187, 120, 0.3), 8, 0, 0, 3);" text="✓ Registrar Vehículo" />
                         <HBox spacing="10">

@@ -169,53 +169,37 @@ public class DataManager {
                                              Map<String, Vehicle> vehicleByPlate,
                                              Map<Integer, Customer> customerById) {
 
-        // A) Primero, si Customer trae Vehicle (aunque sea parcial), reemplazarlo por el canónico por placa
-        for (Customer customer : customers) {
-            if (customer == null) continue;
-
-            Vehicle v = customer.getVehicle();
-            if (v == null) continue;
-
-            String plate = safePlate(v);
-            if (plate == null) continue;
-
-            Vehicle canonicalVehicle = vehicleByPlate.get(plate);
-            if (canonicalVehicle != null) {
-                customer.setVehicle(canonicalVehicle);
+        //Limpiar relaciones actuales de los clientes
+        for (Customer c : customers) {
+            if (c != null && c.getVehicles() != null) {
+                c.getVehicles().clear();
             }
         }
 
-        // B) Luego, asegurar Vehicle.owner (Customer) y consistencia bidireccional
+        // 2. Recorrer vehículos y usar su lista de owners
         for (Vehicle vehicle : vehicles) {
-            if (vehicle == null) continue;
+            if (vehicle == null || vehicle.getOwners() == null) continue;
 
-            Customer owner = vehicle.getOwner();
-
-            // Si el owner viene (parcial) con id, intentamos canónicamente por id
-            if (owner != null) {
-                Customer canonicalOwner = customerById.get(owner.getId());
-                if (canonicalOwner != null) {
-                    vehicle.setOwner(canonicalOwner);
-                    if (canonicalOwner.getVehicle() == null) {
-                        canonicalOwner.setVehicle(vehicle);
-                    }
-                    continue;
-                }
-            }
-
-            // Si no hay owner (o no pudimos resolverlo), intentamos deducirlo desde Customer.vehicle.plate
             String plate = safePlate(vehicle);
             if (plate == null) continue;
 
-            for (Customer customer : customers) {
-                if (customer == null || customer.getVehicle() == null) continue;
-                String cPlate = safePlate(customer.getVehicle());
-                if (plate.equalsIgnoreCase(cPlate)) {
-                    vehicle.setOwner(customer);
-                    if (customer.getVehicle() != vehicle) {
-                        customer.setVehicle(vehicle);
-                    }
-                    break;
+            Vehicle canonicalVehicle = vehicleByPlate.get(plate.toUpperCase());
+            if (canonicalVehicle == null) continue;
+
+            for (Customer owner : vehicle.getOwners()) {
+                if (owner == null) continue;
+
+                Customer canonicalCustomer = customerById.get(owner.getId());
+                if (canonicalCustomer == null) continue;
+
+                // Conectar cliente vehículo
+                if (!canonicalCustomer.getVehicles().contains(canonicalVehicle)) {
+                    canonicalCustomer.getVehicles().add(canonicalVehicle);
+                }
+
+                // Conectar vehículo cliente
+                if (!canonicalVehicle.getOwners().contains(canonicalCustomer)) {
+                    canonicalVehicle.getOwners().add(canonicalCustomer);
                 }
             }
         }

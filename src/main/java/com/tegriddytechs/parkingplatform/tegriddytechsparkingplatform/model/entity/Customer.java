@@ -1,9 +1,11 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Customer extends Person {
-    private Vehicle vehicle;
+    List<Vehicle> vehicles = new ArrayList<>();
 
     public Customer() {
         super();
@@ -11,14 +13,19 @@ public class Customer extends Person {
 
     public Customer(int id, String name, boolean disability, int age, Vehicle vehicle) {
         super(id, name, disability, age);
-        this.vehicle = vehicle;
+        setVehicle(vehicle);
     }
     public Vehicle getVehicle() {
-        return vehicle;
+        return vehicles.isEmpty() ? null : vehicles.get(0);
+    }
+    public List<Vehicle> getVehicles() {
+        return vehicles;
     }
     public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+        if (!vehicles.contains(vehicle))
+            this.vehicles.add(vehicle);
     }
+
 
 
     @Override

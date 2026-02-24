@@ -40,7 +40,7 @@ public class CustomerXmlMapper implements XmlEntityMapper< Customer> {
         e.setAttribute(idAttributeName(), String.valueOf(entity.getId()));
         e.addContent(new Element(NAME_ATTRIBUTE).setText(entity.getName()));
         e.addContent(new Element(DISABILITY_ATTRIBUTE).setText(entity.isDisability() ? "true" : "false"));
-//        e.addContent(new Element(AGE_ATTRIBUTE).setText(String.valueOf(entity.getAge())));
+        e.addContent(new Element(AGE_ATTRIBUTE).setText(String.valueOf(entity.getAge())));
         e.addContent(new Element(VEHICLE_ID_ATTRIBUTE).setText(entity.getVehicle()!=null?entity.getVehicle().getPlate():""));
         return e;
     }
@@ -50,11 +50,12 @@ public class CustomerXmlMapper implements XmlEntityMapper< Customer> {
         Customer customer = new Customer();//usado para construir el objeto mas abstracto
         int id = Integer.parseInt(element.getAttributeValue(ID_ATTRIBUTE));
         String name = element.getChildText(NAME_ATTRIBUTE);
+        int age = Integer.parseInt(element.getChildText(AGE_ATTRIBUTE));
         boolean disability = castDisability(element.getChildText(DISABILITY_ATTRIBUTE));
         String vehiclePlate = element.getChildText(VEHICLE_ID_ATTRIBUTE);
-
         customer.setId(id);
         customer.setName(name);
+        customer.setAge(age);
         Vehicle vehicle = new Vehicle();
         vehicle.setPlate(vehiclePlate);
         customer.setVehicle(vehicle);

@@ -1,5 +1,8 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Vehicle {
     private String plate;
     private String model;
@@ -7,7 +10,7 @@ public class Vehicle {
     private String brand;
     private VehicleType vehicleType;
     private VehicleStatus vehicleStatus;
-    private Customer owner;
+    private List<Customer> owners=new ArrayList<>();
     private ParkingTicket ticket;
     private boolean disabledPermit;
 
@@ -24,7 +27,7 @@ public class Vehicle {
         this.plate = plate;
         this.vehicleType = vehicleType;
         this.vehicleStatus = vehicleStatus;
-        this.owner = owner;
+        setOwner(owner);
         this.ticket = ticket;
     }
 
@@ -35,7 +38,7 @@ public class Vehicle {
         this.brand = brand;
         this.vehicleType = vehicleType;
         this.vehicleStatus = vehicleStatus;
-        this.owner = owner;
+        setOwner(owner);
         this.ticket = ticket;
         this.disabledPermit = owner.isDisability();
     }
@@ -46,7 +49,7 @@ public class Vehicle {
         this.color = color;
         this.brand = brand;
         this.vehicleType = vehicleType;
-        this.owner = owner;
+        setOwner(owner);
         this.disabledPermit = owner.isDisability();
         this.ticket = null;
     }
@@ -88,11 +91,15 @@ public class Vehicle {
     }
 
     public Customer getOwner() {
-        return owner;
+        return owners.get(0);
+    }
+    public List<Customer> getOwners() {
+        return owners;
     }
 
     public void setOwner(Customer owner) {
-        this.owner = owner;
+        if(!this.owners.contains(owner))
+            this.owners.add(owner);
     }
 
     public ParkingTicket getTicket() {
@@ -133,5 +140,9 @@ public class Vehicle {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public void setOwners(List<Customer> owners) {
+        this.owners = owners;
     }
 }

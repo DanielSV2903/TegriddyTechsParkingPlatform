@@ -181,7 +181,14 @@ public class ParkingOperationController {
         if (vehicle == null || vehicle.getOwner() == null) {
             return false;
         }
-        return vehicle.getOwner().isDisability();
+        boolean disabilityNeeded=false;
+        for (Customer owner : vehicle.getOwners()) {
+            if (owner.isDisability()) {
+                disabilityNeeded=true;
+                break;
+            }
+        }
+        return disabilityNeeded;
     }
 
     public OperationResult exitVehicle(String licensePlate) throws IOException {
