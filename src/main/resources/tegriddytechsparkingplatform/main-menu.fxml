@@ -196,6 +196,19 @@
                                     text="Administrar" />
                         </VBox>
 
+                        <!-- Tarjeta Estadísticas -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <VBox spacing="12" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                    <Circle fill="#e6ffed" radius="20" />
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Estadísticas" />
+                                </HBox>
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Estadísticas generales" />
+                            </VBox>
+                            <Region prefHeight="10" />
+                            <Button maxWidth="Infinity" onAction="#toStats" style="-fx-background-color: #f7fafc; -fx-text-fill: #38a169; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
+                        </VBox>
+
                   <columnConstraints>
                      <ColumnConstraints />
                      <ColumnConstraints />
@@ -240,19 +253,6 @@
                             </VBox>
                             <Region prefHeight="10" />
                             <Button maxWidth="Infinity" onAction="#toParkings" style="-fx-background-color: #f7fafc; -fx-text-fill: #3182ce; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
-                        </VBox>
-
-                        <!-- Tarjeta Espacios -->
-                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                            <VBox spacing="12" style="-fx-padding: 20;">
-                                <HBox alignment="CENTER_LEFT" spacing="12">
-                                    <Circle fill="#e6ffed" radius="20" />
-                                    <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Espacios" />
-                                </HBox>
-                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Gestión de espacios de estacionamiento" />
-                            </VBox>
-                            <Region prefHeight="10" />
-                            <Button maxWidth="Infinity" onAction="#toSpaces" style="-fx-background-color: #f7fafc; -fx-text-fill: #38a169; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" />
                         </VBox>
 
                         <!-- Tarjeta Vehículos -->
