@@ -64,7 +64,7 @@ public class VehicleCrudController {
             colBrand.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getBrand() : ""));
             colModel.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getModel() : ""));
             colColor.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicleType() != null ? data.getValue().getColor() : ""));
-            colType.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null ? c.getValue().getVehicleType().getSpaceType().name() : ""));
+            colType.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVehicleType() != null && c.getValue().getVehicleType().getSpaceType() != null ? c.getValue().getVehicleType().getSpaceType().name() : ""));
 
             tableVehicles.setItems(filteredList);
 

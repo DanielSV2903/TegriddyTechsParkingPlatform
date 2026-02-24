@@ -33,7 +33,6 @@ public class MainMenuController {
     private RateController rateController;
     private  ParkingTicketController parkingTicketController;
     private VehicleTypeController vehicleTypeController;
-    private ParkingMapController parkingMapController;
     private User user;
     private DataManager dataManager;
     @FXML
@@ -61,7 +60,6 @@ public class MainMenuController {
             rateController = dataManager.getRateController();
             parkingTicketController = dataManager.getParkingTicketController();
             vehicleTypeController=new VehicleTypeController();
-            parkingMapController=new ParkingMapController();
         } catch (IOException | JDOMException e) {
             throw new RuntimeException(e);
         }
