@@ -57,6 +57,7 @@ public class ParkingSpaceConfigDialogView {
         });
 
         colCount.setCellValueFactory(data -> data.getValue().countProperty().asObject());
+
         colCount.setCellFactory(tc -> new TableCell<>() {
             private final Spinner<Integer> spinner = new Spinner<>(0, 50_000, 0);
 

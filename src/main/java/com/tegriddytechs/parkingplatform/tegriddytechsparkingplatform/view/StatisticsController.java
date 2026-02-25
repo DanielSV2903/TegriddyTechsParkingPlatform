@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class StatisticsView {
+public class StatisticsController {
 
     // Labels del FXML (tarjetas)
     @FXML private Label totalParkingLots;
@@ -58,7 +58,7 @@ public class StatisticsView {
     @FXML
     private Label vehiclesNotParked;
 
-    public StatisticsView(MainMenuView mainMenuController) {
+    public StatisticsController(MainMenuView mainMenuController) {
         this.mainMenuController = mainMenuController;
     }
 

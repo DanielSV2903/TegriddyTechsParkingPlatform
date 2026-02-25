@@ -31,7 +31,7 @@ public class MainMenuView {
     private RateController rateController;
     private  ParkingTicketController parkingTicketController;
     private VehicleTypeController vehicleTypeController;
-    private StatisticsView statisticsView;
+    private StatisticsController statisticsView;
     private User user;
     private DataManager dataManager;
     @FXML
@@ -116,7 +116,7 @@ public class MainMenuView {
 
     @FXML
     public void toStats(ActionEvent actionEvent) {
-        openCrudWindow("statistics-view.fxml", "Estadísticas", () -> new StatisticsView(this));
+        openCrudWindow("statistics-view.fxml", "Estadísticas", () -> new StatisticsController(this));
     }
 
     @FXML

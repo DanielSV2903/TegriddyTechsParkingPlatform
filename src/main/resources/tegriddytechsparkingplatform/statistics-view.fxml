@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.StatisticsView">
+<BorderPane style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.StatisticsController">
 
     <!-- HEADER -->
     <top>

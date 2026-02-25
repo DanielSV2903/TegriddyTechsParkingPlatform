@@ -22,7 +22,6 @@ public class RateData extends RateXmlRepository {
      }
 
     public ArrayList<Rate> getAllRates() {
-        reload();
         return rates;
     }
 

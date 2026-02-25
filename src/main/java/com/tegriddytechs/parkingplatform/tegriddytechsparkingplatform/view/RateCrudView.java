@@ -4,27 +4,27 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.enti
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.SpaceType;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.VehicleType;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class RateCrudController {
+public class RateCrudView {
 
-    private final MainMenuController mainMenuController;
+    private final MainMenuView mainMenuController;
 
     @FXML private TextField tfRateId;
     @FXML private ComboBox<VehicleType> cbVehicleType;
 
     @FXML private ComboBox<TimeUnit> cbTimeUnit;
     @FXML private TextField tfFee;
-
-    @FXML private TextArea taDescription;
 
     @FXML private TextField tfSearch;
     @FXML private TableView<Rate> tableRates;
@@ -39,12 +39,14 @@ public class RateCrudController {
 
     private final ObservableList<Rate> rateList = FXCollections.observableArrayList();
 
-    public RateCrudController(MainMenuController mainMenuController) {
+    public RateCrudView(MainMenuView mainMenuController) {
         this.mainMenuController = mainMenuController;
     }
 
     @FXML
     private void initialize() {
+        setUpComboBoxVt();
+        loadData();
         if (cbVehicleType != null) cbVehicleType.getItems().setAll(mainMenuController.getAllVehicleTypes());
 
         if (cbTimeUnit != null) {
@@ -53,11 +55,9 @@ public class RateCrudController {
 
         if (colRateId != null) colRateId.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getRateId()));
 
-        if (colVehicleType != null) colVehicleType.setCellValueFactory(cell -> {
-            VehicleType vt = cell.getValue().getVehicleType();
-            String desc = vt != null ? vt.getDescription() : "-";
-            return new ReadOnlyObjectWrapper<>(desc);
-        });
+        if (colVehicleType != null) colVehicleType.setCellValueFactory(cell ->new SimpleStringProperty(cell.getValue()
+                .getVehicleType() != null ? cell.getValue().getVehicleType().getDescription() : "-")
+        );
 
         if (colTimeUnit != null) colTimeUnit.setCellValueFactory(cell -> {
             TimeUnit tu = cell.getValue().getTimeUnit();
@@ -81,8 +81,37 @@ public class RateCrudController {
         if (tfSearch != null) {
             tfSearch.textProperty().addListener((obs, oldVal, newVal) -> filterTable(newVal));
         }
+    }
 
-        loadData();
+    private void setUpComboBoxVt() {
+        this.cbVehicleType.setCellFactory(new Callback<ListView<VehicleType>, ListCell<VehicleType>>() {
+            @Override
+            public ListCell<VehicleType> call(ListView<VehicleType> param) {
+                return new ListCell<VehicleType>() {
+                    @Override
+                    protected void updateItem(VehicleType item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.getDescription());
+                        }
+                    }
+                };
+            }
+        });
+         this.cbVehicleType.setButtonCell(new ListCell<VehicleType>() {
+            @Override
+            protected void updateItem(VehicleType item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.getDescription());
+                    setGraphic(null);
+
+    }            }
+        });
     }
 
     private void loadData() {
@@ -117,7 +146,6 @@ public class RateCrudController {
         if (r.getVehicleType() != null) {
             VehicleType st = r.getVehicleType();
             cbVehicleType.setValue(st);
-            taDescription.setText(r.getVehicleType().getDescription());
         } else {
             cbVehicleType.setValue(null);
         }
@@ -233,7 +261,6 @@ public class RateCrudController {
         if (cbVehicleType != null) cbVehicleType.setValue(null);
         if (cbTimeUnit != null) cbTimeUnit.setValue(null);
         if (tfFee != null) tfFee.clear();
-        if (taDescription != null) taDescription.clear();
         if (tableRates != null) tableRates.getSelectionModel().clearSelection();
     }
 

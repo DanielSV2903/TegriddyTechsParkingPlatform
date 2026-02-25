@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 public class RateXmlMapper implements XmlEntityMapper<Rate> {
 private final String ID_ATTRIBUTE = "rateId";
 private final String VEHICLE_TYPE_ATTRIBUTE = "vehicleTypeId";
-private final String SPACE_TYPE_ATTRIBUTE = "spaceType";
 private final String TIME_UNIT_ATTRIBUTE = "timeUnit";
 private final String ACTIVE_ATTRIBUTE = "active";
 private final String FEE = "fee";
@@ -36,7 +35,6 @@ private final String FEE = "fee";
         Element element = new Element(elementName());
         element.setAttribute(idAttributeName(), getId(entity));
         element.addContent(new Element(VEHICLE_TYPE_ATTRIBUTE).setText(String.valueOf(entity.getVehicleType().getId())));
-        element.addContent(new Element(SPACE_TYPE_ATTRIBUTE).setText(entity.getVehicleType().getSpaceType().name()));
         element.addContent(new Element(FEE).setText(String.valueOf(entity.getFee())));
         element.addContent(new Element(TIME_UNIT_ATTRIBUTE).setText(entity.getTimeUnit().name()));
         element.addContent(new Element(ACTIVE_ATTRIBUTE).setText(entity.isActive()?"true":"false"));
@@ -49,18 +47,9 @@ private final String FEE = "fee";
         double fee = Double.parseDouble(element.getChildText(FEE));
         TimeUnit timeUnit = TimeUnit.valueOf(element.getChildText(TIME_UNIT_ATTRIBUTE));
         int vehicleTypeId = Integer.parseInt(element.getChildText(VEHICLE_TYPE_ATTRIBUTE));
-
         // Leer el SpaceType del XML
-        SpaceType spaceType = null;
-        String spaceTypeStr = element.getChildText(SPACE_TYPE_ATTRIBUTE);
-        if (spaceTypeStr != null && !spaceTypeStr.isEmpty()) {
-            spaceType = SpaceType.valueOf(spaceTypeStr);
-        }
-
         VehicleType type = new VehicleType();
         type.setId(vehicleTypeId);
-        type.setSpaceType(spaceType);
-
         boolean active = Boolean.parseBoolean(element.getChildText(ACTIVE_ATTRIBUTE));
         Rate rate = new Rate(id, type, timeUnit, fee);
         rate.setActive(active);
