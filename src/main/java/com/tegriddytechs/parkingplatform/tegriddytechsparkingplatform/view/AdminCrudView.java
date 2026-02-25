@@ -108,7 +108,6 @@ public class AdminCrudView {
                 mainMenuView.createAdministrator(admin)
         );
 
-        // 🔥 sincronizar parqueos después de crear
         syncAdminParkingLots(admin, selectedParkingLots);
 
         reloadAdminsIntoTable();
@@ -137,7 +136,6 @@ public class AdminCrudView {
                 mainMenuView.updateAdministrator(admin)
         );
 
-        // 🔥 sincronización bidireccional REAL
         syncAdminParkingLots(admin, selectedParkingLots);
 
         reloadAdminsIntoTable();
@@ -362,7 +360,6 @@ public class AdminCrudView {
 
         if (managedAdmin == null) return;
 
-        // 🔥 Asegurar lista inicializada
         if (managedAdmin.getParkingLots() == null) {
             managedAdmin.setParkingLots(new ArrayList<>());
         }

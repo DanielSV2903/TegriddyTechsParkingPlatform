@@ -236,9 +236,6 @@
                     </rowConstraints>
 
                 </GridPane>
-
-                <Label text="Tip: El PDF de ingresos incluye también tickets cerrados (hoy/mes/total) y Top 5 días."
-                       style="-fx-font-size: 12px; -fx-text-fill: #718096;" />
             </VBox>
             <!-- SECCIÓN VEHÍCULOS (vista previa del Reporte de Vehículos) -->
             <VBox spacing="12">
