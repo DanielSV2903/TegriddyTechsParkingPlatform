@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
@@ -62,8 +61,8 @@
 
                 <!-- Botones de acción con estilo moderno -->
                 <HBox spacing="12">
-                    <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: linear-gradient(to right, #805ad5, #9f7aea); -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 12 24;" text="Crear" HBox.hgrow="ALWAYS" />
-                    <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 12 24;" text="Limpiar" HBox.hgrow="ALWAYS" />
+                    <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: linear-gradient(to right, #805ad5, #9f7aea); -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 12 24;" text="✓ Crear" HBox.hgrow="ALWAYS" />
+                    <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 12 24;" text="⟲ Limpiar" HBox.hgrow="ALWAYS" />
                 </HBox>
             </VBox>
 
