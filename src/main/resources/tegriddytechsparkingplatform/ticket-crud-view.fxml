@@ -67,10 +67,10 @@
                 </VBox>
 
                 <VBox spacing="12" style="-fx-padding: 20 0 0 0;">
-                    <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="Crear Ticket" />
-                    <Button maxWidth="Infinity" onAction="#onUpdate" style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="Actualizar Ticket" />
-                    <Button maxWidth="Infinity" onAction="#onDelete" style="-fx-background-color: #f56565; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="Eliminar Ticket" />
-                    <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: #f7fafc; -fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-border-width: 1;" text="Limpiar Formulario" />
+                    <Button maxWidth="Infinity" onAction="#onCreate" style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="✓ Crear Ticket" />
+                    <Button maxWidth="Infinity" onAction="#onUpdate" style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="↻  Actualizar Ticket" />
+                    <Button maxWidth="Infinity" onAction="#onDelete" style="-fx-background-color: #f56565; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand;" text="🗑 Eliminar Ticket" />
+                    <Button maxWidth="Infinity" onAction="#onClear" style="-fx-background-color: #f7fafc; -fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 14; -fx-cursor: hand; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-border-width: 1;" text="⟲ Limpiar Formulario" />
                 </VBox>
             </VBox>
 
