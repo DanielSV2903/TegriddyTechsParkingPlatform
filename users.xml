@@ -5,13 +5,20 @@
     <username>choco</username>
     <password>choco</password>
     <role>CLERK</role>
-    <parkingLotId />
+    <parkingLotId>1</parkingLotId>
   </user>
   <user id="2">
     <name>DanielSV</name>
     <username>dsv</username>
     <password>dsv</password>
     <role>ADMIN</role>
-    <parkingLotId />
+    <parkingLotId>1</parkingLotId>
+  </user>
+  <user id="3">
+    <name>Joel Loria</name>
+    <username>jloria</username>
+    <password>jloria</password>
+    <role>ADMIN</role>
+    <parkingLotId>3;2</parkingLotId>
   </user>
 </users>

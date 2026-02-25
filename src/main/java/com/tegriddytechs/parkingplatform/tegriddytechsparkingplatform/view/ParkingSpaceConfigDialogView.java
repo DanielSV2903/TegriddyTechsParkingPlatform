@@ -190,10 +190,8 @@ public class ParkingSpaceConfigDialogView {
         for (ParkingSpace space : resultSpaces) {
             if (space != null && space.isPreferential()) {
                 preferentialCount_actual++;
-                System.out.println("✓ Espacio " + space.getSpaceNumber() + " - Preferencial: true");
             }
         }
-        System.out.println("Total de espacios preferenciales guardados: " + preferentialCount_actual + " de " + preferentialCount);
 
         applied = true;
         closeWindow();

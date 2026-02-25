@@ -30,10 +30,16 @@ public class ParkingSpaceData extends ParkingSpaceXmlRepository {
     }
 
     public ParkingSpace findParkingSpaceByNumber(int id, ParkingLot lot) {
-        ParkingSpace parkingSpace=null;
+        if (lot == null) return null;
+        ParkingSpace parkingSpace = null;
         for (ParkingSpace actualParkingSpace : parkingSpaces) {
-            if (actualParkingSpace.getSpaceNumber() == id && actualParkingSpace.getParkingLot().equals(lot)) {
-                parkingSpace= actualParkingSpace;
+            if (actualParkingSpace == null) continue;
+            boolean sameNumber = actualParkingSpace.getSpaceNumber() == id;
+            ParkingLot actualLot = actualParkingSpace.getParkingLot();
+            boolean sameLot = actualLot != null && actualLot.getParkingLotId() == lot.getParkingLotId();
+            if (sameNumber && sameLot) {
+                parkingSpace = actualParkingSpace;
+                break; // encontrado
             }
         }
         return parkingSpace;

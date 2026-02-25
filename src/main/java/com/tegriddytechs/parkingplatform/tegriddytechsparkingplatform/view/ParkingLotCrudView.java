@@ -86,6 +86,7 @@ public class ParkingLotCrudView {
     }
 
     private void loadData() {
+        tfId.setText(mainMenuView.getAllParkingLots().size() +1+"");
         masterList.setAll(mainMenuView.getAllParkingLots());
         updateRecordCount();
         colPreferenciales.setCellValueFactory(cell-> new SimpleIntegerProperty(mainMenuView.calculatePreferentialSpaces(cell.getValue().getSpaces())).asObject());
@@ -99,60 +100,81 @@ public class ParkingLotCrudView {
     private void onCreate(ActionEvent actionEvent) {
         int id = Integer.parseInt(CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id"));
         String name = CrudFormUtils.readRequired(tfName, "Parqueaderos", "Nombre");
-        if (id == 0 || name == null) {
-            return;
-        }
+
+        if (id == 0 || name == null) return;
+
         ParkingLot lot = new ParkingLot(id, name);
         lot.setActive(true);
-        lot.setAdministrator(administrator);
-        CrudAlertHelper.showResult("Parqueaderos", mainMenuView.createParkingLot(lot));
+
+        try {
+            changeAdministrator(lot, administrator);
+            CrudAlertHelper.showResult(
+                    "Parqueaderos",
+                    mainMenuView.createParkingLot(lot)
+            );
+            loadData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @Deprecated
-    private void onRead(ActionEvent actionEvent) {
-        int id = Integer.parseInt(CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id"));
-        if (id == 0) {
-            return;
-        }
-        ParkingLot lot = mainMenuView.readParkingLotById(id);
-        CrudAlertHelper.showEntity("Parqueaderos", lot);
-    }
+
 
     @FXML
     private void onUpdate(ActionEvent actionEvent) {
         int id = Integer.parseInt(CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id"));
         String name = CrudFormUtils.readRequired(tfName, "Parqueaderos", "Nombre");
-        if (id == 0 || name == null) {
-            return;
-        }
-        ParkingLot lot = new ParkingLot(id, name);
-        lot.setAdministrator(administrator);
-        lot.setSpaces(spaces);
-        lot.setActive(cbActive.isSelected());
+
+        if (id == 0 || name == null) return;
+
+        ParkingLot existing = mainMenuView.readParkingLotById(id);
+        if (existing == null) return;
+
+        existing.setName(name);
+        existing.setSpaces(spaces);
+        existing.setActive(cbActive.isSelected());
+
         try {
+            changeAdministrator(existing, administrator);
             saveSpaces(spaces);
+
+            CrudAlertHelper.showResult(
+                    "Parqueaderos",
+                    mainMenuView.updateParkingLot(existing)
+            );
+            loadData();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        CrudAlertHelper.showResult("Parqueaderos", mainMenuView.updateParkingLot(lot));
     }
 
     @FXML
     private void onDelete(ActionEvent actionEvent) {
         int id = Integer.parseInt(CrudFormUtils.readRequired(tfId, "Parqueaderos", "Id"));
-        if (id == 0) {
-            return;
-        }
+        if (id == 0) return;
+
         ParkingLot lot = mainMenuView.readParkingLotById(id);
         if (lot == null) {
             CrudAlertHelper.showWarning("Parqueaderos", "Parqueadero no encontrado");
             return;
         }
+
         try {
+            // 🔥 quitar relación admin <-> parqueo antes de borrar
+            changeAdministrator(lot, null);
+
             OperationResult deleted = mainMenuView.deleteParkingLot(lot);
             CrudAlertHelper.showResult("Parqueaderos", deleted);
-            if (deleted.isSuccessfull())
-                CrudAlertHelper.showResult("Espacios", mainMenuView.getParkingSpaceController().deleteParkingSpaces(lot.getSpaces()));
+
+            if (deleted.isSuccessfull()) {
+                CrudAlertHelper.showResult(
+                        "Espacios",
+                        mainMenuView.getParkingSpaceController()
+                                .deleteParkingSpaces(lot.getSpaces())
+                );
+            }
+
+            loadData();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -170,6 +192,8 @@ public class ParkingLotCrudView {
     public void onRefresh(ActionEvent actionEvent) {
         loadData();
     }
+
+
 
     @FXML
     public void onClear(ActionEvent actionEvent) {
@@ -313,29 +337,42 @@ public class ParkingLotCrudView {
         for (ParkingSpace space : spaces) {
             if (space == null) continue;
             try {
+                // Normalizar la referencia al ParkingLot usando la instancia gestionada por el controlador
+                ParkingLot lot = space.getParkingLot();
+                if (lot != null) {
+                    ParkingLot managedLot = mainMenuView.getParkingLotController().findParkingLotById(lot.getParkingLotId());
+                    if (managedLot != null) {
+                        space.setParkingLot(managedLot);
+                    }
+                }
+
                 ParkingSpace existing = mainMenuView.getParkingSpaceController()
                         .findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
-            
-            OperationResult result;
-            if (existing == null) {
-                // Si no existe, crear nuevo espacio
-                result = mainMenuView.getParkingSpaceController().registerParkingSpace(space);
-            } else {
-                // Si existe, actualizar propiedades del espacio existente
-                existing.setSpaceType(space.getSpaceType());
-                existing.setPreferential(space.isPreferential());
-                existing.setState(space.isState());
-                result = mainMenuView.getParkingSpaceController().editParkingSpace(existing);
+
+                OperationResult result;
+                if (existing == null) {
+                    // Si no existe, crear nuevo espacio
+                    result = mainMenuView.getParkingSpaceController().registerParkingSpace(space);
+                } else {
+                    // Si existe, actualizar propiedades del espacio existente
+                    existing.setSpaceType(space.getSpaceType());
+                    existing.setPreferential(space.isPreferential());
+                    existing.setState(space.isState());
+                    result = mainMenuView.getParkingSpaceController().editParkingSpace(existing);
+                }
+
+                if (!result.isSuccessfull()) {
+                    throw new IOException(result.getMessage());
+                }
+            } catch (IOException e) {
+                // Propagar IOExceptions tal cual para mantener el mensaje original
+                throw e;
+            } catch (Exception e) {
+                throw new IOException("Error al guardar el espacio " + space.getSpaceNumber() + ": " + e.getMessage(), e);
             }
-            
-            if (!result.isSuccessfull()) {
-                throw new IOException(result.getMessage());
-            }
-        } catch (Exception e) {
-            throw new IOException("Error al guardar el espacio " + space.getSpaceNumber() + ": " + e.getMessage());
         }
     }
-}
+
 
     private void fillFields() {
         ParkingLot lot= tableParkingLots.getSelectionModel().getSelectedItem();
@@ -344,11 +381,38 @@ public class ParkingLotCrudView {
         administrator=lot.getAdministrator();
         cbActive.setSelected(lot.isActive());
         spaces=lot.getSpaces();
-        lblAdmin.setText("Administrador: " + administrator.getName());
-    }
+        lblAdmin.setText(
+                administrator != null
+                        ? "Administrador: " + administrator.getName()
+                        : "Administrador: No asignado"
+        );    }
 
     @FXML
     public void fillFieldsOnAction(Event event) {
         fillFields();
     }
+    private void changeAdministrator(ParkingLot lot, Administrator newAdmin) throws IOException {
+
+        Administrator oldAdmin = lot.getAdministrator();
+
+        // 1) Quitar el parqueo del admin anterior
+        if (oldAdmin != null) {
+            oldAdmin.getParkingLots().removeIf(
+                    p -> p.getParkingLotId() == lot.getParkingLotId()
+            );
+            mainMenuView.getUserController().updateUser(oldAdmin);
+        }
+
+        // 2) Asignar nuevo admin al parqueo
+        lot.setAdministrator(newAdmin);
+
+        // 3) Agregar parqueo al nuevo admin
+        if (newAdmin != null) {
+            if (!newAdmin.getParkingLots().contains(lot)) {
+                newAdmin.getParkingLots().add(lot);
+            }
+            mainMenuView.getUserController().updateUser(newAdmin);
+        }
+    }
 }
+

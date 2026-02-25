@@ -4,6 +4,7 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.enti
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Clerk;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.OperationResult;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -44,6 +45,7 @@ public class UserCrudView {
     @FXML
     private void initialize() {
         cbRole.getItems().setAll(UserRole.values());
+        loadData();
     }
 
     @FXML
@@ -59,7 +61,13 @@ public class UserCrudView {
         User user = role == UserRole.ADMIN
                 ? new Administrator(id, name, username, password)
                 : new Clerk(id, name, username, password);
-        CrudAlertHelper.showResult("Usuarios", mainMenuView.createUser(user));
+        OperationResult result = mainMenuView.createUser(user);
+        CrudAlertHelper.showResult("Usuarios", result);
+        if (result != null && result.isSuccessfull()) {
+            // Limpiar formulario y recargar tabla
+            onClear(null);
+            loadData();
+        }
     }
 
     @FXML
@@ -85,7 +93,13 @@ public class UserCrudView {
         User user = role == UserRole.ADMIN
                 ? new Administrator(id, name, username, password)
                 : new Clerk(id, name, username, password);
-        CrudAlertHelper.showResult("Usuarios", mainMenuView.updateUser(user));
+        OperationResult result = mainMenuView.updateUser(user);
+        CrudAlertHelper.showResult("Usuarios", result);
+        if (result != null && result.isSuccessfull()) {
+            // Refrescar tabla y campos
+            onClear(null);
+            loadData();
+        }
     }
 
     @FXML
@@ -99,7 +113,12 @@ public class UserCrudView {
             CrudAlertHelper.showWarning("Usuarios", "Usuario no encontrado");
             return;
         }
-        CrudAlertHelper.showResult("Usuarios", mainMenuView.deleteUser(user));
+        OperationResult result = mainMenuView.deleteUser(user);
+        CrudAlertHelper.showResult("Usuarios", result);
+        if (result != null && result.isSuccessfull()) {
+            onClear(null);
+            loadData();
+        }
     }
 
     @FXML
@@ -112,6 +131,16 @@ public class UserCrudView {
 
     @FXML
     public void onRefresh(ActionEvent actionEvent) {
+        onClear(actionEvent);
+    }
+
+    private void loadData() {
+        tableUsers.getItems().setAll(mainMenuView.getAllUsers());
+        lblTotalRecords.setText("Total de usuarios: " + mainMenuView.getAllUsers().size());
+        tfId.setText(findNextId()+"");
+    }
+    private int findNextId(){
+        return mainMenuView.getAllUsers().size() + 1;
     }
 
     @FXML
@@ -123,5 +152,6 @@ public class UserCrudView {
         if (cbRole != null) cbRole.setValue(null);
         if (tfSearch != null) tfSearch.clear();
         if (tableUsers != null) tableUsers.getItems().clear();
+        loadData();
     }
 }

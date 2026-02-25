@@ -1283,7 +1283,6 @@ public class MainMenuView {
             }
 
         } catch (Exception e) {
-            System.err.println("Error actualizando estadísticas del dashboard: " + e.getMessage());
             e.printStackTrace();
         }
     }

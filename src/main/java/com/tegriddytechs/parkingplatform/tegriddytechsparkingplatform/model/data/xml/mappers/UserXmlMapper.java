@@ -4,6 +4,9 @@ import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import org.jdom2.Element;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserXmlMapper implements XmlEntityMapper<User> {
     private final String ID_ATTRIBUTE = "id";
     private final String NAME_ATTRIBUTE = "name";
@@ -35,22 +38,30 @@ public class UserXmlMapper implements XmlEntityMapper<User> {
         e.addContent(new Element(USERNAME_ATTRIBUTE).setText(user.getUserName()));
         e.addContent(new Element(PASSWORD_ATTRIBUTE).setText(user.getPassword()));
         e.addContent(new Element(ROLE_ATTRIBUTE).setText(user.getUserRole().name()));
+
         if (user instanceof Clerk clerk) {
-            Integer lotId = clerk.getParkingLot().getParkingLotId();
-            if (lotId == null && clerk.getParkingLot() != null) {
+            Integer lotId = null;
+            if (clerk.getParkingLot() != null) {
                 lotId = clerk.getParkingLot().getParkingLotId();
             }
             e.addContent(new Element(PARKING_LOT_ID).setText(lotId != null ? String.valueOf(lotId) : ""));
-        } else {
-            e.addContent(new Element(PARKING_LOT_ID).setText(""));
+            return e;
         }
+
+        if (user instanceof Administrator admin) {
+            String ids = joinParkingLotIds(admin.getParkingLots());
+            e.addContent(new Element(PARKING_LOT_ID).setText(ids));
+            return e;
+        }
+        e.addContent(new Element(PARKING_LOT_ID).setText(""));
         return e;
     }
 
     @Override
     public User fromElement(Element element) {
-        User u = new User();//usado para construir el objeto mas abstracto
-        User toReturn = u;//Cambia su tipo dependiendo del rol
+        User u = new User();
+        User toReturn = u;
+
         int id = Integer.parseInt(element.getAttributeValue(ID_ATTRIBUTE));
         String name = element.getChildText(NAME_ATTRIBUTE);
         String username = element.getChildText(USERNAME_ATTRIBUTE);
@@ -62,29 +73,69 @@ public class UserXmlMapper implements XmlEntityMapper<User> {
         u.setUserName(username);
         u.setPassword(password);
         u.setUserRole(role);
-        if (u.getUserRole().name().equals(UserRole.ADMIN.getRole())) {
-            toReturn = toAdmin(u);
-        } else if (u.getUserRole().name().equals(UserRole.CLERK.getRole())) {
+
+        String rawLotId = element.getChildText(PARKING_LOT_ID);
+        rawLotId = rawLotId == null ? "" : rawLotId.trim();
+
+        if (u.getUserRole() == UserRole.ADMIN) {
+            Administrator admin = toAdmin(u);
+            List<Integer> ids = parseIds(rawLotId);
+            ArrayList<ParkingLot> lots = new ArrayList<>();
+            for (Integer lotId : ids) {
+                if (lotId == null) continue;
+                lots.add(new ParkingLot(lotId, ""));
+            }
+            admin.setParkingLots(lots);
+
+            toReturn = admin;
+
+        } else if (u.getUserRole() == UserRole.CLERK) {
             Integer parkingLotId = null;
-            String rawLotId = element.getChildText(PARKING_LOT_ID);
-            if (rawLotId != null && !rawLotId.isBlank()) {
-                parkingLotId = Integer.parseInt(rawLotId.trim());
+            if (!rawLotId.isBlank()) {
+                // Para Clerk seguimos soportando solo un número
+                parkingLotId = Integer.parseInt(rawLotId);
             }
 
             Clerk clerk = toClerk(u);
             clerk.setParkingLot(new ParkingLot(parkingLotId, ""));
             toReturn = clerk;
         }
+
         return toReturn;
     }
 
     private Administrator toAdmin(User u){
-        Administrator admin = new Administrator(u.getId(),u.getName(),u.getUserName(),u.getPassword());
-        return admin;
+        return new Administrator(u.getId(), u.getName(), u.getUserName(), u.getPassword());
     }
 
     private Clerk toClerk(User u){
-        Clerk clerk = new Clerk(u.getId(),u.getName(),u.getUserName(),u.getPassword(),null);
-        return clerk;
+        return new Clerk(u.getId(), u.getName(), u.getUserName(), u.getPassword(), null);
+    }
+
+    private static String joinParkingLotIds(List<ParkingLot> lots) {
+        if (lots == null || lots.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for (ParkingLot lot : lots) {
+            if (lot == null) continue;
+            int id = lot.getParkingLotId();
+            if (id <= 0) continue;
+            if (!sb.isEmpty()) sb.append(';');
+            sb.append(id);
+        }
+        return sb.toString();
+    }
+
+    private static List<Integer> parseIds(String raw) {
+        List<Integer> ids = new ArrayList<>();
+        if (raw == null || raw.isBlank()) return ids;
+
+        String[] parts = raw.split(";");
+        for (String p : parts) {
+            if (p == null) continue;
+            String t = p.trim();
+            if (t.isEmpty()) continue;
+                ids.add(Integer.parseInt(t));
+        }
+        return ids;
     }
 }

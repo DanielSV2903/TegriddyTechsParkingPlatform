@@ -125,7 +125,6 @@ public class StatisticsController {
             }
 
         } catch (Exception e) {
-            System.err.println("Error actualizando estadísticas del dashboard: " + e.getMessage());
             e.printStackTrace();
         }
     }

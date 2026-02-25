@@ -48,7 +48,26 @@ public class ClerkCrudView {
     private void initialize() {
         updateRecordCount();
         fillTable();
+        setUpComboBoxParkingLot();
         cbParkingLot.setItems(FXCollections.observableArrayList(mainMenuView.getAllParkingLots()));
+    }
+
+    private void setUpComboBoxParkingLot() {
+        this.cbParkingLot.setCellFactory(cellData-> new ListCell<>() {
+            @Override
+            protected void updateItem(ParkingLot item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "" : item.getName());
+            }
+
+        });
+        this.cbParkingLot.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(ParkingLot item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "Seleccione un parqueo" : item.getName());
+            }
+        });
     }
 
     private void fillTable() {

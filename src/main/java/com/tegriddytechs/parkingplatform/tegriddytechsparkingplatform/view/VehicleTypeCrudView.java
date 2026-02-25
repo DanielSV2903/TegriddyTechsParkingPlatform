@@ -65,6 +65,7 @@ public class VehicleTypeCrudView {
     }
 
     private void loadData() {
+        tfId.setText(mainMenuView.getVehicleTypeController().getAllVehicleTypes().size() + 1 + ""); // Siguiente ID sugerido
         masterList.setAll(mainMenuView.getAllVehicleTypes());
         if (tableVehicleTypes != null) tableVehicleTypes.setItems(masterList);
         updateRecordCount();
@@ -178,11 +179,12 @@ public class VehicleTypeCrudView {
         if (tfFee != null) tfFee.clear();
         if (cbSpaceType != null) cbSpaceType.setValue(null);
         if (tableVehicleTypes != null) tableVehicleTypes.getSelectionModel().clearSelection();
+        loadData();
     }
 
     @FXML
     public void onRefresh() {
-        loadData();
+        onClear();
     }
 
     @FXML

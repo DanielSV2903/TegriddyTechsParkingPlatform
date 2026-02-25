@@ -1,10 +1,7 @@
 package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.data.xml.repositories.UserXmlRepository;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Administrator;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Clerk;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.User;
-import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.UserRole;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.*;
 import org.jdom2.JDOMException;
 
 import java.io.IOException;
@@ -122,7 +119,7 @@ public class UserData extends UserXmlRepository {
 
 //Para controller
     public void addUser(User user) throws IOException {
-        this.update(user);
+        this.insert(user);
     }
 
     public void deleteUser(User user) throws IOException {
@@ -133,28 +130,35 @@ public class UserData extends UserXmlRepository {
         this.update(user);
     }
 
-
-    public int getNextClerkIDByCount() {
+    private int getNextUserIDByCount() {
         int count = 0;
         for (User u : users) {
-            if (u instanceof Clerk) count++;
+            count++;
         }
         return count + 1;
     }
 
+    public int getNextClerkIDByCount() {
+        return getNextUserIDByCount();
+    }
+
     public int getNextAdminIDByCount() {
-        int count = 0;
-        for (User u : users) {
-            if (u instanceof Administrator) count++;
-        }
-        return count + 1;
+        return getNextUserIDByCount();
     }
 
     public List<Clerk> getClerks() {
         List<Clerk> clerks = new ArrayList<>();
         for (User u : users) {
-            if (u.getUserRole().name().equals(UserRole.CLERK.name())){
-                Clerk clerk = new Clerk(u.getId(),u.getName(),u.getUserName(),u.getPassword(),null);
+            if (u == null) continue;
+
+            if (u instanceof Clerk clerk) {
+                clerks.add(clerk);
+                continue;
+            }
+
+            // Fallback
+            if (u.getUserRole() == UserRole.CLERK) {
+                Clerk clerk = new Clerk(u.getId(), u.getName(), u.getUserName(), u.getPassword(), null);
                 clerks.add(clerk);
             }
         }
@@ -164,8 +168,15 @@ public class UserData extends UserXmlRepository {
     public List<Administrator> getAdmins() {
         List<Administrator> administrators = new ArrayList<>();
         for (User u : users) {
-            if (u.getUserRole().name().equals(UserRole.ADMIN.name())){
-                Administrator admin = new Administrator(u.getId(),u.getName(),u.getUserName(),u.getPassword(),null);
+            if (u == null) continue;
+
+            if (u instanceof Administrator admin) {
+                administrators.add(admin);
+                continue;
+            }
+
+            if (u.getUserRole() == UserRole.ADMIN) {
+                Administrator admin = new Administrator(u.getId(), u.getName(), u.getUserName(), u.getPassword(), new ArrayList<>());
                 administrators.add(admin);
             }
         }

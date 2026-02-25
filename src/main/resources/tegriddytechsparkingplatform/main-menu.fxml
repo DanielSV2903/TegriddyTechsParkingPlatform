@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuView">
+<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view.MainMenuView">
 
     <!-- TOP BAR -->
     <top>
@@ -112,30 +112,20 @@
                         </VBox>
 
                         <!-- Tarjeta Tipos de Vehículo (NUEVA) -->
-                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;
-                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
-                                      -fx-pref-width: 260; -fx-pref-height: 140;"
-                              GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                       -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                       -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <VBox spacing="12" style="-fx-padding: 20;">
                                 <HBox alignment="CENTER_LEFT" spacing="12">
                                     <Circle fill="#f0e6ff" radius="20" />
                                     <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Tipos de Vehículo" />
                                 </HBox>
-                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;"
-                                       text="Registro y configuración de VehicleTypes" />
+                                <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Registro y configuración de VehicleTypes" />
                             </VBox>
                             <Region prefHeight="10" />
-                            <Button maxWidth="Infinity"
-                                    onAction="#openCrud"
-                                    userData="TiposVehiculo"
-                                    style="-fx-background-color: #f7fafc; -fx-text-fill: #805ad5; -fx-font-size: 13px;
-                                           -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;
-                                           -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;"
-                                    text="Administrar" />
+                            <Button maxWidth="Infinity" onAction="#openCrud" style="-fx-background-color: #f7fafc; -fx-text-fill: #805ad5; -fx-font-size: 13px;                                            -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                            -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Administrar" userData="TiposVehiculo" />
                         </VBox>
 
                         <!-- Tarjeta Estadísticas -->
-                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                      -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <VBox spacing="12" style="-fx-padding: 20;">
                                 <HBox alignment="CENTER_LEFT" spacing="12">
                                     <Circle fill="#e6ffed" radius="20" />
@@ -220,27 +210,16 @@
                         </VBox>
 
                             <!-- Tarjeta Operación Parqueo -->
-                            <VBox style="-fx-background-color: white; -fx-background-radius: 12;
-                                          -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
-                                          -fx-pref-width: 260; -fx-pref-height: 140;"
-                                  GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <VBox style="-fx-background-color: white; -fx-background-radius: 12;                                           -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);                                           -fx-pref-width: 260; -fx-pref-height: 140;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                 <VBox spacing="12" style="-fx-padding: 20;">
                                     <HBox alignment="CENTER_LEFT" spacing="12">
                                         <Circle fill="#667eea" radius="20" />
-                                        <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;"
-                                               text="Mapa de Operación" />
+                                        <Label style="-fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #2d3748;" text="Mapa de Operación" />
                                     </HBox>
-                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;"
-                                           text="Visualización integrada y operación de espacios de parqueo" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-wrap-text: true;" text="Visualización integrada y operación de espacios de parqueo" />
                                 </VBox>
                                 <Region prefHeight="10" />
-                                <Button maxWidth="Infinity"
-                                        onAction="#openCrud"
-                                        userData="OperacionParqueo"
-                                        style="-fx-background-color: #f7fafc; -fx-text-fill: #667eea; -fx-font-size: 13px;
-                                               -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;
-                                               -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;"
-                                        text="Abrir Mapa" />
+                                <Button maxWidth="Infinity" onAction="#openCrud" style="-fx-background-color: #f7fafc; -fx-text-fill: #667eea; -fx-font-size: 13px;                                                -fx-font-weight: 600; -fx-background-radius: 0 0 12 12; -fx-padding: 14;                                                -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;" text="Abrir Mapa" userData="OperacionParqueo" />
                             </VBox>
 
 

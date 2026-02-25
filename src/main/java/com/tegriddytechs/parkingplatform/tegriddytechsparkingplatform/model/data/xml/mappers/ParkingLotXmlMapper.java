@@ -36,7 +36,7 @@ public class ParkingLotXmlMapper implements XmlEntityMapper<ParkingLot> {
             e.setAttribute(idAttributeName(), String.valueOf(parkingLot.getParkingLotId()));
             e.addContent(new Element(NAME_ATTRIBUTE).setText(parkingLot.getName()));
             e.addContent(new Element(STATUS_ATTRIBUTE).setText(parkingLot.isActive()?"true":"false"));
-            e.addContent(new Element(ADMIN_ID).setText(String.valueOf(parkingLot.getAdministrator().getId())));
+            e.addContent(new Element(ADMIN_ID).setText(String.valueOf(parkingLot.getAdministrator()!=null?parkingLot.getAdministrator().getId():"")));
             e.addContent(new Element(SIZE).setText(String.valueOf(parkingLot.getSpaces().length)));
             return e;
         }

@@ -41,7 +41,6 @@ public class DataManager {
 
     /**
      * Ejecuta todas las conexiones entre objetos.
-     * Llamar esto si re-cargas datos desde XML o si sospechas que hay referencias desactualizadas.
      */
     public void connectAll() {
         List<Customer> customers = customerController.getAllCustomers();
@@ -71,7 +70,7 @@ public class DataManager {
         // 4) Customer <-> Vehicle (bidireccional)
         connectCustomersAndVehicles(customers, vehicles, vehicleByPlate, customerById);
 
-        // 5) Vehicle -> Ticket (reemplazar por ticket canónico) + Space.parkedVehicle
+        // 5) Vehicle -> Ticket
         connectVehiclesTicketsAndSpaces(vehicles, ticketById, lots);
 
         // 6)VehicleType -> Vehicle
@@ -79,13 +78,32 @@ public class DataManager {
 
         // 7) Clerk -> ParkingLot
         connectClerksToParkingLots(lotById);
+
+        // 8) Admin -> ParkingLots
+        connectAdminsToParkingLots(lotById);
     }
 
-    private void connectVehicleToTypes(List<Vehicle> vehicles, Map<Integer, VehicleType> vehicleTypes) {
-        for (Vehicle vehicle : vehicles) {
-            int vtId = vehicle.getVehicleType().getId();
-            VehicleType canonical = vehicleTypes.get(vtId);
-            vehicle.setVehicleType(canonical);
+    private void connectAdminsToParkingLots(Map<Integer, ParkingLot> lotById) {
+
+        List<User> users = userController.getAllUsers();
+        if (users == null) return;
+
+        for (User u : users) {
+            if (!(u instanceof Administrator admin)) continue;
+
+            List<ParkingLot> assignedLots = admin.getParkingLots();
+            if (assignedLots == null) continue;
+
+            for (int i = 0; i < assignedLots.size(); i++) {
+                ParkingLot lotRef = assignedLots.get(i);
+                if (lotRef == null) continue;
+
+                ParkingLot canonicalLot = lotById.get(lotRef.getParkingLotId());
+                if (canonicalLot == null) continue;
+
+                assignedLots.set(i, canonicalLot);
+                canonicalLot.setAdministrator(admin);
+            }
         }
     }
 
@@ -103,6 +121,14 @@ public class DataManager {
             if (canonicalLot != null) {
                 clerk.setParkingLot(canonicalLot);
             }
+        }
+    }
+
+    private void connectVehicleToTypes(List<Vehicle> vehicles, Map<Integer, VehicleType> vehicleTypes) {
+        for (Vehicle vehicle : vehicles) {
+            int vtId = vehicle.getVehicleType().getId();
+            VehicleType canonical = vehicleTypes.get(vtId);
+            vehicle.setVehicleType(canonical);
         }
     }
 

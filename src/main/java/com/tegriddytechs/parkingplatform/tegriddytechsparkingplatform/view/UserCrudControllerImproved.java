@@ -190,6 +190,7 @@ public class UserCrudControllerImproved {
         tfPassword.clear();
         cbRole.setValue(null);
         tableUsers.getSelectionModel().clearSelection();
+        loadData();
     }
 
     @FXML
@@ -208,10 +209,14 @@ public class UserCrudControllerImproved {
             userList = FXCollections.observableArrayList(userController.getAllUsers());
             filteredList = FXCollections.observableArrayList(userList);
             tableUsers.setItems(filteredList);
+            tfId.setText(findNextId()+"");
             updateRecordCount();
         } catch (Exception e) {
             showAlert("Error", "Error al cargar usuarios: " + e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+    private int findNextId(){
+        return mainMenuView.getAllUsers().size() + 1;
     }
 
     private void filterTable(String query) {
