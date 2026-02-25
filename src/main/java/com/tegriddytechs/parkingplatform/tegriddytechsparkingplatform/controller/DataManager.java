@@ -110,17 +110,25 @@ public class DataManager {
     private void connectParkingLotsAndSpaces(List<ParkingLot> lots, Map<Integer, ParkingLot> lotById, List<ParkingSpace> spaces) {
         for (ParkingLot lot : lots) {
             if (lot == null) continue;
+            
             ParkingLot canonicalLot = lotById.get(lot.getParkingLotId());
-            ParkingSpace [] canonicalSpaces = new ParkingSpace[canonicalLot.getSpaces().length];
-            int counter=0;
             if (canonicalLot == null) canonicalLot = lot;
+            
+            // Verificar que el array de espacios existe y tiene longitud válida
+            if (canonicalLot.getSpaces() == null || canonicalLot.getSpaces().length == 0) {
+                continue;
+            }
+            
+            ParkingSpace[] canonicalSpaces = new ParkingSpace[canonicalLot.getSpaces().length];
+            int counter = 0;
+            
             for (ParkingSpace space : spaces) {
                 if (space == null) continue;
-                if(space.getParkingLot().getParkingLotId() == canonicalLot.getParkingLotId()){
+                if (space.getParkingLot().getParkingLotId() == canonicalLot.getParkingLotId()) {
                     space.setParkingLot(canonicalLot);
-                    canonicalSpaces[counter]=space;
+                    canonicalSpaces[counter] = space;
                     counter++;
-                    if(counter==canonicalSpaces.length) break;
+                    if (counter == canonicalSpaces.length) break;
                 }
             }
             canonicalLot.setSpaces(canonicalSpaces);

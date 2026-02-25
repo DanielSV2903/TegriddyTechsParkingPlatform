@@ -312,17 +312,30 @@ public class ParkingLotCrudView {
         if (spaces == null) return;
         for (ParkingSpace space : spaces) {
             if (space == null) continue;
-            ParkingSpace existing = mainMenuView.getParkingSpaceController()
-                    .findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
+            try {
+                ParkingSpace existing = mainMenuView.getParkingSpaceController()
+                        .findParkingSpaceByNumber(space.getSpaceNumber(), space.getParkingLot());
+            
+            OperationResult result;
             if (existing == null) {
-                //No existe en el archivo, registrar
-                mainMenuView.getParkingSpaceController().registerParkingSpace(space);
+                // Si no existe, crear nuevo espacio
+                result = mainMenuView.getParkingSpaceController().registerParkingSpace(space);
             } else {
-                //Ya existe, sobrescribir/editar
-                mainMenuView.getParkingSpaceController().editParkingSpace(space);
+                // Si existe, actualizar propiedades del espacio existente
+                existing.setSpaceType(space.getSpaceType());
+                existing.setPreferential(space.isPreferential());
+                existing.setState(space.isState());
+                result = mainMenuView.getParkingSpaceController().editParkingSpace(existing);
             }
+            
+            if (!result.isSuccessfull()) {
+                throw new IOException(result.getMessage());
+            }
+        } catch (Exception e) {
+            throw new IOException("Error al guardar el espacio " + space.getSpaceNumber() + ": " + e.getMessage());
         }
     }
+}
 
     private void fillFields() {
         ParkingLot lot= tableParkingLots.getSelectionModel().getSelectedItem();

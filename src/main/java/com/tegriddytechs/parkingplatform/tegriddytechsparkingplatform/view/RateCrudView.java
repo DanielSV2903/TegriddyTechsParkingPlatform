@@ -27,9 +27,6 @@ public class RateCrudView {
     @FXML
     private TextField tfDailyRate;
     @FXML
-    private TextArea taDescription;
-
-    @FXML
     private TextField tfSearch;
     @FXML
     private TableView<Rate> tableRates;
@@ -41,8 +38,7 @@ public class RateCrudView {
     private TableColumn<Rate, Double> colHourlyRate;
     @FXML
     private TableColumn<Rate, Double> colDailyRate;
-    @FXML
-    private TableColumn<Rate, String> colDescription;
+
     @FXML
     private Label lblTotalRecords;
 
@@ -75,13 +71,6 @@ public class RateCrudView {
             Rate r = cell.getValue();
             Double v = (r.getTimeUnit() != null && r.getTimeUnit() == java.util.concurrent.TimeUnit.DAYS) ? r.getFee() : 0.0;
             return new ReadOnlyObjectWrapper<>(v);
-        });
-
-        if (colDescription != null) colDescription.setCellValueFactory(cell -> {
-            Rate rate = cell.getValue();
-            VehicleType vt = rate.getVehicleType();
-            String desc = vt != null ? vt.getDescription() : "";
-            return new ReadOnlyObjectWrapper<>(desc);
         });
 
         if (tableRates != null) {
@@ -126,7 +115,6 @@ public class RateCrudView {
         if (r.getVehicleType() != null) {
             SpaceType st = r.getVehicleType().getSpaceType();
             cbVehicleType.setValue(st);
-            taDescription.setText(r.getVehicleType().getDescription());
         }
         if (r.getTimeUnit() == TimeUnit.HOURS) tfHourlyRate.setText(String.valueOf(r.getFee()));
         else if (r.getTimeUnit() == TimeUnit.DAYS) tfDailyRate.setText(String.valueOf(r.getFee()));
@@ -142,16 +130,14 @@ public class RateCrudView {
                 return;
             }
 
-            String desc = taDescription.getText() != null ? taDescription.getText().trim() : "Default";
-
             if (tfHourlyRate.getText() != null && !tfHourlyRate.getText().trim().isEmpty()) {
                 double hourly = Double.parseDouble(tfHourlyRate.getText().trim());
-                Rate r = new Rate(id, defaultVehicleType(hourly, st, desc), TimeUnit.HOURS, hourly);
+                Rate r = new Rate(id, defaultVehicleType(hourly, st, ""), TimeUnit.HOURS, hourly);
                 CrudAlertHelper.showResult("Tarifas", mainMenuView.createRate(r));
             }
             if (tfDailyRate.getText() != null && !tfDailyRate.getText().trim().isEmpty()) {
                 double daily = Double.parseDouble(tfDailyRate.getText().trim());
-                Rate r2 = new Rate(id, defaultVehicleType(daily, st, desc), TimeUnit.DAYS, daily);
+                Rate r2 = new Rate(id, defaultVehicleType(daily, st, ""), TimeUnit.DAYS, daily);
                 CrudAlertHelper.showResult("Tarifas", mainMenuView.createRate(r2));
             }
 
@@ -173,16 +159,15 @@ public class RateCrudView {
                 showAlert("Error", "Seleccione un tipo de vehículo", Alert.AlertType.ERROR);
                 return;
             }
-            String desc = taDescription.getText() != null ? taDescription.getText().trim() : "Default";
 
             if (tfHourlyRate.getText() != null && !tfHourlyRate.getText().trim().isEmpty()) {
                 double hourly = Double.parseDouble(tfHourlyRate.getText().trim());
-                Rate r = new Rate(id, defaultVehicleType(hourly, st, desc), TimeUnit.HOURS, hourly);
+                Rate r = new Rate(id, defaultVehicleType(hourly, st, ""), TimeUnit.HOURS, hourly);
                 CrudAlertHelper.showResult("Tarifas", mainMenuView.updateRate(r));
             }
             if (tfDailyRate.getText() != null && !tfDailyRate.getText().trim().isEmpty()) {
                 double daily = Double.parseDouble(tfDailyRate.getText().trim());
-                Rate r2 = new Rate(id, defaultVehicleType(daily, st, desc), TimeUnit.DAYS, daily);
+                Rate r2 = new Rate(id, defaultVehicleType(daily, st, ""), TimeUnit.DAYS, daily);
                 CrudAlertHelper.showResult("Tarifas", mainMenuView.updateRate(r2));
             }
 
@@ -220,7 +205,6 @@ public class RateCrudView {
         cbVehicleType.setValue(null);
         tfHourlyRate.clear();
         tfDailyRate.clear();
-        taDescription.clear();
         tableRates.getSelectionModel().clearSelection();
     }
 

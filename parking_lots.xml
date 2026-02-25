@@ -16,6 +16,6 @@
     <name>MaxiPali</name>
     <active>true</active>
     <adminId>2</adminId>
-    <size>0</size>
+    <size>16</size>
   </parkingLot>
 </parkingLots>

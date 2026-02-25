@@ -52,11 +52,6 @@
                         <Label style="-fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: #4a5568;" text="Precio por Día (₡)" />
                         <TextField fx:id="tfDailyRate" prefHeight="42" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 12 14; -fx-font-size: 13px; -fx-text-fill: #2d3748;" />
                     </VBox>
-
-                    <VBox spacing="6">
-                        <Label style="-fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: #4a5568;" text="Descripción" />
-                        <TextArea fx:id="taDescription" prefHeight="80" style="-fx-background-color: #f7fafc; -fx-background-radius: 8; -fx-border-color: #cbd5e0; -fx-border-radius: 8; -fx-border-width: 1.5; -fx-padding: 12 14; -fx-font-size: 13px; -fx-text-fill: #2d3748;" wrapText="true" />
-                    </VBox>
                 </VBox>
 
                 <VBox spacing="12" style="-fx-padding: 20 0 0 0;">
@@ -82,7 +77,6 @@
                         <TableColumn fx:id="colVehicleType" prefWidth="120" text="Tipo Vehículo" />
                         <TableColumn fx:id="colHourlyRate" prefWidth="100" text="Precio/Hora" />
                         <TableColumn fx:id="colDailyRate" prefWidth="100" text="Precio/Día" />
-                        <TableColumn fx:id="colDescription" prefWidth="200" text="Descripción" />
                     </columns>
                 </TableView>
             <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 8 0 0 0;">

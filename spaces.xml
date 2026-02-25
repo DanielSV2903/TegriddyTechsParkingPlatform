@@ -220,35 +220,35 @@
   <parkingSpace parkingLotId="3|2">
     <spaceNumber>2</spaceNumber>
     <state>false</state>
-    <isPreferential>false</isPreferential>
+    <isPreferential>true</isPreferential>
     <type>CAR</type>
     <vehiclePlate />
   </parkingSpace>
   <parkingSpace parkingLotId="3|3">
     <spaceNumber>3</spaceNumber>
     <state>false</state>
-    <isPreferential>false</isPreferential>
+    <isPreferential>true</isPreferential>
     <type>CAR</type>
     <vehiclePlate />
   </parkingSpace>
   <parkingSpace parkingLotId="3|4">
     <spaceNumber>4</spaceNumber>
     <state>false</state>
-    <isPreferential>false</isPreferential>
+    <isPreferential>true</isPreferential>
     <type>CAR</type>
     <vehiclePlate />
   </parkingSpace>
   <parkingSpace parkingLotId="3|5">
     <spaceNumber>5</spaceNumber>
     <state>false</state>
-    <isPreferential>false</isPreferential>
+    <isPreferential>true</isPreferential>
     <type>CAR</type>
     <vehiclePlate />
   </parkingSpace>
   <parkingSpace parkingLotId="3|6">
     <spaceNumber>6</spaceNumber>
     <state>false</state>
-    <isPreferential>false</isPreferential>
+    <isPreferential>true</isPreferential>
     <type>CAR</type>
     <vehiclePlate />
   </parkingSpace>
