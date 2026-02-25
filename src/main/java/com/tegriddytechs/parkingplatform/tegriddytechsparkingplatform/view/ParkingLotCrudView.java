@@ -160,7 +160,6 @@ public class ParkingLotCrudView {
         }
 
         try {
-            // 🔥 quitar relación admin <-> parqueo antes de borrar
             changeAdministrator(lot, null);
 
             OperationResult deleted = mainMenuView.deleteParkingLot(lot);
