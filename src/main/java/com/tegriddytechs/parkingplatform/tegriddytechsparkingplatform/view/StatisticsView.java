@@ -19,7 +19,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class StatisticsController {
+public class StatisticsView {
 
     // Labels del FXML (tarjetas)
     @FXML private Label totalParkingLots;
@@ -28,41 +28,52 @@ public class StatisticsController {
     @FXML private Label todayUsage;
 
     // Para volver (si lo tienes)
-    private final MainMenuController mainMenuController;
+    private final MainMenuView mainMenuController;
 
     // Controllers (pueden venir del mainMenuController o inyectarse como sea en tu proyecto)
     private ParkingLotController parkingLotController;
     private ParkingSpaceController parkingSpaceController;
     private VehicleController vehicleController;
     private ParkingTicketController parkingTicketController;
+    @FXML
+    private Label incomeMonth;
+    @FXML
+    private Label incomeToday;
+    @FXML
+    private Label incomeTotal;
+    @FXML
+    private Label avgTicket;
+    @FXML
+    private Label vehiclesTotal;
+    @FXML
+    private Label mostFrequentVehicle;
+    @FXML
+    private Label vehiclesParked;
+    @FXML
+    private Label vehiclesNotParked;
 
-    public StatisticsController(MainMenuController mainMenuController) {
+    public StatisticsView(MainMenuView mainMenuController) {
         this.mainMenuController = mainMenuController;
     }
 
     @FXML
     private void initialize() {
-        // 1) Obtener referencias a los controllers (AJUSTA según tu arquitectura real)
-        // Ejemplo: si MainMenuController los expone:
         this.parkingLotController = mainMenuController.getParkingLotController();
         this.parkingSpaceController = mainMenuController.getParkingSpaceController();
         this.vehicleController = mainMenuController.getVehicleController();
         this.parkingTicketController = mainMenuController.getParkingTicketController();
 
-        // 2) Actualizar tarjetas
         updateDashboardStatistics();
     }
 
     public void updateDashboardStatistics() {
         try {
-            //1-Total de parqueos
             if (totalParkingLots != null && parkingLotController != null) {
                 List<ParkingLot> parkingLots = parkingLotController.getAllParkingLots();
                 long activeLots = parkingLots.stream().filter(ParkingLot::isActive).count();
                 totalParkingLots.setText(String.valueOf(activeLots));
             }
 
-            //2-Total de espacios disponibles
             if (totalSpaces != null && parkingSpaceController != null) {
                 List<ParkingSpace> spaces = parkingSpaceController.getAllParkingSpaces();
                 long availableSpaces = spaces.stream()
@@ -71,7 +82,6 @@ public class StatisticsController {
                 totalSpaces.setText(String.valueOf(availableSpaces));
             }
 
-            //3-Vehículos Activos
             if (totalActiveVehicles != null && vehicleController != null) {
                 List<Vehicle> vehicles = vehicleController.getAllVehicles();
                 long parkedVehicles = vehicles.stream()
@@ -80,7 +90,6 @@ public class StatisticsController {
                 totalActiveVehicles.setText(String.valueOf(parkedVehicles));
             }
 
-            //4-Ingresos del día
             if (todayUsage != null && parkingTicketController != null) {
                 List<ParkingTicket> tickets = parkingTicketController.getAllTickets();
                 LocalDateTime today = LocalDateTime.now();
@@ -106,9 +115,8 @@ public class StatisticsController {
         }
     }
 
-    // Botón "Generar PDF"
     @FXML
-    public void onGeneratePdf(ActionEvent event) {
+    public void onGenerateGeneralPdf(ActionEvent actionEvent) {
         // tomamos directo de los labels
         String lots = totalParkingLots != null ? totalParkingLots.getText() : "0";
         String spaces = totalSpaces != null ? totalSpaces.getText() : "0";
@@ -139,11 +147,74 @@ public class StatisticsController {
             err.showAndWait();
         }
     }
+
+    @FXML
+    public void onGenerateIncomePdf(ActionEvent e) {
+        List<ParkingTicket> tickets = parkingTicketController.getAllTickets();
+
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Guardar reporte de ingresos");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF (*.pdf)", "*.pdf"));
+        fc.setInitialFileName("reporte_ingresos.pdf");
+
+        File out = fc.showSaveDialog(totalParkingLots.getScene().getWindow());
+        if (out == null) return;
+
+        try {
+            IncomeReportService.generateIncomeReportPdf(out, tickets);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            // aquí puedes mostrar Alert
+        }
+    }
+
     @FXML
     public void goBack(ActionEvent actionEvent) {
         if (actionEvent != null && actionEvent.getSource() instanceof Node node) {
             Stage stage = (Stage) node.getScene().getWindow();
             stage.close();
+        }
+    }
+
+    @FXML
+    public void onGenerateVehiclePdf(ActionEvent actionEvent) {
+        if (vehicleController == null || parkingTicketController == null) {
+            Alert err = new Alert(Alert.AlertType.ERROR);
+            err.setTitle("Error");
+            err.setHeaderText("No se pudo generar el PDF de vehículos");
+            err.setContentText("Los controladores de Vehicle y/o ParkingTicket no están disponibles.");
+            err.showAndWait();
+            return;
+        }
+
+        List<Vehicle> vehicles = vehicleController.getAllVehicles();
+        List<ParkingTicket> tickets = parkingTicketController.getAllTickets();
+
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Guardar reporte de vehículos");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF (*.pdf)", "*.pdf"));
+        fc.setInitialFileName("reporte_vehiculos.pdf");
+
+        Window w = totalParkingLots.getScene().getWindow(); // o cualquier nodo visible
+        File out = fc.showSaveDialog(w);
+        if (out == null) return;
+
+        try {
+            VehicleReportService.generateVehicleReportPdf(out, vehicles, tickets);
+
+            Alert ok = new Alert(Alert.AlertType.INFORMATION);
+            ok.setTitle("PDF generado");
+            ok.setHeaderText(null);
+            ok.setContentText("Se generó el PDF de vehículos correctamente.");
+            ok.showAndWait();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Alert err = new Alert(Alert.AlertType.ERROR);
+            err.setTitle("Error");
+            err.setHeaderText("No se pudo generar el PDF de vehículos");
+            err.setContentText(ex.getMessage());
+            err.showAndWait();
         }
     }
 }
