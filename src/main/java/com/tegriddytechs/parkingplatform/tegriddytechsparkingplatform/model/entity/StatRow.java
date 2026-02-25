@@ -1,4 +1,4 @@
-package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
+package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
