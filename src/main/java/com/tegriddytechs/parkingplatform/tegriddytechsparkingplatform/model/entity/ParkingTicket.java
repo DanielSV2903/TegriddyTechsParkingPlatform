@@ -8,6 +8,7 @@ public class ParkingTicket {
     private ParkingSpace parkingSpace;
     private LocalDateTime entryTime;
     private LocalDateTime exitTime;
+    private String plateNumber;
     private Rate rate;
     private double amountPaid;
 
@@ -19,6 +20,7 @@ public class ParkingTicket {
         this.exitTime = exitTime;
     }
 
+
     public ParkingTicket(String ticketId, ParkingSpace parkingSpace, LocalDateTime entryTime, Rate rate) {
         this.ticketId = ticketId;
         this.parkingSpace = parkingSpace;
@@ -28,6 +30,14 @@ public class ParkingTicket {
 
     public ParkingTicket() {
 
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 
     public String getTicketId() {

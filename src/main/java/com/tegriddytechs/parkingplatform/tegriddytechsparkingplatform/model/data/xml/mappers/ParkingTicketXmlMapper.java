@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
     private final String ID_ATTRIBUTE = "parkingTicketId";
     private final String LOT_ID = "parkingLotId";
+    private final String VEHICLE_ID = "vehicleId";
     private final String SPACE_NUMBER = "spaceNumber";
     private final String ENTRY_TIME = "entryTime";
     private final String EXIT_TIME = "exitTime";
@@ -44,6 +45,7 @@ public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
         e.addContent(new Element(EXIT_TIME).setText(entity.getExitTime() != null ? entity.getExitTime().toString() : ""));
         e.addContent(new Element(RATE_ID).setText(entity.getRate().getRateId()+""));
         e.addContent(new Element(AMOUNT).setText(entity.getAmountPaid()+""));
+        e.addContent(new Element(VEHICLE_ID).setText(entity.getPlateNumber()));
         return e;
     }
 
@@ -53,6 +55,7 @@ public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
         int lotId = Integer.parseInt(element.getChildText(LOT_ID));
         int spaceNumber= Integer.parseInt(element.getChildText(SPACE_NUMBER));
         double amountPaid=Double.parseDouble(element.getChildText(AMOUNT));
+        String plate=element.getChildText(VEHICLE_ID);
         LocalDateTime entryTime= LocalDateTime.parse(element.getChildText(ENTRY_TIME));
         LocalDateTime exitTime=null;
         if(element.getChildText(EXIT_TIME).length()>2){
@@ -68,6 +71,7 @@ public class ParkingTicketXmlMapper implements XmlEntityMapper<ParkingTicket> {
         space.setParkingLot(lot);
         ParkingTicket ticket = new ParkingTicket(id,space,entryTime,rate,exitTime);
         ticket.setAmountPaid(amountPaid);
+        ticket.setPlateNumber(plate);
 
         return ticket;
     }

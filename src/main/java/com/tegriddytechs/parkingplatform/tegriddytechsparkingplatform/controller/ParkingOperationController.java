@@ -64,6 +64,7 @@ public class ParkingOperationController {
         availableSpace.setParkedVehicle(vehicle);
         vehicle.setVehicleStatus(VehicleStatus.PARKED);
         vehicle.setTicket(ticket);
+        ticket.setPlateNumber(vehicle.getPlate());
 
         //Se escribe en el archivo
         ticketController.addParkingTicket(ticket);
@@ -135,6 +136,7 @@ public class ParkingOperationController {
         specificSpace.setParkedVehicle(vehicle);
         vehicle.setVehicleStatus(VehicleStatus.PARKED);
         vehicle.setTicket(ticket);
+        ticket.setPlateNumber(vehicle.getPlate());
 
         // Guardar cambios
         ticketController.addParkingTicket(ticket);
@@ -222,6 +224,7 @@ public class ParkingOperationController {
         vehicle.setVehicleStatus(VehicleStatus.EXITED);
         vehicle.setTicket(null);
         ticket.setAmountPaid(totalAmount);
+        ticket.setPlateNumber(licensePlate);
 
         //Escribir cambios
         ticketController.updateParkingTicket(ticket);

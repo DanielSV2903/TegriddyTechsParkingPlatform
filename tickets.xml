@@ -1,91 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <parkingTickets>
-  <parkingTicket parkingTicketId="12a2e740-dfc7-4442-a1a6-3a97a9a59ef3">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>1</spaceNumber>
-    <entryTime>2026-02-23T23:35:26.163539900</entryTime>
-    <exitTime />
-    <rateID>1</rateID>
-    <amount>0.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="7af8e561-371e-495f-915a-40c0ded0343d">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>1</spaceNumber>
-    <entryTime>2026-02-23T23:39:16.406401700</entryTime>
-    <exitTime>2026-02-23T23:40:49.506319500</exitTime>
-    <rateID>1</rateID>
-    <amount>1000.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="c7fb8166-66ab-4655-abc9-a07fd5fdf0c2">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>1</spaceNumber>
-    <entryTime>2026-02-23T23:43:25.007064100</entryTime>
-    <exitTime>2026-02-23T23:44:33.416142100</exitTime>
-    <rateID>1</rateID>
-    <amount>1000.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="b02e9a4b-06db-4876-b988-2bb9a555d63b">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>1</spaceNumber>
-    <entryTime>2026-02-23T23:49:34.015789800</entryTime>
-    <exitTime>2026-02-23T23:54:25.745211800</exitTime>
-    <rateID>1</rateID>
-    <amount>1000.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="680901a1-ee02-4593-9fc5-5f9bb78b1f38">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>1</spaceNumber>
-    <entryTime>2026-02-23T23:55:29.020467300</entryTime>
-    <exitTime>2026-02-24T00:00:51.044943400</exitTime>
-    <rateID>1</rateID>
-    <amount>1000.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="63abfbe3-407a-4c70-9cde-7c57bec7aaf0">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>2</spaceNumber>
-    <entryTime>2026-02-24T00:00:22.026862300</entryTime>
-    <exitTime>2026-02-24T00:00:30.742345700</exitTime>
-    <rateID>1</rateID>
-    <amount>0.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="3d5086ba-d6da-43ab-973f-b8110a3e44ae">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>2</spaceNumber>
-    <entryTime>2026-02-24T00:00:45.328928700</entryTime>
-    <exitTime />
-    <rateID>1</rateID>
-    <amount>0.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="76a55316-72dd-4af5-9697-0530767e938e">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>1</spaceNumber>
-    <entryTime>2026-02-24T09:35:53.121581100</entryTime>
-    <exitTime>2026-02-24T09:46:24.889514400</exitTime>
-    <rateID>1</rateID>
-    <amount>1000.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="c5d52b9e-76d6-4dde-aa9f-2a5255ddd877">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>1</spaceNumber>
-    <entryTime>2026-02-24T09:46:43.242635500</entryTime>
-    <exitTime />
-    <rateID>1</rateID>
-    <amount>0.0</amount>
-  </parkingTicket>
-  <parkingTicket parkingTicketId="0d7314f8-aa20-418e-9fd0-9b18089546e7">
+  <parkingTicket parkingTicketId="eba4570b-c9f2-4963-b620-2cab2edbad44">
     <parkingLotId>1</parkingLotId>
     <spaceNumber>3</spaceNumber>
-    <entryTime>2026-02-24T17:03:41.678668</entryTime>
-    <exitTime>2026-02-24T17:20:16.047815600</exitTime>
+    <entryTime>2026-02-24T23:32:19.581861500</entryTime>
+    <exitTime>2026-02-24T23:36:15.886980</exitTime>
     <rateID>1</rateID>
     <amount>1000.0</amount>
   </parkingTicket>
-  <parkingTicket parkingTicketId="f74c3237-fc38-463f-ae0b-af2592c01d2e">
-    <parkingLotId>1</parkingLotId>
-    <spaceNumber>3</spaceNumber>
-    <entryTime>2026-02-24T17:32:06.226568400</entryTime>
-    <exitTime>2026-02-24T17:32:13.026769500</exitTime>
+  <parkingTicket parkingTicketId="879795f1-8b37-471c-afa0-f6bfd2a3ac9a">
+    <parkingLotId>2</parkingLotId>
+    <spaceNumber>7</spaceNumber>
+    <entryTime>2026-02-24T23:38:37.555988200</entryTime>
+    <exitTime>2026-02-24T23:38:42.723300300</exitTime>
     <rateID>1</rateID>
     <amount>1000.0</amount>
+    <vehicleId>bps</vehicleId>
+  </parkingTicket>
+  <parkingTicket parkingTicketId="2564150f-d71d-4679-bf17-6892823f3324">
+    <parkingLotId>2</parkingLotId>
+    <spaceNumber>7</spaceNumber>
+    <entryTime>2026-02-24T23:39:03.726151500</entryTime>
+    <exitTime>2026-02-24T23:40:00.361433500</exitTime>
+    <rateID>1</rateID>
+    <amount>1000.0</amount>
+    <vehicleId>dsv</vehicleId>
+  </parkingTicket>
+  <parkingTicket parkingTicketId="d1aa235b-e93f-42a3-98bd-37d9e72c526d">
+    <parkingLotId>3</parkingLotId>
+    <spaceNumber>7</spaceNumber>
+    <entryTime>2026-02-24T23:40:06.282509600</entryTime>
+    <exitTime>2026-02-24T23:40:09.929838700</exitTime>
+    <rateID>1</rateID>
+    <amount>1000.0</amount>
+    <vehicleId>dsv</vehicleId>
   </parkingTicket>
 </parkingTickets>

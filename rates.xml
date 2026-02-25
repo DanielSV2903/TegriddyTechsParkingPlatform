@@ -11,8 +11,7 @@
     <vehicleTypeId>2</vehicleTypeId>
     <spaceType>MOTORCYCLE</spaceType>
     <fee>800.0</fee>
-    <timeUnit>HOURS</timeUnit>
-    <active>true</active>
+    <timeUnit>HOURS</timeUnit>    <active>true</active>
   </rate>
   <rate rateId="3">
     <vehicleTypeId>1</vehicleTypeId>

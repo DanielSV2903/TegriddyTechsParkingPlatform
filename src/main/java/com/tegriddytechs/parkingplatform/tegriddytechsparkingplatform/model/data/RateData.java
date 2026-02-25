@@ -55,13 +55,12 @@ public class RateData extends RateXmlRepository {
     }
 
     public Rate findBySpaceType(SpaceType type) {
-        reload(); // Recargar para asegurar que tengamos los datos más recientes
-        return rates.stream()
-                .filter(r -> r.getVehicleType() != null
-                        && r.getVehicleType().getSpaceType() != null
-                        && r.getVehicleType().getSpaceType() == type)
-                .findFirst()
-                .orElse(null);
+        for (Rate rate : rates) {
+            if (rate.getVehicleType().getSpaceType().equals(type)) {
+                return rate;
+            }
+        }
+        return null;
     }
 
 }
