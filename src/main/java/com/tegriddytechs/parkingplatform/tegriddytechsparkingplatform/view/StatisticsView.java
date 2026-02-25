@@ -16,8 +16,14 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class StatisticsView {
 
@@ -63,7 +69,16 @@ public class StatisticsView {
         this.vehicleController = mainMenuController.getVehicleController();
         this.parkingTicketController = mainMenuController.getParkingTicketController();
 
+        updateDashboardStatistics(); // tus 4 tarjetas generales
+        updateIncomeSection();       // ingresos preview
+        updateVehicleSection();      // vehículos preview
+    }
+
+    @FXML
+    public void onRefresh(ActionEvent actionEvent) {
         updateDashboardStatistics();
+        updateIncomeSection();
+        updateVehicleSection();
     }
 
     public void updateDashboardStatistics() {
@@ -113,6 +128,84 @@ public class StatisticsView {
             System.err.println("Error actualizando estadísticas del dashboard: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void updateIncomeSection() {
+        if (parkingTicketController == null) return;
+
+        List<ParkingTicket> tickets = parkingTicketController.getAllTickets();
+
+        LocalDate today = LocalDate.now();
+        YearMonth month = YearMonth.now();
+
+        List<ParkingTicket> closed = tickets.stream()
+                .filter(t -> t.getEntryTime() != null)
+                .filter(t -> t.getExitTime() != null)
+                .toList();
+
+        double incomeTodayVal = closed.stream()
+                .filter(t -> t.getEntryTime().toLocalDate().equals(today))
+                .mapToDouble(ParkingTicket::getAmountPaid)
+                .sum();
+
+        double incomeMonthVal = closed.stream()
+                .filter(t -> YearMonth.from(t.getEntryTime()).equals(month))
+                .mapToDouble(ParkingTicket::getAmountPaid)
+                .sum();
+
+        double incomeTotalVal = closed.stream()
+                .mapToDouble(ParkingTicket::getAmountPaid)
+                .sum();
+
+        double avgTicketVal = closed.isEmpty() ? 0 : (incomeTotalVal / closed.size());
+
+        if (incomeToday != null) incomeToday.setText(String.format("₡ %.0f", incomeTodayVal));
+        if (incomeMonth != null) incomeMonth.setText(String.format("₡ %.0f", incomeMonthVal));
+        if (incomeTotal != null) incomeTotal.setText(String.format("₡ %.0f", incomeTotalVal));
+        if (avgTicket != null) avgTicket.setText(String.format("₡ %.0f", avgTicketVal));
+    }
+
+    private void updateVehicleSection() {
+        if (vehicleController == null) return;
+
+        List<Vehicle> vehicles = vehicleController.getAllVehicles(); // :contentReference[oaicite:2]{index=2}
+        long total = vehicles.size();
+        long parked = vehicles.stream()
+                .filter(v -> v.getVehicleStatus() == VehicleStatus.PARKED)
+                .count();
+        long notParked = total - parked;
+
+        if (vehiclesTotal != null) vehiclesTotal.setText(String.valueOf(total));
+        if (vehiclesParked != null) vehiclesParked.setText(String.valueOf(parked));
+        if (vehiclesNotParked != null) vehiclesNotParked.setText(String.valueOf(notParked));
+
+        // Vehículo más frecuente (misma lógica que el PDF)
+        if (parkingTicketController == null) {
+            if (mostFrequentVehicle != null) mostFrequentVehicle.setText("—");
+            return;
+        }
+
+        List<ParkingTicket> tickets = parkingTicketController.getAllTickets(); // :contentReference[oaicite:3]{index=3}
+
+        Map<String, Long> plateCount = tickets.stream()
+                .filter(t -> t.getEntryTime() != null)
+                .filter(t -> t.getExitTime() != null) // cerrados
+                .map(ParkingTicket::getParkingSpace)
+                .filter(Objects::nonNull)
+                .map(ParkingSpace::getParkedVehicle)
+                .filter(Objects::nonNull)
+                .map(Vehicle::getPlate)
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(p -> !p.isEmpty())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        String mostFrequent = plateCount.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(e -> e.getKey() + " (" + e.getValue() + ")")
+                .orElse("—");
+
+        if (mostFrequentVehicle != null) mostFrequentVehicle.setText(mostFrequent);
     }
 
     @FXML
