@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class RateCrudController {
+public class RateCrudView {
 
-    private final MainMenuController mainMenuController;
+    private final MainMenuView mainMenuController;
 
     @FXML private TextField tfRateId;
     @FXML private ComboBox<VehicleType> cbVehicleType;
@@ -39,7 +39,7 @@ public class RateCrudController {
 
     private final ObservableList<Rate> rateList = FXCollections.observableArrayList();
 
-    public RateCrudController(MainMenuController mainMenuController) {
+    public RateCrudView(MainMenuView mainMenuController) {
         this.mainMenuController = mainMenuController;
     }
 
