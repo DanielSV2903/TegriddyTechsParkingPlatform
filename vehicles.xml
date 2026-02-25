@@ -27,4 +27,31 @@
     <status>Retirado</status>
     <ticketId />
   </vehicle>
+  <vehicle plate="AA">
+    <vehicleTypeId>3</vehicleTypeId>
+    <brand>Pegassi</brand>
+    <model>Toros</model>
+    <color>Azul</color>
+    <ownerId>119310248;</ownerId>
+    <status>Estacionado</status>
+    <ticketId>73f7846f-f310-4079-bf8c-714d12494eee</ticketId>
+  </vehicle>
+  <vehicle plate="67JE">
+    <vehicleTypeId>1</vehicleTypeId>
+    <brand>Hyundai</brand>
+    <model>Tucson</model>
+    <color>Rojo</color>
+    <ownerId>23;</ownerId>
+    <status>Retirado</status>
+    <ticketId />
+  </vehicle>
+  <vehicle plate="GOAT">
+    <vehicleTypeId>2</vehicleTypeId>
+    <brand>Pegassi</brand>
+    <model>Opressor</model>
+    <color>Blanco</color>
+    <ownerId>1;</ownerId>
+    <status>Estacionado</status>
+    <ticketId>731852fe-bf22-40fc-9e54-9fa9e259bc7a</ticketId>
+  </vehicle>
 </vehicles>

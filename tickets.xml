@@ -35,4 +35,31 @@
     <amount>1000.0</amount>
     <vehicleId>dsv</vehicleId>
   </parkingTicket>
+  <parkingTicket parkingTicketId="73f7846f-f310-4079-bf8c-714d12494eee">
+    <parkingLotId>2</parkingLotId>
+    <spaceNumber>7</spaceNumber>
+    <entryTime>2026-02-25T11:22:58.990484900</entryTime>
+    <exitTime />
+    <rateID>1</rateID>
+    <amount>0.0</amount>
+    <vehicleId>AA</vehicleId>
+  </parkingTicket>
+  <parkingTicket parkingTicketId="166351cc-47f7-4f0c-a841-c33cdf8ee8f8">
+    <parkingLotId>1</parkingLotId>
+    <spaceNumber>3</spaceNumber>
+    <entryTime>2026-02-25T11:24:48.678329500</entryTime>
+    <exitTime />
+    <rateID>1</rateID>
+    <amount>0.0</amount>
+    <vehicleId>67JE</vehicleId>
+  </parkingTicket>
+  <parkingTicket parkingTicketId="731852fe-bf22-40fc-9e54-9fa9e259bc7a">
+    <parkingLotId>3</parkingLotId>
+    <spaceNumber>8</spaceNumber>
+    <entryTime>2026-02-25T11:32:55.161549200</entryTime>
+    <exitTime />
+    <rateID>2</rateID>
+    <amount>0.0</amount>
+    <vehicleId>GOAT</vehicleId>
+  </parkingTicket>
 </parkingTickets>

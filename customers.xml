@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <customers>
-  <customer id="119310248">
-    <name>Daniel Sanchez</name>
-    <disability>false</disability>
-    <age>21</age>
-    <vehiceId />
-  </customer>
   <customer id="45">
     <name>Andree M</name>
     <disability>false</disability>
@@ -15,6 +9,24 @@
   <customer id="2">
     <name>Aidan M</name>
     <disability>true</disability>
+    <age>20</age>
+    <vehiceId />
+  </customer>
+  <customer id="23">
+    <name>Joel Loria</name>
+    <disability>true</disability>
+    <age>20</age>
+    <vehiceId />
+  </customer>
+  <customer id="1">
+    <name>Kanye West</name>
+    <disability>false</disability>
+    <age>48</age>
+    <vehiceId />
+  </customer>
+  <customer id="119310248">
+    <name>Daniel Sanchez</name>
+    <disability>false</disability>
     <age>20</age>
     <vehiceId />
   </customer>

@@ -362,8 +362,15 @@ public class ParkingOperationMapView {
         //Buscar vehículo
         Vehicle vehicle = findVehicleByPlate(plate);
         if (vehicle == null) {
-            setResultError("Vehículo no encontrado: " + plate);
-            return;
+            // ── NUEVO: abrir ventana de registro ────────────────────────────────
+            RegisterAndParkDialog dialog = new RegisterAndParkDialog(dataManager, plate);
+            RegisterAndParkDialog.DialogResult dialogResult = dialog.show();
+
+            if (!dialogResult.confirmed()) {
+                setResultInfo("Operación cancelada.");
+                return;
+            }
+            vehicle = dialogResult.vehicle();
         }
 
         try {

@@ -37,12 +37,11 @@ public class VehicleXmlMapper implements XmlEntityMapper<Vehicle> {
         Element e = new Element(elementName());
         e.setAttribute(idAttributeName(),entity.getPlate());
         e.addContent(new Element(VEHICLE_TYPE_ID).setText(String.valueOf(entity.getVehicleType().getId())));
-//        e.addContent(new Element(DISABILITY_ATTRIBUTE).setText(entity.isDisabledPermit() ? "true" : "false"));
         e.addContent(new Element(BRAND).setText(entity.getBrand()));
         e.addContent(new Element(MODEL).setText(entity.getModel()));
         e.addContent(new Element(COLOR).setText(entity.getColor()));
         e.addContent(new Element(OWNERS).setText(ownersIds(entity)));
-        e.addContent(new Element(VEHICLE_STATUS).setText(entity.getVehicleStatus().getEstado()));
+        e.addContent(new Element(VEHICLE_STATUS).setText(entity.getVehicleStatus()!=null?entity.getVehicleStatus().getEstado():VehicleStatus.EXITED.getEstado()));
         e.addContent(new Element(TICKET_ID).setText(entity.getTicket()!=null?entity.getTicket().getTicketId():""));
         return e;
     }
