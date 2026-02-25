@@ -12,4 +12,10 @@
     <adminId>2</adminId>
     <size>15</size>
   </parkingLot>
+  <parkingLot parkingLotId="3">
+    <name>MaxiPali</name>
+    <active>true</active>
+    <adminId>2</adminId>
+    <size>0</size>
+  </parkingLot>
 </parkingLots>

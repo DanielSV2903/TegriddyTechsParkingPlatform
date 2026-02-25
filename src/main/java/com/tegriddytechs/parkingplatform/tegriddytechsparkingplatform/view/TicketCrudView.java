@@ -76,7 +76,7 @@ public class TicketCrudView {
             colSpaceId.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getParkingSpace() != null ? cell.getValue().getParkingSpace().getSpaceNumber() : null));
             colEntryDate.setCellValueFactory(new PropertyValueFactory<>("entryTime"));
             colExitDate.setCellValueFactory(new PropertyValueFactory<>("exitTime"));
-            colAmount.setCellValueFactory(new PropertyValueFactory<>("rate"));
+            colAmount.setCellValueFactory(new PropertyValueFactory<>("amountPaid"));
 
             ArrayList<String> plates = new ArrayList<>();
             for (Vehicle vehicle : mainMenuView.getAllVehicles()) {

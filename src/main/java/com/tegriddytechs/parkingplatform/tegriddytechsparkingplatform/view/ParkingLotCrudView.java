@@ -63,7 +63,6 @@ public class ParkingLotCrudView {
         try {
             colId.setCellValueFactory(new PropertyValueFactory<>("parkingLotId"));
             colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-//            colPreferenciales.setCellValueFactory(cell-> new SimpleIntegerProperty(mainMenuController.calculatePreferentialSpaces(cell.getValue().getSpaces())).asObject());
             colCapacity.setCellValueFactory(cell-> new SimpleIntegerProperty(cell.getValue().getSpaces()!=null?cell.getValue().getSpaces().length:0).asObject());
 
             tableParkingLots.setItems(filteredList);
@@ -89,6 +88,7 @@ public class ParkingLotCrudView {
     private void loadData() {
         masterList.setAll(mainMenuView.getAllParkingLots());
         updateRecordCount();
+        colPreferenciales.setCellValueFactory(cell-> new SimpleIntegerProperty(mainMenuView.calculatePreferentialSpaces(cell.getValue().getSpaces())).asObject());
     }
 
     private void updateRecordCount() {

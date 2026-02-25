@@ -53,68 +53,6 @@
         <ScrollPane fitToWidth="true" prefHeight="635.0" prefWidth="1200.0" style="-fx-background: transparent; -fx-background-color: transparent;">
             <VBox spacing="24" style="-fx-padding: 24 28;">
 
-<!--                &lt;!&ndash; SECCIÓN ESTADÍSTICAS &ndash;&gt;-->
-<!--                <VBox spacing="12">-->
-<!--                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Estadísticas Generales" />-->
-
-<!--                    <GridPane hgap="20" vgap="20">-->
-
-<!--                        &lt;!&ndash; Tarjeta 1 &ndash;&gt;-->
-<!--                        <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" GridPane.columnIndex="0" GridPane.rowIndex="0">-->
-<!--                            <HBox alignment="CENTER_LEFT" spacing="14">-->
-<!--                                <Circle fill="#e6f2ff" radius="28" />-->
-<!--                                <VBox spacing="4">-->
-<!--                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Total Parqueaderos" />-->
-<!--                                    <Label fx:id="totalParkingLots" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="8" />-->
-<!--                                </VBox>-->
-<!--                            </HBox>-->
-<!--                        </VBox>-->
-
-<!--                        &lt;!&ndash; Tarjeta 2 &ndash;&gt;-->
-<!--                        <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" GridPane.columnIndex="1" GridPane.rowIndex="0">-->
-<!--                            <HBox alignment="CENTER_LEFT" spacing="14">-->
-<!--                                <Circle fill="#e6ffed" radius="28" />-->
-<!--                                <VBox spacing="4">-->
-<!--                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Espacios Disponibles" />-->
-<!--                                    <Label fx:id="totalSpaces" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="145" />-->
-<!--                                </VBox>-->
-<!--                            </HBox>-->
-<!--                        </VBox>-->
-
-<!--                        &lt;!&ndash; Tarjeta 3 &ndash;&gt;-->
-<!--                        <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" GridPane.columnIndex="2" GridPane.rowIndex="0">-->
-<!--                            <HBox alignment="CENTER_LEFT" spacing="14">-->
-<!--                                <Circle fill="#fff5e6" radius="28" />-->
-<!--                                <VBox spacing="4">-->
-<!--                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Vehículos Activos" />-->
-<!--                                    <Label fx:id="totalActiveVehicles" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="73" />-->
-<!--                                </VBox>-->
-<!--                            </HBox>-->
-<!--                        </VBox>-->
-
-<!--                        &lt;!&ndash; Tarjeta 4 &ndash;&gt;-->
-<!--                        <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;                                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" GridPane.columnIndex="3" GridPane.rowIndex="0">-->
-<!--                            <HBox alignment="CENTER_LEFT" spacing="14">-->
-<!--                                <Circle fill="#f0e6ff" radius="28" />-->
-<!--                                <VBox spacing="4">-->
-<!--                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Ingresos Hoy" />-->
-<!--                                    <Label fx:id="todayUsage" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="2450" />-->
-<!--                                </VBox>-->
-<!--                            </HBox>-->
-<!--                        </VBox>-->
-<!--                  <columnConstraints>-->
-<!--                     <ColumnConstraints />-->
-<!--                     <ColumnConstraints />-->
-<!--                     <ColumnConstraints />-->
-<!--                     <ColumnConstraints />-->
-<!--                  </columnConstraints>-->
-<!--                  <rowConstraints>-->
-<!--                     <RowConstraints />-->
-<!--                  </rowConstraints>-->
-
-<!--                    </GridPane>-->
-<!--                </VBox>-->
-
                 <!-- SECCIÓN GESTIÓN DEL SISTEMA -->
                 <VBox spacing="14">
                     <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" text="Gestión del Sistema" />

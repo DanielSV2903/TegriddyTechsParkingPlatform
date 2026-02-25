@@ -72,4 +72,12 @@
     <rateID>1</rateID>
     <amount>0.0</amount>
   </parkingTicket>
+  <parkingTicket parkingTicketId="ec4ae093-0079-40ee-92d4-fa67e7847171">
+    <parkingLotId>1</parkingLotId>
+    <spaceNumber>1</spaceNumber>
+    <entryTime>2026-02-24T19:39:55.293459100</entryTime>
+    <exitTime>2026-02-24T19:40:05.684611600</exitTime>
+    <rateID>1</rateID>
+    <amount>0.0</amount>
+  </parkingTicket>
 </parkingTickets>
