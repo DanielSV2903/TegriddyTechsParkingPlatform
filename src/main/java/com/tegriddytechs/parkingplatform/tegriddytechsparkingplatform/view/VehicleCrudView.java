@@ -87,10 +87,33 @@ public class VehicleCrudView {
                     updateRecordCount();
                 });
             }
+
+            tfSearch.textProperty().addListener((obs, oldValue, newValue) -> {
+                filterTable(newValue);
+            });
+
             refreshOwnersSummary();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void filterTable(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            tableVehicles.setItems(FXCollections.observableArrayList(masterList));
+        } else {
+            String lowerQuery = query.toLowerCase();
+            List<Vehicle> filteredVehicles = masterList.stream()
+                    .filter(vehicle ->
+                                    vehicle.getPlate().toLowerCase().contains(lowerQuery) ||
+                                    vehicle.getBrand().toLowerCase().contains(lowerQuery) ||
+                                    vehicle.getModel().toLowerCase().contains(lowerQuery) ||
+                                    vehicle.getColor().toLowerCase().contains(lowerQuery) ||
+                                    vehicle.getVehicleType().getDescription().toLowerCase().contains(lowerQuery))
+                    .collect(Collectors.toList());
+            tableVehicles.setItems(FXCollections.observableArrayList(filteredVehicles));
+        }
+        updateRecordCount();
     }
 
     @FXML

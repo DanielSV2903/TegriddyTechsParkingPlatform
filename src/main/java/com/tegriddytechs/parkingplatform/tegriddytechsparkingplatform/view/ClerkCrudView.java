@@ -2,6 +2,7 @@ package com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.view;
 
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Clerk;
 import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.ParkingLot;
+import com.tegriddytechs.parkingplatform.tegriddytechsparkingplatform.model.entity.Vehicle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -12,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClerkCrudView {
 
@@ -50,7 +52,31 @@ public class ClerkCrudView {
         fillTable();
         setUpComboBoxParkingLot();
         cbParkingLot.setItems(FXCollections.observableArrayList(mainMenuView.getAllParkingLots()));
+
+        tfSearch.textProperty().addListener((obs, oldValue, newValue) -> {
+            filterTable(newValue);
+        });
     }
+
+    private void filterTable(String query) {
+        List<Clerk> clerks = mainMenuView.getUserController().getClerks();
+
+        if (query == null || query.trim().isEmpty()) {
+            tableClerks.setItems(FXCollections.observableArrayList(clerks));
+        } else {
+            String lowerQuery = query.toLowerCase();
+            List<Clerk> filteredClerks = clerks.stream()
+                    .filter(clerk ->
+                            String.valueOf(clerk.getId()).contains(lowerQuery) ||
+                            clerk.getName().toLowerCase().contains(lowerQuery) ||
+                            clerk.getUserName().toLowerCase().contains(lowerQuery) ||
+                            (clerk.getParkingLot() != null &&
+                             clerk.getParkingLot().getName().toLowerCase().contains(lowerQuery)))
+                .collect(Collectors.toList());
+        tableClerks.setItems(FXCollections.observableArrayList(filteredClerks));
+    }
+    updateRecordCount();
+}
 
     private void setUpComboBoxParkingLot() {
         this.cbParkingLot.setCellFactory(cellData-> new ListCell<>() {
