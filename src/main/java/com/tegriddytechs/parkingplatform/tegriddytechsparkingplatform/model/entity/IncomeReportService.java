@@ -69,7 +69,6 @@ public class IncomeReportService {
                 .limit(5)
                 .toList();
 
-        // ====== PDF ======
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage(PDRectangle.LETTER);
             doc.addPage(page);

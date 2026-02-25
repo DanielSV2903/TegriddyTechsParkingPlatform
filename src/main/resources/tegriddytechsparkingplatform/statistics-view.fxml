@@ -292,23 +292,6 @@
                         </HBox>
                     </VBox>
 
-                    <!-- Vehículo más frecuente -->
-                    <VBox GridPane.columnIndex="3" GridPane.rowIndex="0"
-                          style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 24;
-                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
-                        <HBox alignment="CENTER_LEFT" spacing="14">
-                            <Circle fill="#f0e6ff" radius="28" />
-                            <VBox spacing="4">
-                                <Label text="Vehículo más frecuente"
-                                       style="-fx-font-size: 13px; -fx-text-fill: #718096;" />
-                                <Label fx:id="mostFrequentVehicle" text="—"
-                                       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;" />
-                                <Label text="(placa + cantidad)"
-                                       style="-fx-font-size: 11px; -fx-text-fill: #a0aec0;" />
-                            </VBox>
-                        </HBox>
-                    </VBox>
-
                     <columnConstraints>
                         <ColumnConstraints />
                         <ColumnConstraints />
@@ -320,9 +303,6 @@
                     </rowConstraints>
 
                 </GridPane>
-
-                <Label text="Tip: El PDF de vehículos incluye distribución por tipo, Top 5 por frecuencia y Top 5 por ingresos."
-                       style="-fx-font-size: 12px; -fx-text-fill: #718096;" />
             </VBox>
 
         </VBox>

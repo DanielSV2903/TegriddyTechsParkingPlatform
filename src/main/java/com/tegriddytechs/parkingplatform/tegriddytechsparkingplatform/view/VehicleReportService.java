@@ -20,20 +20,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/**
- * Reporte PDF de Vehículos.
- *
- * Requisitos del modelo (según tus clases):
- * - Vehicle: getPlate(), getVehicleStatus(), getVehicleType()
- * - ParkingTicket: getEntryTime(), getExitTime(), getAmountPaid(), getParkingSpace()
- * - ParkingSpace: getParkedVehicle()
- *
- * Nota importante:
- * Para Top por placa usando tickets, se intenta sacar la placa desde:
- * ticket.getParkingSpace().getParkedVehicle().getPlate()
- * Si al cerrar el ticket se limpia el parkedVehicle del espacio, esos tickets no aportarán placa.
- * (En ese caso, para histórico perfecto convendría guardar placa/vehículo dentro de ParkingTicket.)
- */
 public class VehicleReportService {
 
     private VehicleReportService() {}
@@ -45,9 +31,6 @@ public class VehicleReportService {
         vehicles = (vehicles == null) ? List.of() : vehicles;
         tickets   = (tickets == null)   ? List.of() : tickets;
 
-        // =========================
-        // 1) RESUMEN VEHÍCULOS
-        // =========================
         long totalVehicles = vehicles.size();
         long parkedVehicles = vehicles.stream()
                 .filter(v -> v != null && v.getVehicleStatus() == VehicleStatus.PARKED)
@@ -60,10 +43,6 @@ public class VehicleReportService {
                 .filter(v -> v.getVehicleType() != null)
                 .collect(Collectors.groupingBy(Vehicle::getVehicleType, Collectors.counting()));
 
-        // =========================
-        // 2) TOPS DESDE TICKETS
-        // =========================
-        // Solo tickets cerrados (para "visitas" completas)
         List<ParkingTicket> closedTickets = tickets.stream()
                 .filter(Objects::nonNull)
                 .filter(t -> t.getEntryTime() != null)
@@ -73,9 +52,6 @@ public class VehicleReportService {
         // Top 5 por frecuencia (placa)
         PlateStats plateStats = computePlateStatsFromTickets(closedTickets);
 
-        // =========================
-        // 3) PDF
-        // =========================
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage(PDRectangle.LETTER);
             doc.addPage(page);
@@ -114,34 +90,6 @@ public class VehicleReportService {
 
                 y -= 10;
 
-                // Sección: Top 5 por frecuencia
-                y = writeSectionHeader(cs, margin, y, "Top 5 vehículos más frecuentes (por tickets)");
-                if (plateStats.topByCount.isEmpty()) {
-                    y = writeSmall(cs, margin, y, "No fue posible calcular por placa con los tickets.");
-                } else {
-                    y = writeTableHeader(cs, margin, y, "Placa", "Veces");
-                    for (var entry : plateStats.topByCount) {
-                        y = writeTableRow(cs, margin, y, entry.getKey(), String.valueOf(entry.getValue()));
-                        if (y < margin + 120) break;
-                    }
-                }
-
-                y -= 10;
-
-                // Sección: Top 5 por ingresos
-                y = writeSectionHeader(cs, margin, y, "Top 5 vehículos que más ingresos generaron (por tickets)");
-                if (plateStats.topByRevenue.isEmpty()) {
-                    y = writeSmall(cs, margin, y, "No fue posible calcular ingresos por placa con los tickets.");
-                } else {
-                    y = writeTableHeader(cs, margin, y, "Placa", "Ingresos");
-                    for (var entry : plateStats.topByRevenue) {
-                        y = writeTableRow(cs, margin, y, entry.getKey(), formatMoney0(entry.getValue()));
-                        if (y < margin + 120) break;
-                    }
-                }
-
-                y -= 12;
-
                 // Nota de limitación (sin sonar “error”, solo aclaración)
                 y = writeSmall(cs, margin, y,
                         "Nota: La placa se obtiene desde Ticket -> ParkingSpace -> parkedVehicle. "
@@ -152,10 +100,6 @@ public class VehicleReportService {
             doc.save(outFile);
         }
     }
-
-    // =========================
-    // Cálculos de tickets -> placa
-    // =========================
 
     private static class PlateStats {
         final List<Map.Entry<String, Long>> topByCount;
@@ -218,10 +162,6 @@ public class VehicleReportService {
                         LinkedHashMap::new
                 ));
     }
-
-    // =========================
-    // Helpers de PDF
-    // =========================
 
     private static float writeTitle(PDPageContentStream cs, float x, float y, String text) throws IOException {
         cs.beginText();
